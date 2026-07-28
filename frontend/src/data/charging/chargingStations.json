@@ -1,0 +1,197 @@
+[
+  {
+    "id": "stn-tata-cp",
+    "name": "Tata Power EZ Charge - CP Inner Circle",
+    "operator": "Tata Power",
+    "lat": 28.6315,
+    "lng": 77.2197,
+    "address": "Block A, Inner Circle, Connaught Place, New Delhi",
+    "locality": "Connaught Place",
+    "status": "working",
+    "confidencePct": 98,
+    "reportCount": 24,
+    "lastVerifiedMinutesAgo": 8,
+    "isFast": true,
+    "maxPowerKw": 60,
+    "pricing": { "type": "per_kwh", "rate": 18.5 },
+    "operatingHours": "24/7",
+    "connectors": [
+      { "type": "CCS2", "total": 2, "available": 2, "busy": 0, "broken": 0 },
+      { "type": "Type 2", "total": 2, "available": 2, "busy": 0, "broken": 0 }
+    ],
+    "amenities": ["Washroom", "Cafe", "WiFi", "Parking", "Waiting Area"],
+    "photos": [
+      "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1558441719-234bf1984459?auto=format&fit=crop&w=600&q=80"
+    ],
+    "timeline": [
+      { "id": "t1", "status": "working", "timeAgo": "8 min ago", "reporterType": "Verified EV Driver" },
+      { "id": "t2", "status": "working", "timeAgo": "2 hrs ago", "reporterType": "Community Member" },
+      { "id": "t3", "status": "working", "timeAgo": "Yesterday", "reporterType": "Automated Telemetry" }
+    ]
+  },
+  {
+    "id": "stn-statiq-saket",
+    "name": "Statiq EV Charging Hub - Select CITYWALK",
+    "operator": "Statiq",
+    "lat": 28.5284,
+    "lng": 77.2194,
+    "address": "Basement P2, Select CITYWALK, Saket, New Delhi",
+    "locality": "Saket",
+    "status": "busy",
+    "confidencePct": 92,
+    "reportCount": 18,
+    "lastVerifiedMinutesAgo": 14,
+    "isFast": true,
+    "maxPowerKw": 120,
+    "pricing": { "type": "per_kwh", "rate": 19.0 },
+    "operatingHours": "24/7",
+    "connectors": [
+      { "type": "CCS2", "total": 4, "available": 1, "busy": 3, "broken": 0 },
+      { "type": "GB/T", "total": 2, "available": 1, "busy": 1, "broken": 0 }
+    ],
+    "amenities": ["Washroom", "Food Court", "WiFi", "Parking", "Shopping Mall"],
+    "photos": [
+      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80"
+    ],
+    "timeline": [
+      { "id": "t1", "status": "busy", "timeAgo": "14 min ago", "reporterType": "Verified EV Driver" },
+      { "id": "t2", "status": "working", "timeAgo": "1 hr ago", "reporterType": "Community Member" }
+    ]
+  },
+  {
+    "id": "stn-blusmart-aerocity",
+    "name": "BluSmart SuperHub - Aerocity",
+    "operator": "BluSmart",
+    "lat": 28.5562,
+    "lng": 77.1200,
+    "address": "Asset No. 8, Hospitality District, Aerocity, New Delhi",
+    "locality": "Aerocity",
+    "status": "working",
+    "confidencePct": 99,
+    "reportCount": 42,
+    "lastVerifiedMinutesAgo": 3,
+    "isFast": true,
+    "maxPowerKw": 150,
+    "pricing": { "type": "per_kwh", "rate": 17.5 },
+    "operatingHours": "24/7",
+    "connectors": [
+      { "type": "CCS2", "total": 12, "available": 8, "busy": 4, "broken": 0 }
+    ],
+    "amenities": ["Washroom", "Cafe", "WiFi", "Parking", "Lounge"],
+    "photos": [
+      "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=600&q=80"
+    ],
+    "timeline": [
+      { "id": "t1", "status": "working", "timeAgo": "3 min ago", "reporterType": "Verified EV Driver" },
+      { "id": "t2", "status": "working", "timeAgo": "45 min ago", "reporterType": "Fleet Telemetry" }
+    ]
+  },
+  {
+    "id": "stn-zeon-cyberhub",
+    "name": "Zeon Ultra-Fast Hub - DLF CyberHub",
+    "operator": "Zeon Charging",
+    "lat": 28.4952,
+    "lng": 77.0886,
+    "address": "DLF CyberHub, Phase 2, Gurugram, NCR",
+    "locality": "Gurugram",
+    "status": "busy",
+    "confidencePct": 95,
+    "reportCount": 16,
+    "lastVerifiedMinutesAgo": 19,
+    "isFast": true,
+    "maxPowerKw": 180,
+    "pricing": { "type": "per_kwh", "rate": 21.0 },
+    "operatingHours": "24/7",
+    "connectors": [
+      { "type": "CCS2", "total": 4, "available": 1, "busy": 3, "broken": 0 }
+    ],
+    "amenities": ["Food Court", "WiFi", "Parking", "Washroom"],
+    "photos": [
+      "https://images.unsplash.com/photo-1558441719-234bf1984459?auto=format&fit=crop&w=600&q=80"
+    ],
+    "timeline": [
+      { "id": "t1", "status": "busy", "timeAgo": "19 min ago", "reporterType": "Verified EV Driver" }
+    ]
+  },
+  {
+    "id": "stn-chargezone-noida",
+    "name": "ChargeZone Fast Hub - Sector 18 Noida",
+    "operator": "ChargeZone",
+    "lat": 28.5708,
+    "lng": 77.3261,
+    "address": "Sector 18 Metro Plaza, Noida, NCR",
+    "locality": "Noida",
+    "status": "working",
+    "confidencePct": 94,
+    "reportCount": 12,
+    "lastVerifiedMinutesAgo": 25,
+    "isFast": true,
+    "maxPowerKw": 60,
+    "pricing": { "type": "per_kwh", "rate": 18.0 },
+    "operatingHours": "06:00 - 23:00",
+    "connectors": [
+      { "type": "CCS2", "total": 4, "available": 3, "busy": 1, "broken": 0 }
+    ],
+    "amenities": ["Parking", "Washroom", "Market"],
+    "photos": [
+      "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=600&q=80"
+    ],
+    "timeline": [
+      { "id": "t1", "status": "working", "timeAgo": "25 min ago", "reporterType": "Community Member" }
+    ]
+  },
+  {
+    "id": "stn-jiobp-dwarka",
+    "name": "Jio-bp Pulse Hub - Dwarka Sec 21",
+    "operator": "Jio-bp",
+    "lat": 28.5522,
+    "lng": 77.0583,
+    "address": "Sector 21 Metro Interchange Complex, Dwarka, New Delhi",
+    "locality": "Dwarka",
+    "status": "broken",
+    "confidencePct": 86,
+    "reportCount": 9,
+    "lastVerifiedMinutesAgo": 55,
+    "isFast": true,
+    "maxPowerKw": 60,
+    "pricing": { "type": "per_kwh", "rate": 18.5 },
+    "operatingHours": "24/7",
+    "connectors": [
+      { "type": "CCS2", "total": 2, "available": 0, "busy": 0, "broken": 2 }
+    ],
+    "amenities": ["Washroom", "Convenience Store"],
+    "photos": [
+      "https://images.unsplash.com/photo-1558441719-234bf1984459?auto=format&fit=crop&w=600&q=80"
+    ],
+    "timeline": [
+      { "id": "t1", "status": "broken", "timeAgo": "55 min ago", "reporterType": "Verified EV Driver" },
+      { "id": "t2", "status": "broken", "timeAgo": "3 hrs ago", "reporterType": "Community Member" }
+    ]
+  },
+  {
+    "id": "stn-statiq-rohini",
+    "name": "Statiq Charger - Unity One Rohini",
+    "operator": "Statiq",
+    "lat": 28.7180,
+    "lng": 77.1147,
+    "address": "Unity One Mall, Sector 10, Rohini, New Delhi",
+    "locality": "Rohini",
+    "status": "unverified",
+    "confidencePct": 45,
+    "reportCount": 2,
+    "lastVerifiedMinutesAgo": 480,
+    "isFast": false,
+    "maxPowerKw": 22,
+    "pricing": { "type": "per_kwh", "rate": 16.0 },
+    "operatingHours": "09:00 - 22:00",
+    "connectors": [
+      { "type": "Type 2", "total": 2, "available": 2, "busy": 0, "broken": 0 }
+    ],
+    "amenities": ["Mall Parking", "Food Court"],
+    "photos": [],
+    "timeline": [
+      { "id": "t1", "status": "unverified", "timeAgo": "8 hrs ago", "reporterType": "Initial Registration" }
+    ]
+  }
+]

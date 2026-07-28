@@ -44,6 +44,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href={ROUTES.MAP} className="hover:text-emerald-600 transition-colors">
+                Interactive Charging & Dealer Map
+              </Link>
+            </li>
+            <li>
               <Link href={ROUTES.DASHBOARD} className="hover:text-emerald-600 transition-colors">
                 30-Day Post-RC Application Tracker
               </Link>

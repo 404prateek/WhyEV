@@ -6,6 +6,7 @@ import { useSubsidyStore, useAuthStore } from '@/lib/store';
 import { formatINR } from '@/lib/utils';
 import { PdfReportModal } from './PdfReportModal';
 import { SubsidyChecklist } from './SubsidyChecklist';
+import { DocumentUploadSection } from './DocumentUploadSection';
 import { VehicleCategory } from '@/types';
 
 export function SubsidyCalculator() {
@@ -46,6 +47,25 @@ export function SubsidyCalculator() {
         <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto font-normal">
           Reflects the live Delhi EV Policy 2026 (effective 1 July 2026 – 31 March 2030). Phased incentive step-downs mean timing matters.
         </p>
+
+        {/* Dedicated Document Verification Page Link Banner */}
+        <div className="p-4 rounded-2xl bg-emerald-50/80 text-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm border border-emerald-200/90">
+          <div className="flex items-center gap-3 text-left">
+            <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold shrink-0">
+              <ShieldAlert className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="font-extrabold text-xs text-slate-900">Secure DigiLocker Document Verification</div>
+              <div className="text-[11px] text-slate-600">Learn what documents are required & how AI OCR extracts minimum data safely.</div>
+            </div>
+          </div>
+          <a
+            href="/subsidy/document-verification"
+            className="py-2 px-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition-all shrink-0 cursor-pointer shadow-sm"
+          >
+            Explore Verification Page →
+          </a>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -192,6 +212,9 @@ export function SubsidyCalculator() {
 
       {/* 30-Day Filing Checklist */}
       <SubsidyChecklist />
+
+      {/* Dedicated Required Claim Documents Section */}
+      <DocumentUploadSection />
 
       {/* PDF Modal */}
       <PdfReportModal />

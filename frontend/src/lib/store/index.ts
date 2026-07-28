@@ -1,34 +1,52 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { UserProfile, EmpanelledVehicle, VehicleCategory, AiChatMessage, SubsidyApplication } from '@/types';
-import { MOCK_USER_PROFILE, MOCK_EMPANELLED_VEHICLES, MOCK_SUBSIDY_APPLICATION } from '@/lib/mock-data';
+import { MOCK_EMPANELLED_VEHICLES, MOCK_SUBSIDY_APPLICATION } from '@/lib/mock-data';
 import { aiAgentApi } from '@/lib/api';
 
-// --- 1. AUTH STORE ---
+// --- 1. AUTH STORE WITH PERSISTENCE & MODAL CONTROL ---
 interface AuthState {
   user: UserProfile | null;
   isAuthenticated: boolean;
   isAuthModalOpen: boolean;
+  targetRedirectUrl: string | null;
   isPermissionModalOpen: boolean;
   activePermissionRequest: 'location' | 'notifications' | 'camera' | null;
   login: (user: UserProfile) => void;
   logout: () => void;
   setAuthModalOpen: (open: boolean) => void;
+  openAuthModal: (redirectUrl?: string) => void;
+  closeAuthModal: () => void;
   requestPermission: (perm: 'location' | 'notifications' | 'camera') => void;
   closePermissionModal: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: MOCK_USER_PROFILE,
-  isAuthenticated: true,
-  isAuthModalOpen: false,
-  isPermissionModalOpen: false,
-  activePermissionRequest: null,
-  login: (user) => set({ user, isAuthenticated: true, isAuthModalOpen: false }),
-  logout: () => set({ user: null, isAuthenticated: false }),
-  setAuthModalOpen: (open) => set({ isAuthModalOpen: open }),
-  requestPermission: (perm) => set({ isPermissionModalOpen: true, activePermissionRequest: perm }),
-  closePermissionModal: () => set({ isPermissionModalOpen: false, activePermissionRequest: null }),
-}));
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      isAuthenticated: false,
+      isAuthModalOpen: false,
+      targetRedirectUrl: null,
+      isPermissionModalOpen: false,
+      activePermissionRequest: null,
+      login: (user) => set({ user, isAuthenticated: true, isAuthModalOpen: false }),
+      logout: () => set({ user: null, isAuthenticated: false }),
+      setAuthModalOpen: (open) => set({ isAuthModalOpen: open }),
+      openAuthModal: (redirectUrl) => set({ isAuthModalOpen: true, targetRedirectUrl: redirectUrl || null }),
+      closeAuthModal: () => set({ isAuthModalOpen: false, targetRedirectUrl: null }),
+      requestPermission: (perm) => set({ isPermissionModalOpen: true, activePermissionRequest: perm }),
+      closePermissionModal: () => set({ isPermissionModalOpen: false, activePermissionRequest: null }),
+    }),
+    {
+      name: 'whyev-auth-session',
+      partialize: (state) => ({
+        user: state.user,
+        isAuthenticated: state.isAuthenticated,
+      }),
+    }
+  )
+);
 
 // --- 2. RECOMMENDATION INTAKE STORE ---
 interface IntakeState {
@@ -124,7 +142,7 @@ export const useAiAgentStore = create<AiAgentState>((set, get) => ({
       id: 'msg-init-1',
       sender: 'agent',
       agentType: 'Orchestrator',
-      text: 'Namaste Abhishek! 👋 I am your WhyEV AI Assistant. I can help calculate your exact Delhi 2026 subsidy, shortlist empanelled EVs for your daily commute, or connect you with verified dealers.',
+      text: 'Namaste! 👋 I am your WhyEV AI Assistant. I can help calculate your exact Delhi 2026 subsidy, shortlist empanelled EVs for your daily commute, or connect you with verified dealers.',
       timestamp: 'Just now',
     },
   ],

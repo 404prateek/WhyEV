@@ -1,10 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useIntakeStore, useAuthStore } from '@/lib/store';
 import { formatLakh, formatINR } from '@/lib/utils';
 import { ArrowRight, ArrowLeft, CheckCircle2, Sparkles, ShieldCheck, Fuel } from 'lucide-react';
 import { ShortlistCard } from './ShortlistCard';
+import { PropertySelectionGrid } from './PropertySelectionGrid';
+import { EVLoadingScreen } from './EVLoadingScreen';
 
 export function RecommendationWizard() {
   const {
@@ -23,6 +25,16 @@ export function RecommendationWizard() {
   } = useIntakeStore();
 
   const { requestPermission } = useAuthStore();
+  const [isLoadingScreenActive, setIsLoadingScreenActive] = useState(false);
+
+  const handleProceedFromProperty = () => {
+    setIsLoadingScreenActive(true);
+  };
+
+  const handleLoadingComplete = () => {
+    setIsLoadingScreenActive(false);
+    nextStep();
+  };
 
   const renderStep = () => {
     switch (currentStep) {
@@ -46,7 +58,7 @@ export function RecommendationWizard() {
                 <button
                   key={item.cat}
                   onClick={() => updateIntake({ category: item.cat as any })}
-                  className={`p-8 rounded-3xl border text-center transition-all duration-200 ${
+                  className={`p-8 rounded-3xl border text-center transition-all duration-200 cursor-pointer ${
                     category === item.cat
                       ? 'bg-emerald-50/90 border-emerald-500 text-slate-900 shadow-md'
                       : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50/50'
@@ -92,7 +104,7 @@ export function RecommendationWizard() {
                 <span className="text-slate-700 font-medium">Show Effective Post-Subsidy Price:</span>
                 <button
                   onClick={toggleEffectivePrice}
-                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
                     showEffectivePrice
                       ? 'bg-emerald-600 text-white shadow-sm'
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -151,37 +163,25 @@ export function RecommendationWizard() {
           <div className="space-y-8">
             <div className="space-y-3">
               <span className="text-xs font-bold uppercase tracking-wider text-emerald-600">Step 4 of 5</span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Housing & Charging Setup</h2>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                Delhi Residential Property & Charging Setup
+              </h2>
               <p className="text-sm text-slate-600 font-normal">
-                Before recommending a home-charging-dependent model, we verify your parking setup.
+                Before recommending a home-charging-dependent model, select your exact Delhi property category to verify meter & parking feasibility.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {[
-                { type: 'apartment', title: 'Apartment / Society', desc: 'Assigned parking space in building complex' },
-                { type: 'independent_house', title: 'Independent House', desc: 'Dedicated driveway / garage with 15A socket' },
-              ].map((item) => (
-                <button
-                  key={item.type}
-                  onClick={() => updateIntake({ housingType: item.type as any })}
-                  className={`p-6 rounded-3xl border text-left transition-all ${
-                    housingType === item.type
-                      ? 'bg-emerald-50/90 border-emerald-500 shadow-md'
-                      : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
-                  }`}
-                >
-                  <div className="text-base font-bold text-slate-900 mb-1">{item.title}</div>
-                  <div className="text-xs text-slate-500 font-normal">{item.desc}</div>
-                </button>
-              ))}
-            </div>
+            {/* Comprehensive 20 Delhi Property Types Grid */}
+            <PropertySelectionGrid
+              selectedPropertyId={housingType}
+              onSelectProperty={(id) => updateIntake({ housingType: id as any })}
+            />
 
             <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm flex items-center justify-between text-sm">
               <span className="text-slate-700 font-medium">Trading in an existing Petrol/Diesel vehicle?</span>
               <button
                 onClick={() => updateIntake({ tradeInIce: !tradeInIce })}
-                className={`px-4 py-2 rounded-full font-bold text-xs transition-all ${
+                className={`px-4 py-2 rounded-full font-bold text-xs transition-all cursor-pointer ${
                   tradeInIce ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600'
                 }`}
               >
@@ -210,6 +210,40 @@ export function RecommendationWizard() {
                 <ShortlistCard key={v.id} vehicle={v} />
               ))}
             </div>
+
+            {/* Upcoming 2026 EVs Section (Coming Soon) */}
+            <div className="space-y-6 pt-10 border-t border-slate-200">
+              <div className="space-y-1">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-[11px] font-bold border border-slate-200">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-600 fill-emerald-600" />
+                  <span>Pipeline Preview</span>
+                </div>
+                <h3 className="text-2xl font-extrabold text-slate-900">Upcoming 2026 EVs (Coming Soon)</h3>
+                <p className="text-xs text-slate-500 font-normal">
+                  Models scheduled for India launch late 2026. Stored in pipeline and excluded from active claim calculation.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {[
+                  { make: 'Toyota', model: 'Urban Cruiser EV / Ebella', note: 'e-Vitara-based, expected late 2026, mid-size SUV' },
+                  { make: 'Mahindra', model: 'BE 07 / XEV 7e', note: '7-seat EV, expected Q1 2026' },
+                  { make: 'Tata Motors', model: 'Safari EV', note: 'Diwali 2026 launch, Acti.ev+ platform' },
+                  { make: 'Citroën', model: 'Basalt EV', note: 'Expected late 2026, estimated ₹14-17 Lakh' },
+                  { make: 'Hyundai', model: 'Kona Electric (facelift)', note: 'Estimated Nov 2026, ₹24.75-25.75 Lakh' },
+                  { make: 'VinFast', model: 'VF3', note: 'Micro EV, estimated ~₹10 Lakh' },
+                ].map((item, idx) => (
+                  <div key={idx} className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+                    <div className="text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider">{item.make}</div>
+                    <div className="text-sm font-extrabold text-slate-900">{item.model}</div>
+                    <p className="text-xs text-slate-500 font-medium">{item.note}</p>
+                    <span className="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-200 text-slate-700">
+                      Coming Late 2026
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         );
 
@@ -220,6 +254,11 @@ export function RecommendationWizard() {
 
   return (
     <div className="max-w-7xl mx-auto py-12 sm:py-16 px-4 sm:px-6 lg:px-8 space-y-12">
+      {/* Full Screen EV Parallax Animated Loading Overlay */}
+      {isLoadingScreenActive && (
+        <EVLoadingScreen onComplete={handleLoadingComplete} />
+      )}
+
       {/* Wizard Step Progress Bar */}
       <div className="flex items-center justify-between mb-10 max-w-3xl mx-auto">
         {[1, 2, 3, 4, 5].map((s) => (
@@ -248,7 +287,7 @@ export function RecommendationWizard() {
         <button
           onClick={prevStep}
           disabled={currentStep === 1}
-          className="h-[48px] px-6 rounded-full border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 disabled:opacity-30 text-xs font-bold flex items-center gap-2 transition-all"
+          className="h-[48px] px-6 rounded-full border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 disabled:opacity-30 text-xs font-bold flex items-center gap-2 transition-all cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Previous</span>
@@ -258,21 +297,22 @@ export function RecommendationWizard() {
           <button
             onClick={() => {
               if (currentStep === 2) requestPermission('location');
-              nextStep();
+              if (currentStep === 4) {
+                handleProceedFromProperty();
+              } else {
+                nextStep();
+              }
             }}
-            className="h-[48px] px-8 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-md shadow-emerald-600/20 flex items-center gap-2"
+            className="h-[48px] px-8 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-md shadow-emerald-600/20 flex items-center gap-2 cursor-pointer"
           >
-            <span>Continue</span>
+            <span>{currentStep === 4 ? 'Calculate Recommendations' : 'Continue'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         ) : (
-          <button
-            onClick={() => requestPermission('notifications')}
-            className="h-[48px] px-8 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-md shadow-emerald-600/20 flex items-center gap-2"
-          >
-            <Sparkles className="w-4 h-4 fill-white" />
-            <span>Enable 30-Day Deadline Alerts</span>
-          </button>
+          <div className="text-xs font-bold text-emerald-700 flex items-center gap-1.5">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            <span>Empanelled Match Complete</span>
+          </div>
         )}
       </div>
     </div>

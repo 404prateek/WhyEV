@@ -7,6 +7,7 @@ import { WhyWhyEV } from '@/components/landing/WhyWhyEV';
 import { HowItWorks } from '@/components/landing/HowItWorks';
 import { LiveMetrics } from '@/components/landing/LiveMetrics';
 import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
+import { RealReviewsSection } from '@/components/landing/RealReviewsSection';
 import { FinalCta } from '@/components/landing/FinalCta';
 
 export function HomePage() {
@@ -17,6 +18,7 @@ export function HomePage() {
       <WhyWhyEV />
       <HowItWorks />
       <LiveMetrics />
+      <RealReviewsSection />
       <TestimonialsSection />
       <FinalCta />
     </div>
