@@ -2,7 +2,8 @@ version: "3.9"
 
 services:
   # ---------------------------------------------------------------------------
-  # PostgreSQL 15 with pgvector
+  # PostgreSQL 15 with pgvector (local dev)
+  # In production: point DATABASE_URL at Supabase — remove this service.
   # ---------------------------------------------------------------------------
   postgres:
     image: pgvector/pgvector:pg15
@@ -23,21 +24,6 @@ services:
       retries: 5
 
   # ---------------------------------------------------------------------------
-  # Redis 7
-  # ---------------------------------------------------------------------------
-  redis:
-    image: redis:7-alpine
-    container_name: whyev_redis
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # ---------------------------------------------------------------------------
   # FastAPI application
   # ---------------------------------------------------------------------------
   api:
@@ -49,9 +35,6 @@ services:
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     environment:
       DATABASE_URL: postgresql+asyncpg://whyev:whyev@postgres:5432/whyev
-      REDIS_URL: redis://redis:6379/0
-      CELERY_BROKER_URL: redis://redis:6379/1
-      CELERY_RESULT_BACKEND: redis://redis:6379/2
       DEBUG: "true"
     env_file:
       - .env
@@ -62,55 +45,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      redis:
-        condition: service_healthy
-
-  # ---------------------------------------------------------------------------
-  # Celery worker
-  # ---------------------------------------------------------------------------
-  worker:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: whyev_worker
-    restart: unless-stopped
-    command: celery -A celery_app worker --loglevel=info --concurrency=4
-    environment:
-      DATABASE_URL: postgresql+asyncpg://whyev:whyev@postgres:5432/whyev
-      REDIS_URL: redis://redis:6379/0
-      CELERY_BROKER_URL: redis://redis:6379/1
-      CELERY_RESULT_BACKEND: redis://redis:6379/2
-    env_file:
-      - .env
-    volumes:
-      - ./app:/app/app
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-
-  # ---------------------------------------------------------------------------
-  # Celery Beat scheduler
-  # ---------------------------------------------------------------------------
-  beat:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: whyev_beat
-    restart: unless-stopped
-    command: celery -A celery_app beat --loglevel=info --scheduler celery.beat.PersistentScheduler
-    environment:
-      DATABASE_URL: postgresql+asyncpg://whyev:whyev@postgres:5432/whyev
-      REDIS_URL: redis://redis:6379/0
-      CELERY_BROKER_URL: redis://redis:6379/1
-      CELERY_RESULT_BACKEND: redis://redis:6379/2
-    env_file:
-      - .env
-    volumes:
-      - ./app:/app/app
-    depends_on:
-      - redis
 
   # ---------------------------------------------------------------------------
   # Nginx reverse proxy

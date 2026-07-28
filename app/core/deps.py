@@ -1,10 +1,12 @@
-"""FastAPI dependency injectors: DB session, Redis, current user."""
+"""FastAPI dependency injectors: DB session, current user.
+
+Redis removed for MVP — rate limiting and session cache handled in Postgres.
+"""
 from __future__ import annotations
 
 import uuid
 from typing import Annotated, AsyncGenerator
 
-import redis.asyncio as aioredis
 import structlog
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -34,27 +36,6 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 DBSession = Annotated[AsyncSession, Depends(get_db)]
 
 # ---------------------------------------------------------------------------
-# Redis
-# ---------------------------------------------------------------------------
-
-_redis_pool: aioredis.Redis | None = None
-
-
-async def get_redis() -> aioredis.Redis:
-    global _redis_pool
-    if _redis_pool is None:
-        _redis_pool = aioredis.from_url(
-            settings.REDIS_URL,
-            encoding="utf-8",
-            decode_responses=True,
-            socket_connect_timeout=5,
-        )
-    return _redis_pool
-
-
-RedisConn = Annotated[aioredis.Redis, Depends(get_redis)]
-
-# ---------------------------------------------------------------------------
 # Auth dependencies
 # ---------------------------------------------------------------------------
 
@@ -69,7 +50,6 @@ _CREDENTIALS_EXCEPTION = HTTPException(
 
 async def get_current_user_id(
     credentials: Annotated[HTTPAuthorizationCredentials, Depends(_bearer)],
-    redis: RedisConn,
 ) -> uuid.UUID:
     """Validate JWT and return the authenticated user's UUID."""
     try:
@@ -92,10 +72,9 @@ async def get_current_user_id(
 
 async def get_current_admin_user_id(
     credentials: Annotated[HTTPAuthorizationCredentials, Depends(_bearer)],
-    redis: RedisConn,
 ) -> uuid.UUID:
     """Like get_current_user_id but also asserts role=admin claim."""
-    user_id = await get_current_user_id(credentials, redis)
+    user_id = await get_current_user_id(credentials)
     try:
         payload = decode_token(credentials.credentials)
     except JWTError:

@@ -1,30 +1,27 @@
-"""Auth router — OTP request/verify, Google OAuth, token refresh."""
+"""Auth router — Google OAuth only (MVP).
+
+OTP/SMS removed. All auth goes through Google.
+"""
 from __future__ import annotations
 
-import hashlib
 import uuid
 from datetime import datetime, timedelta, timezone
 
+import httpx
 import structlog
-from fastapi import APIRouter, HTTPException, Request, status
+from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import select
 
 from app.core.config import settings
-from app.core.deps import DBSession, RedisConn
+from app.core.deps import DBSession
 from app.core.security import (
     create_access_token,
     create_refresh_token,
-    generate_otp,
-    hash_secret,
-    phone_key,
     verify_secret,
 )
 from app.models.user import RefreshToken, User
 from app.schemas.auth import (
     GoogleAuthIn,
-    OtpRequestIn,
-    OtpSentOut,
-    OtpVerifyIn,
     TokenPairOut,
     TokenRefreshIn,
     UserOut,
@@ -33,45 +30,32 @@ from app.schemas.auth import (
 log = structlog.get_logger(__name__)
 router = APIRouter()
 
-_OTP_PREFIX = "whyev:otp:"
-_RATE_PHONE_PREFIX = "whyev:rate:phone:"
-_RATE_IP_PREFIX = "whyev:rate:ip:"
-
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
-async def _check_rate_limit(redis: RedisConn, key: str, limit: int, window: int) -> None:
-    count = await redis.incr(key)
-    if count == 1:
-        await redis.expire(key, window)
-    if count > limit:
-        raise HTTPException(
-            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-            detail="Rate limit exceeded. Please try again later.",
-        )
-
-
-def _client_ip(request: Request) -> str:
-    forwarded = request.headers.get("X-Forwarded-For")
-    return forwarded.split(",")[0].strip() if forwarded else (request.client.host or "unknown")
-
-
-async def _get_or_create_user(db: DBSession, phone: str) -> User:
-    stmt = select(User).where(User.phone == phone)
+async def _get_or_create_user_from_google(
+    db: DBSession, email: str, name: str | None
+) -> User:
+    stmt = select(User).where(User.email == email)
     result = await db.execute(stmt)
     user = result.scalar_one_or_none()
     if not user:
-        user = User(phone=phone, auth_provider="phone")
+        user = User(
+            email=email,
+            name=name,
+            # phone field kept in schema but not required for Google auth
+            phone=f"google_{uuid.uuid4().hex[:10]}",
+            auth_provider="google",
+        )
         db.add(user)
         await db.flush()
+        log.info("auth.new_user", email=email)
     return user
 
 
-async def _issue_tokens(
-    db: DBSession, redis: RedisConn, user: User
-) -> tuple[str, str]:
+async def _issue_tokens(db: DBSession, user: User) -> tuple[str, str]:
     extra_claims = {"role": user.role}
     access = create_access_token(str(user.id), extra_claims)
     raw_refresh, hashed_refresh = create_refresh_token(str(user.id))
@@ -83,9 +67,6 @@ async def _issue_tokens(
     )
     db.add(rt)
     await db.flush()
-
-    # Cache user_id → role in Redis for 60s
-    await redis.setex(f"whyev:user:{user.id}", 60, user.role)
     return access, raw_refresh
 
 
@@ -93,90 +74,50 @@ async def _issue_tokens(
 # Endpoints
 # ---------------------------------------------------------------------------
 
-@router.post("/auth/otp/request", response_model=OtpSentOut, status_code=status.HTTP_200_OK)
-async def request_otp(
-    body: OtpRequestIn,
-    request: Request,
-    db: DBSession,
-    redis: RedisConn,
-) -> OtpSentOut:
-    ip = _client_ip(request)
-    await _check_rate_limit(redis, f"{_RATE_PHONE_PREFIX}{phone_key(body.phone)}", 3, 60)
-    await _check_rate_limit(redis, f"{_RATE_IP_PREFIX}{ip}", 10, 3600)
-
-    otp = generate_otp()
-    otp_hash = hash_secret(otp)
-    await redis.setex(
-        f"{_OTP_PREFIX}{phone_key(body.phone)}",
-        settings.OTP_EXPIRY_SECONDS,
-        otp_hash,
-    )
-
-    # TODO: dispatch SMS via notification_service / Celery
-    log.info("otp.sent", phone_suffix=body.phone[-4:])
-    if settings.DEBUG:
-        log.debug("otp.debug_value", otp=otp)  # only log OTP in debug mode
-
-    return OtpSentOut()
-
-
-@router.post("/auth/otp/verify", response_model=TokenPairOut)
-async def verify_otp(
-    body: OtpVerifyIn,
-    db: DBSession,
-    redis: RedisConn,
-) -> TokenPairOut:
-    stored_hash = await redis.get(f"{_OTP_PREFIX}{phone_key(body.phone)}")
-    if not stored_hash or not verify_secret(body.code, stored_hash):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired OTP")
-
-    await redis.delete(f"{_OTP_PREFIX}{phone_key(body.phone)}")
-
-    user = await _get_or_create_user(db, body.phone)
-    access, refresh = await _issue_tokens(db, redis, user)
-
-    return TokenPairOut(
-        access_token=access,
-        refresh_token=refresh,
-        user=UserOut.model_validate(user),
-    )
-
-
 @router.post("/auth/google", response_model=TokenPairOut)
-async def google_auth(body: GoogleAuthIn, db: DBSession, redis: RedisConn) -> TokenPairOut:
-    """Verify Google ID token and issue WhyEV JWT pair."""
-    import httpx
+async def google_auth(body: GoogleAuthIn, db: DBSession) -> TokenPairOut:
+    """
+    Verify a Google ID token (issued by Google Sign-In on the frontend)
+    and return a WhyEV JWT access + refresh token pair.
 
-    async with httpx.AsyncClient() as client:
+    Frontend flow:
+      1. User clicks "Sign in with Google"
+      2. Google returns an id_token to the frontend
+      3. Frontend POSTs that id_token here
+      4. We verify it with Google's public endpoint
+      5. We return our own JWT — frontend stores this and uses it for all API calls
+    """
+    async with httpx.AsyncClient(timeout=10) as client:
         resp = await client.get(
             "https://oauth2.googleapis.com/tokeninfo",
             params={"id_token": body.id_token},
         )
 
     if resp.status_code != 200:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Google token")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired Google token",
+        )
 
     data = resp.json()
+
+    # Verify the token was issued for OUR app (prevents token reuse attacks)
     if data.get("aud") != settings.GOOGLE_OAUTH_CLIENT_ID:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token audience mismatch")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token was not issued for this application",
+        )
 
     email = data.get("email")
-    name = data.get("name")
-
-    stmt = select(User).where(User.email == email)
-    result = await db.execute(stmt)
-    user = result.scalar_one_or_none()
-    if not user:
-        user = User(
-            email=email,
-            name=name,
-            phone=f"google_{uuid.uuid4().hex[:10]}",  # placeholder; update when user adds phone
-            auth_provider="google",
+    if not email:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Google account has no email address",
         )
-        db.add(user)
-        await db.flush()
 
-    access, refresh = await _issue_tokens(db, redis, user)
+    user = await _get_or_create_user_from_google(db, email, data.get("name"))
+    access, refresh = await _issue_tokens(db, user)
+
     return TokenPairOut(
         access_token=access,
         refresh_token=refresh,
@@ -185,7 +126,8 @@ async def google_auth(body: GoogleAuthIn, db: DBSession, redis: RedisConn) -> To
 
 
 @router.post("/auth/refresh", response_model=TokenPairOut)
-async def refresh_token(body: TokenRefreshIn, db: DBSession, redis: RedisConn) -> TokenPairOut:
+async def refresh_token(body: TokenRefreshIn, db: DBSession) -> TokenPairOut:
+    """Exchange a valid refresh token for a new access + refresh token pair."""
     from app.core.security import decode_token
     from jose import JWTError
 
@@ -200,7 +142,7 @@ async def refresh_token(body: TokenRefreshIn, db: DBSession, redis: RedisConn) -
     user_id = uuid.UUID(payload["sub"])
     raw_jti = payload.get("jti", "")
 
-    # Verify token is not revoked
+    # Check token is not revoked
     stmt = select(RefreshToken).where(
         RefreshToken.user_id == user_id,
         RefreshToken.revoked.is_(False),
@@ -211,7 +153,7 @@ async def refresh_token(body: TokenRefreshIn, db: DBSession, redis: RedisConn) -
     if not valid:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Refresh token revoked")
 
-    # Rotate: revoke old token
+    # Rotate: revoke old, issue new
     valid.revoked = True
     await db.flush()
 
@@ -221,7 +163,7 @@ async def refresh_token(body: TokenRefreshIn, db: DBSession, redis: RedisConn) -
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
 
-    access, refresh = await _issue_tokens(db, redis, user)
+    access, refresh = await _issue_tokens(db, user)
     return TokenPairOut(
         access_token=access,
         refresh_token=refresh,

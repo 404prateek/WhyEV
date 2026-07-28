@@ -12,29 +12,22 @@ dependencies = [
     "fastapi==0.111.0",
     "uvicorn[standard]==0.29.0",
     "python-multipart==0.0.9",
-    # Database
+    # Database (Supabase / Postgres)
     "sqlalchemy[asyncio]==2.0.30",
     "asyncpg==0.29.0",
     "alembic==1.13.1",
     "pgvector==0.2.5",
-    # Cache / broker
-    "redis[hiredis]==5.0.4",
-    "celery[redis]==5.3.6",
-    "celery-beat==0.0.1",
     # Auth
     "python-jose[cryptography]==3.3.0",
     "passlib[bcrypt]==1.7.4",
     "httpx==0.27.0",          # Google OAuth verification
-    # AI
-    "anthropic==0.26.0",
+    # AI — Groq (open-source LLMs: Llama 3, Mixtral)
+    "groq==0.9.0",
+    # Embeddings (local, free — no API key needed)
+    "sentence-transformers==3.0.1",
     # Pydantic / settings
     "pydantic==2.7.1",
     "pydantic-settings==2.2.1",
-    # File storage
-    "boto3==1.34.107",
-    "Pillow==10.3.0",
-    # PDF generation
-    "reportlab==4.1.0",
     # Observability
     "structlog==24.1.0",
     "sentry-sdk[fastapi]==2.3.1",
@@ -43,7 +36,7 @@ dependencies = [
     "python-dateutil==2.9.0.post0",
     "aiofiles==23.2.1",
     "qrcode[pil]==7.4.2",
-    "jinja2==3.1.4",
+    "Pillow==10.3.0",
 ]
 
 [project.optional-dependencies]
