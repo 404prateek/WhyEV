@@ -38,10 +38,12 @@ from typing import AsyncGenerator
 
 import structlog
 from groq import AsyncGroq
+from groq._streaming import AsyncStream
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
+from app.core.groq_pool import GroqPool, get_groq_pool
 from app.models.conversation import AiConversation
 from app.models.subsidy import SubsidyRule
 from app.models.user import UserProfile
@@ -228,13 +230,13 @@ Do not answer the user directly. Always call exactly one tool.
 If nothing specific matches, call general_ev_chat.
 """
 
-async def route_to_tool(client: AsyncGroq, user_text: str, history: list[dict]) -> tuple[str, dict]:
+async def route_to_tool(pool: GroqPool, user_text: str, history: list[dict]) -> tuple[str, dict]:
     """Call the fast/cheap model to decide which tool to use. Returns (tool_name, tool_args)."""
     messages = [
         *history[-4:],  # only last 2 turns for context
         {"role": "user", "content": user_text},
     ]
-    resp = await client.chat.completions.create(
+    resp = await pool.chat_with_retry(
         model=settings.LLM_CLASSIFIER_MODEL,
         messages=[{"role": "system", "content": _ROUTER_SYSTEM}, *messages],
         tools=TOOLS,
@@ -286,13 +288,13 @@ async def stream_agent_response(
       data: {"type":"token","text":"<partial>"}
       data: {"type":"done"}
     """
-    client = AsyncGroq(api_key=settings.GROQ_API_KEY)
+    pool   = get_groq_pool()
 
     # Load recent conversation history
     history = await _load_history(db=db, user_id=user_id, conversation_id=conversation_id)
 
     # --- Step 1: Route ---
-    tool_name, tool_args = await route_to_tool(client, user_text, history)
+    tool_name, tool_args = await route_to_tool(pool, user_text, history)
     label = _tool_label(tool_name)
 
     yield f'data: {json.dumps({"type": "meta", "tool": tool_name, "label": label})}\n\n'
@@ -322,18 +324,18 @@ async def stream_agent_response(
     ]
 
     full_response: list[str] = []
-    stream = await client.chat.completions.create(
+    stream_ctx = await pool.stream_chat(
         model=settings.LLM_AGENT_MODEL,
         messages=[{"role": "system", "content": _RESPONDER_SYSTEM}, *responder_messages],
         max_tokens=512,
-        stream=True,
     )
 
-    async for chunk in stream:
-        text = chunk.choices[0].delta.content or ""
-        if text:
-            full_response.append(text)
-            yield f'data: {json.dumps({"type": "token", "text": text})}\n\n'
+    async with stream_ctx as stream:
+        async for chunk in stream:
+            text = chunk.choices[0].delta.content or ""
+            if text:
+                full_response.append(text)
+                yield f'data: {json.dumps({"type": "token", "text": text})}\n\n'
 
     # --- Step 5: Persist agent turn ---
     agent_turn = AiConversation(

@@ -58,9 +58,21 @@ class Settings(BaseSettings):
     GOOGLE_OAUTH_CLIENT_SECRET: str = ""
 
     # ----- Open-Source LLM via Groq -----
-    # Groq gives you a free API key to run open-source models (Llama 3, Mixtral)
-    # at very high speed. Sign up at console.groq.com — free tier is generous.
+    # Single key fallback — used if no numbered keys are set
     GROQ_API_KEY: str = ""
+    # Numbered keys for the pool (GROQ_API_KEY_1 … GROQ_API_KEY_20).
+    # Each free Groq account gives ~14,400 req/day. 3 keys = ~43,000 req/day.
+    # Create extra accounts with Gmail + trick: you+whyev2@gmail.com
+    GROQ_API_KEY_1: str = ""
+    GROQ_API_KEY_2: str = ""
+    GROQ_API_KEY_3: str = ""
+    GROQ_API_KEY_4: str = ""
+    GROQ_API_KEY_5: str = ""
+    GROQ_API_KEY_6: str = ""
+    GROQ_API_KEY_7: str = ""
+    GROQ_API_KEY_8: str = ""
+    GROQ_API_KEY_9: str = ""
+    GROQ_API_KEY_10: str = ""
     # Main agent model — powerful enough for multi-step reasoning
     LLM_AGENT_MODEL: str = "llama-3.3-70b-versatile"
     # Classifier model — fast & cheap for intent routing

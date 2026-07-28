@@ -1,4 +1,4 @@
-"""Admin router — leads, certifications, analytics, and subsidy scheme approval."""
+"""Admin router — leads, certifications, analytics, subsidy scheme approval, and pool health."""
 from __future__ import annotations
 
 import uuid
@@ -7,6 +7,7 @@ from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import func, select
 
 from app.core.deps import AdminUser, DBSession
+from app.core.groq_pool import get_groq_pool
 from app.models.certification import BatteryReport
 from app.models.dealer import DealerLead
 from app.models.subsidy import SubsidyRule
@@ -55,6 +56,29 @@ async def analytics_overview(admin_id: AdminUser, db: DBSession) -> dict:
         "total_leads": lead_count,
         "total_certifications": cert_count,
     }
+
+
+@router.get("/groq-pool")
+async def groq_pool_status(admin_id: AdminUser) -> dict:
+    """Show the health of the Groq API key pool — useful for monitoring rate limits."""
+    import time
+    pool = get_groq_pool()
+    slots = []
+    for i, slot in enumerate(pool._slots, 1):
+        cooling = not slot.is_available
+        slots.append({
+            "key_index": i,
+            "key_suffix": f"...{slot.key[-6:]}",
+            "available": slot.is_available,
+            "cooling_down": cooling,
+            "recovers_in_seconds": round(slot.seconds_until_recovery(), 1) if cooling else 0,
+        })
+    return {
+        "total_keys": pool.key_count,
+        "available_keys": pool.available_count,
+        "keys": slots,
+    }
+
 
 
 @router.get("/schemes", response_model=list[SubsidyRuleOut])
