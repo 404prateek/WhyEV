@@ -1,24 +1,40 @@
 export type VehicleCategory = '2W' | '3W' | '4W';
 
+export type EmpanelledStatus = 'unverified' | 'confirmed' | 'not_empanelled';
+export type VehicleAvailability = 'available' | 'being_phased_out' | 'upcoming' | 'available_may_be_discontinued';
+
 export interface EmpanelledVehicle {
   id: string;
   make: string;
   model: string;
   variant: string;
   category: VehicleCategory;
+  bodyType?: string;
   exShowroomPrice: number;
+  priceMinLakh?: number;
+  priceMaxLakh?: number;
   effectivePrice: number;
   subsidyAmount: number;
   scrappageBonus: number;
   rangeKm: number;
+  rangeKmClaimedOptions?: number[];
   batteryCapacityKwh: number;
-  empanelledStatus: boolean;
+  batteryKwhOptions?: number[];
+  empanelledStatus: EmpanelledStatus | boolean;
+  boundaryModel?: boolean;
+  boundaryNote?: string;
+  baasAvailable?: boolean;
+  baasPriceLakh?: number;
+  baasRentalPerKm?: any;
+  availability?: VehicleAvailability;
+  launchNote?: string;
   chargingTimeHours: number;
   topSpeedKmvh: number;
   features: string[];
-  imageUrl: string;
+  imageUrl?: string;
   whyThisFits: string;
   runningCostPerKm: number; // in INR
+  dataSourceDate?: string;
 }
 
 export interface SubsidyRule {
@@ -52,6 +68,34 @@ export interface SubsidyApplication {
   submittedAt?: string;
   disbursedAt?: string;
   daysRemaining: number;
+}
+
+export interface SavedSubsidyReport {
+  id: string;
+  vehicleName: string;
+  state: string;
+  estimatedSavings: number;
+  dateGenerated: string;
+  batteryCapacityKwh: number;
+  scrappageIncluded: boolean;
+  pdfUrl?: string;
+}
+
+export interface Review {
+  id: string;
+  targetType: 'dealer' | 'charging_station';
+  targetId: string;
+  targetName: string;
+  userId: string;
+  userName: string;
+  userCity: string;
+  userAvatar?: string;
+  rating: number; // 1 - 5
+  text: string;
+  photos?: string[];
+  createdAt: string;
+  verifiedInteractionId: string; // FK to appointment or charging status report (required)
+  status: 'pending' | 'published' | 'flagged';
 }
 
 export interface Dealer {
@@ -122,6 +166,9 @@ export interface UserProfile {
   phone: string;
   email: string;
   city: string;
+  state: string;
+  avatarUrl?: string;
+  memberSince: string;
   isDelhiResident: boolean;
   housingType: 'apartment' | 'independent_house';
   hasAssignedParking: boolean;
@@ -133,6 +180,7 @@ export interface UserProfile {
   preferredCategory: VehicleCategory;
   tradeInIceVehicle: boolean;
   profileCompletionPct: number;
+  savedReports?: SavedSubsidyReport[];
 }
 
 export interface AiChatMessage {

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Bot, FileCheck, Store, BatteryCharging, Calculator, ArrowUpRight, ShieldCheck, Zap } from 'lucide-react';
+import { Bot, FileCheck, Store, BatteryCharging, Calculator, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 
 export function BentoGrid() {

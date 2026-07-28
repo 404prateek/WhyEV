@@ -50,11 +50,14 @@ export function SubsidyChecklist() {
         </div>
 
         <button
-          onClick={() => requestPermission('camera')}
-          className="px-6 py-3 rounded-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs transition-all flex items-center gap-2 shadow-sm whitespace-nowrap"
+          onClick={() => {
+            const el = document.getElementById('required-documents');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="px-6 py-3 rounded-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs transition-all flex items-center gap-2 shadow-sm whitespace-nowrap cursor-pointer"
         >
-          <Upload className="w-4 h-4" />
-          <span>Upload RC Photo Now</span>
+          <span>View Required Documents</span>
+          <span className="text-sm">→</span>
         </button>
       </div>
 

@@ -57,9 +57,15 @@ export const recommendationApi = {
     // BACKEND_API_PLACEHOLDER: POST /recommendations (intake payload)
     await new Promise((res) => setTimeout(res, 900));
 
-    let filtered = MOCK_EMPANELLED_VEHICLES.filter(
-      (v) => v.category === payload.category && v.effectivePrice <= payload.budgetMax + 200000
-    );
+    let filtered = MOCK_EMPANELLED_VEHICLES.filter((v) => {
+      if (v.category !== payload.category) return false;
+      const effectiveMinPrice = v.priceMinLakh ? v.priceMinLakh * 100000 : v.exShowroomPrice;
+      // Boundary models check variant-level starting price
+      if (v.boundaryModel) {
+        return effectiveMinPrice <= payload.budgetMax + 200000;
+      }
+      return v.effectivePrice <= payload.budgetMax + 200000;
+    });
 
     if (filtered.length === 0) {
       filtered = MOCK_EMPANELLED_VEHICLES.slice(0, 3);

@@ -1,0 +1,142 @@
+[
+  {
+    "id": "independent_house",
+    "title": "Independent House",
+    "desc": "Private standalone villa or kothi with dedicated garage or driveway for 15A socket",
+    "iconName": "Home",
+    "categoryTag": "Private Parking"
+  },
+  {
+    "id": "independent_floor",
+    "title": "Independent Floor",
+    "desc": "Single floor unit in private residential plot with ground floor parking access",
+    "iconName": "Layers",
+    "categoryTag": "Dedicated Parking"
+  },
+  {
+    "id": "builder_floor",
+    "title": "Builder Floor",
+    "desc": "Modern multi-story low-rise floor in South/West Delhi residential colonies",
+    "iconName": "Building",
+    "categoryTag": "Stilt Parking"
+  },
+  {
+    "id": "apartment",
+    "title": "Apartment / Flat",
+    "desc": "Standard apartment unit in high-rise residential complex with assigned slot",
+    "iconName": "Building2",
+    "categoryTag": "Assigned Slot"
+  },
+  {
+    "id": "studio_apartment",
+    "title": "Studio Apartment",
+    "desc": "Compact 1RK/1BHK urban unit with shared building parking infrastructure",
+    "iconName": "Layout",
+    "categoryTag": "Shared Parking"
+  },
+  {
+    "id": "villa",
+    "title": "Villa",
+    "desc": "Luxury gated private residence with private EV wallbox installation space",
+    "iconName": "Castle",
+    "categoryTag": "Private Garage"
+  },
+  {
+    "id": "bungalow",
+    "title": "Bungalow",
+    "desc": "Spacious single/double story home with lawn driveway & 3-phase power line",
+    "iconName": "Landmark",
+    "categoryTag": "High Power Line"
+  },
+  {
+    "id": "farmhouse",
+    "title": "Farmhouse",
+    "desc": "Expansive green estate in Chhatarpur/Mehrauli belt with ample charging capacity",
+    "iconName": "TreePine",
+    "categoryTag": "High Power Line"
+  },
+  {
+    "id": "row_house",
+    "title": "Row House",
+    "desc": "Continuous row-style townhouse with dedicated ground level car porch",
+    "iconName": "Grid",
+    "categoryTag": "Car Porch"
+  },
+  {
+    "id": "duplex",
+    "title": "Duplex",
+    "desc": "Two-story connected unit with dedicated electric meter box for charger setup",
+    "iconName": "Copy",
+    "categoryTag": "Dedicated Meter"
+  },
+  {
+    "id": "penthouse",
+    "title": "Penthouse",
+    "desc": "Top-floor luxury residence with multi-car assigned basement parking slots",
+    "iconName": "Sparkles",
+    "categoryTag": "Basement Slot"
+  },
+  {
+    "id": "gated_society",
+    "title": "Gated Society Apartment",
+    "desc": "Security-monitored residential township with RWA EV charging guidelines",
+    "iconName": "ShieldCheck",
+    "categoryTag": "RWA Approved"
+  },
+  {
+    "id": "dda_flat",
+    "title": "DDA Flat",
+    "desc": "Delhi Development Authority housing colony flat with open community parking",
+    "iconName": "Compass",
+    "categoryTag": "DDA Colony"
+  },
+  {
+    "id": "cghs_apartment",
+    "title": "CGHS Apartment",
+    "desc": "Central Government Housing Society colony flat with shared parking bays",
+    "iconName": "Briefcase",
+    "categoryTag": "CGHS Colony"
+  },
+  {
+    "id": "cooperative_society",
+    "title": "Cooperative Society Flat",
+    "desc": "Group Housing Society flat in Dwarka/Noida/Mayur Vihar with RWA slot",
+    "iconName": "Users",
+    "categoryTag": "Group Housing"
+  },
+  {
+    "id": "government_housing",
+    "title": "Government Housing",
+    "desc": "CPWD / Government staff residential quarters with designated parking space",
+    "iconName": "Award",
+    "categoryTag": "CPWD Colony"
+  },
+  {
+    "id": "rental_apartment",
+    "title": "Rental Apartment",
+    "desc": "Leased flat requiring landlord consent for portable 15A or wallbox charger",
+    "iconName": "Key",
+    "categoryTag": "Portable Charger"
+  },
+  {
+    "id": "pg_coliving",
+    "title": "PG / Co-living Space",
+    "desc": "Shared living facility with communal parking & nearby public charger reliance",
+    "iconName": "UserCheck",
+    "categoryTag": "Public Charger"
+  },
+  {
+    "id": "serviced_apartment",
+    "title": "Serviced Apartment",
+    "desc": "Furnished managed residence with facility desk & shared charging bay",
+    "iconName": "Coffee",
+    "categoryTag": "Shared Bay"
+  },
+  {
+    "id": "luxury_apartment",
+    "title": "Luxury Apartment",
+    "desc": "High-end residential tower with pre-installed 3-phase EV charging points",
+    "iconName": "Crown",
+    "categoryTag": "Pre-installed EV"
+  }
+]

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, Fuel, Zap, CheckCircle2, ArrowRight } from 'lucide-react';
+import { TrendingUp, Fuel, CheckCircle2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 export function SavingsSection() {

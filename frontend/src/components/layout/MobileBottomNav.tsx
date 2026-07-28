@@ -3,7 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Sliders, FileCheck, LayoutDashboard, User } from 'lucide-react';
+import { Home, Sliders, FileCheck, MapPin, LayoutDashboard, User } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 export function MobileBottomNav() {
@@ -11,39 +12,51 @@ export function MobileBottomNav() {
 
   const navItems = [
     { label: 'Home', href: '/', icon: Home },
-    { label: 'Matcher', href: '/recommend', icon: Sliders },
+    { label: 'Recommend', href: '/recommend', icon: Sliders },
     { label: 'Subsidy', href: '/subsidy', icon: FileCheck, isUsp: true },
+    { label: 'Map', href: '/map', icon: MapPin },
     { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { label: 'Profile', href: '/profile', icon: User },
   ];
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/90 backdrop-blur-lg border-t border-emerald-900/30 px-2 py-2 shadow-2xl">
-      <nav className="flex items-center justify-around">
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-2xl border-t border-slate-200/90 px-1 py-1.5 shadow-2xl shadow-slate-950/10">
+      <nav className="flex items-center justify-around max-w-md mx-auto">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
 
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                'flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition-all relative',
-                isActive ? 'text-emerald-400 font-semibold' : 'text-slate-400 hover:text-slate-200'
-              )}
-            >
-              <div className="relative">
-                <Icon className={cn('w-5 h-5', isActive && 'text-emerald-400 scale-110 transition-transform')} />
-                {item.isUsp && (
-                  <span className="absolute -top-1 -right-2.5 w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <motion.div key={item.href} whileTap={{ scale: 0.90 }}>
+              <Link
+                href={item.href}
+                className={cn(
+                  'flex flex-col items-center justify-center gap-0.5 py-1 px-2.5 rounded-2xl min-h-[48px] transition-all relative cursor-pointer select-none',
+                  isActive
+                    ? 'text-emerald-700 font-extrabold'
+                    : 'text-slate-500 hover:text-slate-900 font-medium'
                 )}
-              </div>
-              <span className="text-[10px] tracking-tight">{item.label}</span>
-              {isActive && (
-                <span className="absolute -bottom-1 w-4 h-0.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-              )}
-            </Link>
+              >
+                <div className="relative flex items-center justify-center">
+                  <Icon
+                    className={cn(
+                      'w-5 h-5 transition-transform duration-200',
+                      isActive ? 'text-emerald-600 scale-110' : 'text-slate-500'
+                    )}
+                  />
+                  {item.isUsp && (
+                    <span className="absolute -top-1 -right-1.5 w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  )}
+                </div>
+                <span className="text-[10px] tracking-tight">{item.label}</span>
+                {isActive && (
+                  <motion.span
+                    layoutId="activeTabIndicator"
+                    className="absolute -bottom-0.5 w-5 h-1 rounded-full bg-emerald-600 shadow-sm"
+                  />
+                )}
+              </Link>
+            </motion.div>
           );
         })}
       </nav>

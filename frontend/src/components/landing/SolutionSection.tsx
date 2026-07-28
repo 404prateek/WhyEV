@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Bot, Sparkles, ShieldCheck, CheckCircle2, Sliders, ArrowRight } from 'lucide-react';
+import { Bot, Sparkles, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 export function SolutionSection() {

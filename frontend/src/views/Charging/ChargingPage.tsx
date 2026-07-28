@@ -2,11 +2,14 @@
 
 import React from 'react';
 import { ChargingMapView } from '@/components/charging/ChargingMapView';
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 
 export function ChargingPage() {
   return (
-    <div className="w-full pb-16">
-      <ChargingMapView />
-    </div>
+    <ProtectedRoute>
+      <div className="w-full pb-16">
+        <ChargingMapView />
+      </div>
+    </ProtectedRoute>
   );
 }
