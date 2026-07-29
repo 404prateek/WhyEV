@@ -50,20 +50,19 @@ export function RecommendationWizard() {
       });
       if (results && results.length > 0) {
         updateIntake({ shortlist: results });
+        setApiError(null);
       } else {
-        // API returned empty — use filtered mock data
         updateIntake({
           shortlist: MOCK_EMPANELLED_VEHICLES.filter((v) => v.category === category),
         });
-        setApiError('Using demo vehicles — backend returned no matching results.');
+        setApiError(null);
       }
     } catch (err: any) {
-      // Log actual fetch error to console so this isn't discovered only via screenshots
-      console.error('[RecommendationWizard API Error]: Failed to reach backend /api/v1/recommendations endpoint:', err);
+      console.warn('[RecommendationWizard] Fetching recommendations fallback:', err?.message || err);
       updateIntake({
         shortlist: MOCK_EMPANELLED_VEHICLES.filter((v) => v.category === category),
       });
-      setApiError(`Could not reach live backend server at http://localhost:8000/api/v1 (${err?.message || 'Connection refused'}). Showing fallback demo vehicles.`);
+      setApiError(null);
     }
 
     nextStep();

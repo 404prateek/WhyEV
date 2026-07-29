@@ -104,6 +104,21 @@ async def get_recommendations(
     result = await db.execute(stmt)
     raw_vehicles = list(result.scalars().all())
 
+    # Fallback: if strict filters returned 0 rows, relax range and budget filter to show empanelled models
+    if not raw_vehicles:
+        relaxed_filters: list[Any] = [VehicleMaster.is_empanelled.is_(True)]
+        if payload.preferred_categories:
+            relaxed_filters.append(VehicleMaster.category.in_(payload.preferred_categories))
+        stmt_relaxed = (
+            select(VehicleMaster)
+            .where(and_(*relaxed_filters))
+            .order_by(VehicleMaster.price)
+            .limit(limit)
+        )
+        res_relaxed = await db.execute(stmt_relaxed)
+        raw_vehicles = list(res_relaxed.scalars().all())
+        assumptions.append("Showing best matching empanelled EV models")
+
     # Deduplicate by make + model + category
     seen_models = set()
     vehicles = []
@@ -112,9 +127,6 @@ async def get_recommendations(
         if key not in seen_models:
             seen_models.add(key)
             vehicles.append(v)
-
-    if not vehicles:
-        assumptions.append("No exact matches — consider widening budget or category")
 
     enriched_shortlist: list[dict[str, Any]] = []
     city = payload.city or "Delhi"
