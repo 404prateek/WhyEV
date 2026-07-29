@@ -291,7 +291,7 @@ async def calculate_subsidy(
         base = rule.amount or 0
         scrappage_bonus = SCRAPPAGE_BONUS.get(cat_norm, 0) if scrapping_bool else 0
         tax_pct = 100
-        road_tax_rate = 0.10 if cat_norm == "4W" else 0.08
+        road_tax_rate = 0.04
         road_tax_waiver = int(vehicle_price * road_tax_rate * (tax_pct / 100.0))
         total_benefit = base + scrappage_bonus + road_tax_waiver
 
@@ -325,7 +325,7 @@ async def calculate_subsidy(
     direct_subsidy = int(policy_result.purchase_incentive)
     scrappage_bonus = int(policy_result.scrapping_incentive)
     tax_pct = policy_result.tax_exemption_pct
-    road_tax_rate = 0.10 if cat_norm == "4W" else 0.08
+    road_tax_rate = 0.04
     road_tax_waiver = int(vehicle_price * road_tax_rate * (tax_pct / 100.0)) if vehicle_price > 0 else 0
     total_benefit = direct_subsidy + scrappage_bonus + road_tax_waiver
 
