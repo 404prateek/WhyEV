@@ -687,6 +687,8 @@ export function SubsidyCalculator() {
                         ? `${selectedVehicle.make} ${selectedVehicle.model}`
                         : getCategoryLabel(category),
                     variant: selectedVehicle?.variant,
+                    category,
+                    ex_showroom_price: price,
                     direct_subsidy: result.purchaseIncentive,
                     scrappage_bonus: result.scrappageBonus,
                     road_tax_waiver: result.roadTaxWaiverEstimated,
