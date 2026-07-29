@@ -17,6 +17,7 @@ export function AuthModal() {
   const [loadingEmail, setLoadingEmail] = useState(false);
   const [email, setEmail] = useState('');
   const [showEmailInput, setShowEmailInput] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -41,8 +42,6 @@ export function AuthModal() {
   }, [isAuthModalOpen, closeAuthModal]);
 
   if (!isAuthModalOpen) return null;
-
-  const [authError, setAuthError] = useState<string | null>(null);
 
   const handleGoogleLogin = async () => {
     setLoadingGoogle(true);
