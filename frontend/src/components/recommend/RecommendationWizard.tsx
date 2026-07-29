@@ -261,7 +261,14 @@ export function RecommendationWizard() {
 
             {/* Total Projected Savings Panel */}
             {(() => {
-              const fuelSavings5Yrs = dailyCommuteKm * 300 * 4.5 * 5;
+              const netSavingsPerKmMap: Record<string, number> = {
+                '2W': 1.88,       // Petrol (₹2.15/km @ 45km/L) vs EV (₹0.27/km @ 30km/kWh)
+                '3W': 3.20,       // Petrol (₹3.87/km @ 25km/L) vs EV (₹0.67/km @ 12km/kWh)
+                '4W': 5.31,       // Petrol (₹6.45/km @ 15km/L) vs EV (₹1.14/km @ 7km/kWh)
+                'N1_goods': 3.50, // Diesel (₹4.20/km @ 21km/L) vs EV (₹0.70/km @ 11km/kWh)
+              };
+              const netSavingsPerKm = netSavingsPerKmMap[category] || 5.31;
+              const fuelSavings5Yrs = Math.round(dailyCommuteKm * 365 * 5 * netSavingsPerKm);
               const calcVehicleBenefit = (v: any) => {
                 const direct = v.directSubsidy || v.subsidyAmount || 0;
                 const tax = v.roadTaxWaiver || Math.round((v.exShowroomPrice || 0) * 0.04);
