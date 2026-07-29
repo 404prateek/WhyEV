@@ -49,7 +49,7 @@ async def get_subsidy_estimate(category: str, db: DBSession, city: str = "Delhi"
 
 @router.post("/subsidy/calculate", response_model=SubsidyCalcOut)
 async def calculate_subsidy_endpoint(
-    body: SubsidyCalcIn, user_id: CurrentUser, db: DBSession
+    body: SubsidyCalcIn, user: CurrentUserOptional, db: DBSession
 ) -> SubsidyCalcOut:
     is_empanelled = True
     if body.vehicle_id:

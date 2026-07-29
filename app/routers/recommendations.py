@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException, Query, status
 from sqlalchemy import and_, select
 from sqlalchemy.dialects.postgresql import UUID
 
-from app.core.deps import CurrentUserObj, DBSession
+from app.core.deps import CurrentUserObj, CurrentUserOptional, DBSession
 from app.models.vehicle import VehicleMaster
 from app.schemas.profile import RecommendationIn, RecommendationOut, VehicleOut
 from app.services.recommendation_service import get_recommendations
@@ -17,7 +17,7 @@ router = APIRouter()
 
 @router.post("/recommendations")
 async def get_vehicle_recommendations(
-    body: RecommendationIn, user: CurrentUserObj, db: DBSession
+    body: RecommendationIn, user: CurrentUserOptional, db: DBSession
 ) -> dict:
     enriched_shortlist, raw_vehicles, assumptions = await get_recommendations(db=db, payload=body)
     return {

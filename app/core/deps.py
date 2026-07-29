@@ -154,6 +154,39 @@ async def get_current_admin_user_id(
     return user.id
 
 
+_bearer_optional = HTTPBearer(auto_error=False)
+
+async def get_current_user_optional(
+    db: DBSession,
+    credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(_bearer_optional)] = None,
+) -> User:
+    """Optional auth dependency: returns authenticated user if valid token present, otherwise guest user."""
+    if credentials:
+        try:
+            return await get_current_user(db, credentials)
+        except Exception:
+            pass
+
+    guest_id = uuid.UUID("00000000-0000-0000-0000-000000000000")
+    result = await db.execute(select(User).where(User.id == guest_id))
+    guest = result.scalar_one_or_none()
+    if not guest:
+        guest = User(
+            id=guest_id,
+            phone="+919999999999",
+            name="Guest User",
+            auth_provider="guest",
+            role="user",
+        )
+        db.add(guest)
+        try:
+            await db.flush()
+        except Exception:
+            await db.rollback()
+    return guest
+
+
 CurrentUser = Annotated[uuid.UUID, Depends(get_current_user_id)]
 CurrentUserObj = Annotated[User, Depends(get_current_user)]
+CurrentUserOptional = Annotated[User, Depends(get_current_user_optional)]
 AdminUser = Annotated[uuid.UUID, Depends(get_current_admin_user_id)]

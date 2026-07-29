@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy import select
 
-from app.core.deps import CurrentUserObj, DBSession
+from app.core.deps import CurrentUserObj, CurrentUserOptional, DBSession
 from app.models.conversation import AiConversation
 from app.schemas.misc import AgentConversationTurnOut, AgentMessageIn
 from app.services.agent_orchestrator import stream_agent_response
@@ -17,7 +17,7 @@ router = APIRouter()
 
 @router.post("/agent/message")
 async def send_agent_message(
-    body: AgentMessageIn, user: CurrentUserObj, db: DBSession
+    body: AgentMessageIn, user: CurrentUserOptional, db: DBSession
 ) -> StreamingResponse:
     conversation_id = body.conversation_id or uuid.uuid4()
 
