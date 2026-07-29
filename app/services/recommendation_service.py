@@ -158,6 +158,32 @@ async def get_recommendations(
         total_benefit = direct_subsidy + scrappage_bonus + road_tax_waiver + free_insurance + free_rc_reg
         effective_price = max(0, v.price - direct_subsidy - scrappage_bonus - road_tax_waiver)
 
+        # Real vehicle photo lookup
+        model_lower = (v.model or "").lower()
+        image_url = "https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=800&auto=format&fit=crop"
+        if "tiago" in model_lower:
+            image_url = "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800&auto=format&fit=crop"
+        elif "comet" in model_lower:
+            image_url = "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=800&auto=format&fit=crop"
+        elif "punch" in model_lower:
+            image_url = "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800&auto=format&fit=crop"
+        elif "c3" in model_lower:
+            image_url = "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=800&auto=format&fit=crop"
+        elif "nexon" in model_lower:
+            image_url = "https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=800&auto=format&fit=crop"
+        elif "tigor" in model_lower:
+            image_url = "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=800&auto=format&fit=crop"
+        elif "syros" in model_lower:
+            image_url = "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=800&auto=format&fit=crop"
+        elif "3xo" in model_lower:
+            image_url = "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800&auto=format&fit=crop"
+        elif "windsor" in model_lower:
+            image_url = "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=800&auto=format&fit=crop"
+        elif "xuv400" in model_lower:
+            image_url = "https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=800&auto=format&fit=crop"
+        elif "ather" in model_lower:
+            image_url = "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=800&auto=format&fit=crop"
+
         enriched_shortlist.append({
             "id": str(v.id),
             "make": v.make,
@@ -185,10 +211,7 @@ async def get_recommendations(
             "features": [],
             "whyThisFits": "Matches your budget and range requirements.",
             "runningCostPerKm": round(2.5 / max(battery_kwh, 1) * 10, 2),  # ₹2.5/kWh avg Delhi rate
-            "imageUrl": (
-                f"/vehicles/{v.make.lower().replace(' ', '-')}-{v.model.lower().replace(' ', '-')}.jpg"
-                if v.make and v.model else None
-            ),
+            "imageUrl": image_url,
         })
 
     return enriched_shortlist, vehicles, assumptions
