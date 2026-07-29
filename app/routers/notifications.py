@@ -42,10 +42,10 @@ async def mark_notification_read(
     return NotificationOut.model_validate(notif)
 
 
-@router.post("/notifications/preferences", status_code=204)
+@router.post("/notifications/preferences", status_code=200)
 async def set_notification_preferences(
     body: NotificationPreferenceIn, user_id: CurrentUser, db: DBSession
-) -> None:
+) -> dict:
     """Persist notification channel preferences. Stored in Redis for hot-path access."""
     # TODO: persist to user_preferences table or Redis
-    pass
+    return {"status": "ok"}

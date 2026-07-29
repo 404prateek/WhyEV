@@ -16,7 +16,6 @@ from app.core.config import settings
 from app.db.session import engine
 from app.db.base import Base  # noqa: F401 — import all models to register them
 from app.routers import (
-    auth,
     profile,
     recommendations,
     subsidy,
@@ -89,10 +88,10 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS
+# CORS — allow any localhost/127.0.0.1 origin on any port during dev
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -107,11 +106,11 @@ Instrumentator().instrument(app).expose(app, endpoint="/metrics")
 # ---------------------------------------------------------------------------
 
 @app.exception_handler(Exception)
-async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONResponse:
-    log.exception("unhandled_exception", path=request.url.path, exc_info=exc)
+async def unhandled_exception_handler(request, exc):
+    log.error("unhandled_exception", path=request.url.path, exc_str=str(exc))
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        content={"detail": "An unexpected error occurred. It has been logged."},
+        content={"detail": f"Internal Server Error: {str(exc)}"},
     )
 
 
@@ -119,9 +118,9 @@ async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONR
 # Routers
 # ---------------------------------------------------------------------------
 
+# Include API routers
 API_PREFIX = "/api/v1"
 
-app.include_router(auth.router, prefix=API_PREFIX, tags=["Auth"])
 app.include_router(profile.router, prefix=API_PREFIX, tags=["Profile"])
 app.include_router(recommendations.router, prefix=API_PREFIX, tags=["Recommendations"])
 app.include_router(subsidy.router, prefix=API_PREFIX, tags=["Subsidy"])

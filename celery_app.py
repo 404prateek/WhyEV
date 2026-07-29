@@ -16,6 +16,7 @@ celery_app = Celery(
         "app.tasks.notification_dispatch",
         "app.tasks.empanelled_sync",
         "app.tasks.certificate_expiry",
+        "app.tasks.carsearch_sync",
     ],
 )
 
@@ -34,6 +35,11 @@ celery_app.conf.update(
 # ---------------------------------------------------------------------------
 
 celery_app.conf.beat_schedule = {
+    # Daily: sync scraped carsearch pricing & specs into vehicles_master
+    "carsearch_pricing_specs_sync": {
+        "task": "app.tasks.carsearch_sync.sync_carsearch_pricing_specs",
+        "schedule": crontab(hour=2, minute=30),  # 2:30 AM IST
+    },
     # Hourly: flag subsidy applications at day 20/25/29
     "deadline_reminder_check": {
         "task": "app.tasks.deadline_reminder.check_deadlines",

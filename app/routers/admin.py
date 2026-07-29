@@ -81,6 +81,26 @@ async def groq_pool_status(admin_id: AdminUser) -> dict:
 
 
 
+from app.schemas.subsidy import SubsidyRuleCreateIn, SubsidyRuleOut
+
+@router.post("/schemes", response_model=SubsidyRuleOut, status_code=201)
+async def create_scheme(
+    body: SubsidyRuleCreateIn, admin_id: AdminUser, db: DBSession
+) -> SubsidyRuleOut:
+    rule = SubsidyRule(
+        category=body.category,
+        year_tier=body.year_tier,
+        amount=body.amount,
+        price_ceiling=body.price_ceiling,
+        effective_from=body.effective_from,
+        effective_to=body.effective_to,
+        status="draft",
+    )
+    db.add(rule)
+    await db.flush()
+    return SubsidyRuleOut.model_validate(rule)
+
+
 @router.get("/schemes", response_model=list[SubsidyRuleOut])
 async def list_all_schemes(admin_id: AdminUser, db: DBSession) -> list[SubsidyRuleOut]:
     stmt = select(SubsidyRule).order_by(SubsidyRule.created_at.desc())

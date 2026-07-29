@@ -250,13 +250,15 @@ async def calculate_subsidy(
     battery_kwh: float = 3.0,
     reg_year: int = 1,
     gvw: float = 1.5,
+    is_empanelled: bool = True,
 ) -> EligibilityResult:
     """
     Two-tier calculation:
-    1. Try to find a matching 'live' DB subsidy rule (admin-controlled, versioned).
-    2. Fall back to the built-in policy engine (covers all 36 states).
-    Never free-generates numbers.
+    1. Validate empanelment (non-empanelled models return ineligible).
+    2. Try matching 'live' DB subsidy rule or fall back to built-in policy engine.
     """
+    if not is_empanelled:
+        return _ineligible("Vehicle is not on the government empanelled list for Delhi EV Policy 2026")
     scrapping_bool = scrappage.lower() == "yes"
     deadline: date | None = None
     if rc_issue_date:
@@ -276,22 +278,39 @@ async def calculate_subsidy(
     result = await db.execute(stmt)
     rule: SubsidyRule | None = result.scalar_one_or_none()
 
+    cat_norm = _normalise_category(category)
+    label_map = {
+        "2W": "2-Wheeler (Scooter/Bike)",
+        "3W": "3-Wheeler (Auto)",
+        "4W": "4W Car",
+        "N1_goods": "4W Goods (N1)",
+    }
+    vehicle_label = label_map.get(cat_norm, cat_norm)
+
     if rule:
         base = rule.amount or 0
-        scrappage_bonus = SCRAPPAGE_BONUS.get(_normalise_category(category), 0) if scrapping_bool else 0
-        total = base + scrappage_bonus
-        log.info("subsidy.calculated.db_rule", category=category, city=city, total=total, rule_id=str(rule.id))
-        return _eligible(total, deadline, {
+        scrappage_bonus = SCRAPPAGE_BONUS.get(cat_norm, 0) if scrapping_bool else 0
+        tax_pct = 100
+        road_tax_rate = 0.10 if cat_norm == "4W" else 0.08
+        road_tax_waiver = int(vehicle_price * road_tax_rate * (tax_pct / 100.0))
+        total_benefit = base + scrappage_bonus + road_tax_waiver
+
+        log.info("subsidy.calculated.db_rule", category=category, city=city, total=total_benefit, rule_id=str(rule.id))
+        return _eligible(total_benefit, deadline, {
             "source": "db_rule",
             "rule_id": str(rule.id),
-            "base_amount": base,
+            "vehicle_label": vehicle_label,
+            "direct_subsidy": base,
             "scrappage_bonus": scrappage_bonus,
-            "total": total,
+            "road_tax_waiver": road_tax_waiver,
+            "total_benefit": total_benefit,
+            "base_amount": base,
+            "total": total_benefit,
             "year_tier": rule.year_tier,
+            "tax_exemption_pct": tax_pct,
         })
 
     # --- Tier 2: Built-in policy engine ---
-    # Resolve state: city → state mapping (simple heuristic for MVP)
     state = _city_to_state(city)
     policy = get_policy(state)
     policy_result = policy.calculate_benefits(
@@ -303,20 +322,29 @@ async def calculate_subsidy(
         gvw=gvw,
     )
 
-    total = int(policy_result.purchase_incentive + policy_result.scrapping_incentive)
-    log.info("subsidy.calculated.policy_engine", state=state, category=category, total=total)
+    direct_subsidy = int(policy_result.purchase_incentive)
+    scrappage_bonus = int(policy_result.scrapping_incentive)
+    tax_pct = policy_result.tax_exemption_pct
+    road_tax_rate = 0.10 if cat_norm == "4W" else 0.08
+    road_tax_waiver = int(vehicle_price * road_tax_rate * (tax_pct / 100.0)) if vehicle_price > 0 else 0
+    total_benefit = direct_subsidy + scrappage_bonus + road_tax_waiver
 
-    return _eligible(total, deadline, {
+    log.info("subsidy.calculated.policy_engine", state=state, category=category, total=total_benefit)
+
+    return _eligible(total_benefit, deadline, {
         "source": "policy_engine",
         "state": state,
         "validity": policy_result.validity,
-        "purchase_incentive": int(policy_result.purchase_incentive),
-        "scrappage_bonus": int(policy_result.scrapping_incentive),
-        "tax_exemption_pct": policy_result.tax_exemption_pct,
-        "total": total,
+        "vehicle_label": vehicle_label,
+        "direct_subsidy": direct_subsidy,
+        "scrappage_bonus": scrappage_bonus,
+        "road_tax_waiver": road_tax_waiver,
+        "total_benefit": total_benefit,
+        "purchase_incentive": direct_subsidy,
+        "tax_exemption_pct": tax_pct,
+        "total": total_benefit,
         "notes": policy_result.notes,
-        # Aliases for frontend compatibility
-        "base_amount": int(policy_result.purchase_incentive),
+        "base_amount": direct_subsidy,
     })
 
 
@@ -358,6 +386,8 @@ async def create_application(
     if not vehicle:
         raise ValueError("Vehicle not found")
 
+    battery_kwh = vehicle.specs.get("battery_kwh", 3.0) if vehicle.specs else 3.0
+
     result = await calculate_subsidy(
         db=db,
         category=vehicle.category or "2W",
@@ -365,6 +395,8 @@ async def create_application(
         city=registration_state,
         rc_issue_date=rc_issue_date,
         scrappage=scrappage_tradein,
+        battery_kwh=battery_kwh,
+        is_empanelled=vehicle.is_empanelled,
     )
 
     filing_deadline = rc_issue_date + timedelta(days=30) if rc_issue_date else None

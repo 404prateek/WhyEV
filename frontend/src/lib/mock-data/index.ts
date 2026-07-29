@@ -247,10 +247,10 @@ export const MOCK_SAVED_SUBSIDY_REPORTS: SavedSubsidyReport[] = [
 ];
 
 export const MOCK_USER_PROFILE: UserProfile = {
-  id: 'usr-aishwarya-2026',
-  name: 'Aishwarya Sharma',
+  id: 'usr-prateek-2026',
+  name: 'Prateek Kumar',
   phone: '+91 98765 43210',
-  email: 'aishwarya@example.com',
+  email: 'prateek@whyev.in',
   state: 'Delhi',
   city: 'New Delhi',
   memberSince: 'July 2026',
@@ -270,7 +270,7 @@ export const MOCK_USER_PROFILE: UserProfile = {
 
 export const MOCK_SUBSIDY_APPLICATION: SubsidyApplication = {
   id: 'sub-app-delhi-2026-041',
-  userId: 'usr-aishwarya-2026',
+  userId: 'usr-prateek-2026',
   vehicleId: 'tata-nexon-ev',
   vehicleModelName: 'Tata Nexon EV (Empowered+ 45)',
   rcIssueDate: '2026-07-10',

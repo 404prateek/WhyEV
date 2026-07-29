@@ -37,7 +37,6 @@ class User(Base):
 
     # relationships
     profile: Mapped["UserProfile | None"] = relationship(back_populates="user", uselist=False)
-    refresh_tokens: Mapped[list["RefreshToken"]] = relationship(back_populates="user")
 
 
 class UserProfile(Base):
@@ -64,23 +63,3 @@ class UserProfile(Base):
     )
 
     user: Mapped["User"] = relationship(back_populates="profile")
-
-
-class RefreshToken(Base):
-    """Stores hashed refresh tokens for revocation support."""
-    __tablename__ = "refresh_tokens"
-
-    id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
-    )
-    user_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("users.id"), nullable=False, index=True
-    )
-    token_hash: Mapped[str] = mapped_column(Text, nullable=False)
-    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
-    revoked: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
-
-    user: Mapped["User"] = relationship(back_populates="refresh_tokens")

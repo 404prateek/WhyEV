@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy import select
 
-from app.core.deps import CurrentUser, DBSession
+from app.core.deps import CurrentUserObj, DBSession
 from app.models.conversation import AiConversation
 from app.schemas.misc import AgentConversationTurnOut, AgentMessageIn
 from app.services.agent_orchestrator import stream_agent_response
@@ -17,14 +17,14 @@ router = APIRouter()
 
 @router.post("/agent/message")
 async def send_agent_message(
-    body: AgentMessageIn, user_id: CurrentUser, db: DBSession
+    body: AgentMessageIn, user: CurrentUserObj, db: DBSession
 ) -> StreamingResponse:
     conversation_id = body.conversation_id or uuid.uuid4()
 
     async def generator():
         async for chunk in stream_agent_response(
             db=db,
-            user_id=user_id,
+            user_id=user.id,
             conversation_id=conversation_id,
             user_text=body.text,
         ):
@@ -43,13 +43,13 @@ async def send_agent_message(
 
 @router.get("/agent/conversation/{conversation_id}", response_model=list[AgentConversationTurnOut])
 async def get_conversation(
-    conversation_id: uuid.UUID, user_id: CurrentUser, db: DBSession
+    conversation_id: uuid.UUID, user: CurrentUserObj, db: DBSession
 ) -> list[AgentConversationTurnOut]:
     stmt = (
         select(AiConversation)
         .where(
             AiConversation.conversation_id == conversation_id,
-            AiConversation.user_id == user_id,
+            AiConversation.user_id == user.id,
         )
         .order_by(AiConversation.created_at)
     )

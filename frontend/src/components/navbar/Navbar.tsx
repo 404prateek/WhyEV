@@ -40,7 +40,6 @@ export function Navbar() {
     { label: 'Features', href: getHref('#features') },
     { label: 'How It Works', href: getHref('#how-it-works') },
     { label: 'Subsidies', href: ROUTES.SUBSIDY },
-    { label: 'Dealers', href: ROUTES.DEALERS },
     { label: 'Map', href: ROUTES.MAP },
     { label: 'Dashboard', href: ROUTES.DASHBOARD },
   ];

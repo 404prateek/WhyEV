@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, X, Send, Sparkles, ShieldCheck, User } from 'lucide-react';
+import { Bot, X, Send, Sparkles, ShieldCheck, User, Minimize2 } from 'lucide-react';
 import { useAiAgentStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
 
@@ -11,10 +11,10 @@ export function AiAgentDrawer() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isThinking]);
-
-  if (!isOpen) return null;
+    if (isOpen) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, isThinking, isOpen]);
 
   const handleSend = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -28,117 +28,162 @@ export function AiAgentDrawer() {
     'Am I eligible for Delhi EV Policy 2026?',
     'What is the 30-day RC deadline rule?',
     'Calculate fuel savings for 40 km daily commute',
-    'Which dealers in Delhi offer Wallbox installation?',
+    'Which dealers offer Wallbox installation?',
   ];
 
   return (
-    <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-white/95 backdrop-blur-2xl border-l border-slate-200/90 shadow-2xl flex flex-col transition-all duration-300">
-      {/* Drawer Header */}
-      <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-bold shadow-md shadow-emerald-600/20">
-            <Bot className="w-5 h-5" />
-          </div>
-          <div>
-            <h3 className="text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
-              WhyEV AI Assistant
-              <Sparkles className="w-3.5 h-3.5 text-emerald-600 fill-emerald-600" />
-            </h3>
-            <p className="text-[10px] text-emerald-700 font-semibold">Policy 2026 & Recommendation Engine</p>
-          </div>
-        </div>
+    <>
+      {/* ── Floating Action Button (FAB) ── */}
+      {!isOpen && (
         <button
-          onClick={() => setOpen(false)}
-          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-colors"
+          onClick={() => setOpen(true)}
+          className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-[9999] h-14 px-5 rounded-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-2xl transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2.5 border border-emerald-300/30 cursor-pointer animate-in fade-in"
+          aria-label="Open Voltu AI Assistant"
         >
-          <X className="w-5 h-5" />
+          <div className="relative flex items-center justify-center">
+            <Bot className="w-6 h-6 text-white" />
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-300 animate-ping" />
+          </div>
+          <span className="text-xs sm:text-sm font-extrabold tracking-tight">Ask Voltu AI</span>
         </button>
-      </div>
+      )}
 
-      {/* Chat Messages Body */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((msg) => {
-          const isAgent = msg.sender === 'agent';
-          return (
-            <div
-              key={msg.id}
-              className={cn('flex gap-2.5 max-w-[90%]', isAgent ? 'mr-auto' : 'ml-auto flex-row-reverse')}
-            >
-              <div
-                className={cn(
-                  'w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs font-bold',
-                  isAgent ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-900 text-white'
-                )}
-              >
-                {isAgent ? <Bot className="w-4 h-4" /> : <User className="w-4 h-4" />}
+      {/* ── Expanded Chat Panel ── */}
+      {isOpen && (
+        <div
+          className={cn(
+            'fixed z-[9999] bg-slate-950/95 backdrop-blur-2xl border border-emerald-900/50 shadow-2xl flex flex-col transition-all duration-300 text-slate-100 overflow-hidden',
+            // Mobile (<768px): Full screen takeover
+            'inset-0 w-full h-full rounded-none',
+            // Desktop (>=768px): Floating docked card bottom-right
+            'md:inset-auto md:bottom-6 md:right-6 md:w-[420px] md:h-[640px] md:max-w-[calc(100vw-3rem)] md:max-h-[calc(100vh-5rem)] md:rounded-3xl'
+          )}
+        >
+          {/* Header */}
+          <div className="p-4 border-b border-emerald-900/40 flex items-center justify-between bg-slate-900/80 shrink-0">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 font-bold shadow-md shadow-emerald-950">
+                <Bot className="w-5 h-5" />
               </div>
               <div>
-                <div
-                  className={cn(
-                    'p-3.5 rounded-2xl text-xs leading-relaxed',
-                    isAgent
-                      ? 'bg-slate-50 border border-slate-200/90 text-slate-800 rounded-tl-none shadow-xs'
-                      : 'bg-emerald-600 text-white font-medium rounded-tr-none shadow-md'
-                  )}
-                >
-                  {isAgent && msg.agentType && (
-                    <div className="text-[10px] font-bold tracking-wider uppercase text-emerald-700 mb-1 flex items-center gap-1">
-                      <ShieldCheck className="w-3 h-3" />
-                      {msg.agentType} Agent
-                    </div>
-                  )}
-                  <p>{msg.text}</p>
-                </div>
-                <span className="text-[9px] text-slate-400 mt-1 block px-1">{msg.timestamp}</span>
+                <h3 className="text-sm font-extrabold text-slate-100 flex items-center gap-1.5">
+                  Voltu — WhyEV AI Assistant
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-400 fill-emerald-400" />
+                </h3>
+                <p className="text-[10px] text-emerald-400 font-semibold">Policy 2026 & Recommendation Engine</p>
               </div>
             </div>
-          );
-        })}
 
-        {isThinking && (
-          <div className="flex gap-2.5 max-w-[85%] mr-auto">
-            <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
-              <Bot className="w-4 h-4 animate-bounce" />
-            </div>
-            <div className="p-3 rounded-2xl rounded-tl-none bg-slate-50 border border-slate-200 text-slate-500 text-xs flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping" />
-              <span>Analyzing empanelled vehicle database & policy rules...</span>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setOpen(false)}
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-slate-800/80 transition-colors cursor-pointer"
+                title="Minimize Chat"
+              >
+                <Minimize2 className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setOpen(false)}
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-slate-800/80 transition-colors cursor-pointer"
+                title="Close Chat"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
           </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
 
-      {/* Quick Action Chips */}
-      <div className="p-3 border-t border-slate-100 bg-slate-50/50 overflow-x-auto flex gap-2 no-scrollbar">
-        {quickPrompts.map((prompt, idx) => (
-          <button
-            key={idx}
-            onClick={() => sendMessage(prompt)}
-            className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-white hover:bg-emerald-50 hover:text-emerald-700 text-slate-600 border border-slate-200 hover:border-emerald-300 whitespace-nowrap transition-all cursor-pointer shadow-2xs"
-          >
-            {prompt}
-          </button>
-        ))}
-      </div>
+          {/* Messages Body */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {messages.map((msg) => {
+              const isAgent = msg.sender === 'agent';
+              const displayAgentName = !msg.agentType || msg.agentType === 'Orchestrator' ? 'Voltu AI' : `${msg.agentType} Agent`;
 
-      {/* Input Form */}
-      <form onSubmit={handleSend} className="p-3 border-t border-slate-100 bg-white flex items-center gap-2">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask AI about EV models, subsidies, or dealers..."
-          className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:bg-white transition-all"
-        />
-        <button
-          type="submit"
-          disabled={!input.trim() || isThinking}
-          className="p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-all disabled:opacity-50 cursor-pointer shadow-sm"
-        >
-          <Send className="w-4 h-4" />
-        </button>
-      </form>
-    </div>
+              return (
+                <div
+                  key={msg.id}
+                  className={cn('flex gap-2.5 max-w-[90%]', isAgent ? 'mr-auto' : 'ml-auto flex-row-reverse')}
+                >
+                  <div
+                    className={cn(
+                      'w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs font-bold',
+                      isAgent ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/30' : 'bg-slate-800 text-slate-200'
+                    )}
+                  >
+                    {isAgent ? <Bot className="w-4 h-4" /> : <User className="w-4 h-4" />}
+                  </div>
+                  <div>
+                    <div
+                      className={cn(
+                        'p-3.5 rounded-2xl text-xs leading-relaxed',
+                        isAgent
+                          ? 'bg-slate-900 border border-emerald-900/40 text-slate-200 rounded-tl-none shadow-md'
+                          : 'bg-emerald-600 text-white font-medium rounded-tr-none shadow-lg'
+                      )}
+                    >
+                      {isAgent && (
+                        <div className="text-[10px] font-bold tracking-wider uppercase text-emerald-400 mb-1 flex items-center gap-1">
+                          <ShieldCheck className="w-3 h-3" />
+                          {displayAgentName}
+                        </div>
+                      )}
+                      <p className="whitespace-pre-wrap">{msg.text || (isThinking ? 'Voltu is thinking…' : '')}</p>
+                    </div>
+                    <span className="text-[9px] text-slate-500 mt-1 block px-1">{msg.timestamp}</span>
+                  </div>
+                </div>
+              );
+            })}
+
+            {isThinking && (
+              <div className="flex gap-2.5 max-w-[85%] mr-auto">
+                <div className="w-7 h-7 rounded-lg bg-emerald-950 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                  <Bot className="w-4 h-4 animate-spin" />
+                </div>
+                <div className="p-3 rounded-2xl bg-slate-900 border border-emerald-900/40 text-xs text-slate-400 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span>Voltu is synthesizing response…</span>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Quick Prompts */}
+          <div className="p-3 border-t border-emerald-900/20 bg-slate-900/40 shrink-0">
+            <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+              {quickPrompts.map((prompt, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => sendMessage(prompt)}
+                  disabled={isThinking}
+                  className="px-3 py-1.5 rounded-full bg-slate-900 border border-emerald-900/40 text-slate-300 hover:border-emerald-500 hover:text-white text-[11px] font-medium whitespace-nowrap transition-all shrink-0 cursor-pointer disabled:opacity-50"
+                >
+                  {prompt}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Input Form */}
+          <form onSubmit={handleSend} className="p-3 bg-slate-900/90 border-t border-emerald-900/40 flex items-center gap-2 shrink-0">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask Voltu AI about subsidies, models, or dealers…"
+              disabled={isThinking}
+              className="flex-1 bg-slate-950 border border-emerald-900/50 rounded-2xl px-4 py-2.5 text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-emerald-500 disabled:opacity-50 font-medium"
+            />
+            <button
+              type="submit"
+              disabled={!input.trim() || isThinking}
+              className="w-9 h-9 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center transition-all disabled:opacity-40 cursor-pointer shrink-0 shadow-md shadow-emerald-950"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </form>
+        </div>
+      )}
+    </>
   );
 }

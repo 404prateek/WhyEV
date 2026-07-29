@@ -2,24 +2,25 @@
 
 > FastAPI + PostgreSQL + Celery backend for the WhyEV EV consultation platform.
 
-## Quick Start
+## Quick Start (Full-Stack: Backend + Frontend)
 
+### Option A: Docker Compose (Recommended)
 ```bash
-# 1. Clone and enter the backend directory
-cd backend
-
-# 2. Copy env template
-cp .env.example .env
-# Fill in your API keys
-
-# 3. Start all services
+# 1. Start all services together (PostgreSQL + FastAPI Backend + Next.js Frontend + Nginx)
 docker-compose up -d
 
-# 4. Run database migrations
+# 2. Run database migrations
 docker-compose exec api alembic upgrade head
 
-# 5. Visit the API docs
-open http://localhost/docs
+# 3. Access Full Application
+# Frontend: http://localhost:3000
+# Backend API Docs: http://localhost:8000/docs
+```
+
+### Option B: Local PowerShell Concurrent Script
+```powershell
+# Run from root directory — starts FastAPI (8000) and Next.js (3000) concurrently
+.\start-dev.ps1
 ```
 
 ## Architecture

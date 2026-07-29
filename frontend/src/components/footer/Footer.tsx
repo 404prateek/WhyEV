@@ -16,7 +16,7 @@ export function Footer() {
             <SaaSLogo />
           </Link>
           <p className="text-xs text-slate-500 leading-relaxed max-w-sm font-normal">
-            The trusted lifecycle platform for EV buyers in India. Guiding you from "should I switch?" through subsidy claims, model selection, dealer connection, and battery trust.
+            The trusted lifecycle platform for EV buyers in India. Guiding you from "should I switch?" through subsidy claims, model selection, and battery trust.
           </p>
           <div className="flex items-center gap-2 text-[11px] text-emerald-700 font-semibold bg-emerald-50 w-fit px-3 py-1 rounded-full border border-emerald-200">
             <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-emerald-600" />
@@ -39,13 +39,8 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href={ROUTES.DEALERS} className="hover:text-emerald-600 transition-colors">
-                Verified Dealer Discovery & Offers
-              </Link>
-            </li>
-            <li>
               <Link href={ROUTES.MAP} className="hover:text-emerald-600 transition-colors">
-                Interactive Charging & Dealer Map
+                Interactive Charging Station Map
               </Link>
             </li>
             <li>

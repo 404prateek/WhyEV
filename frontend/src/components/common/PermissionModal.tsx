@@ -52,7 +52,21 @@ export function PermissionModal() {
         <p className="text-xs text-slate-600 leading-relaxed mb-6 px-2">{current.desc}</p>
 
         <div className="space-y-2.5">
-          <Button onClick={closePermissionModal} fullWidth variant="emerald">
+          <Button 
+            onClick={() => {
+              if (activePermissionRequest === 'location' && 'geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                  () => closePermissionModal(),
+                  () => closePermissionModal(),
+                  { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+                );
+              } else {
+                closePermissionModal();
+              }
+            }} 
+            fullWidth 
+            variant="emerald"
+          >
             {current.actionText}
           </Button>
 

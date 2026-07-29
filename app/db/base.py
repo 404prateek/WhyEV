@@ -1,6 +1,6 @@
 """Import all models here so that Alembic can discover them via autogenerate."""
 from app.db.base_class import Base  # noqa: F401
-from app.models.user import User, UserProfile, RefreshToken  # noqa: F401
+from app.models.user import User, UserProfile  # noqa: F401
 from app.models.vehicle import VehicleMaster  # noqa: F401
 from app.models.subsidy import SubsidyRule, SubsidyApplication  # noqa: F401
 from app.models.dealer import Dealer, DealerLead, Appointment  # noqa: F401

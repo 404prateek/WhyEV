@@ -1,4 +1,4 @@
-export type VehicleCategory = '2W' | '3W' | '4W';
+export type VehicleCategory = '2W' | '3W' | '4W' | 'N1_goods';
 
 export type EmpanelledStatus = 'unverified' | 'confirmed' | 'not_empanelled';
 export type VehicleAvailability = 'available' | 'being_phased_out' | 'upcoming' | 'available_may_be_discontinued';
@@ -14,8 +14,14 @@ export interface EmpanelledVehicle {
   priceMinLakh?: number;
   priceMaxLakh?: number;
   effectivePrice: number;
-  subsidyAmount: number;
-  scrappageBonus: number;
+  // --- Subsidy breakdown (Delhi EV Policy 2026) ---
+  subsidyAmount: number;       // direct purchase incentive (₹/kWh capped)
+  directSubsidy: number;       // same as subsidyAmount
+  scrappageBonus: number;      // scrappage/trade-in bonus (0 if no trade-in)
+  roadTaxWaiver: number;       // road tax amount waived (4% of ex-showroom for 4W)
+  freeInsurance?: number;      // 1st-year free insurance value
+  freeRcRegistration?: number; // free RC registration fee waived
+  totalBenefit: number;        // grand total of all above
   rangeKm: number;
   rangeKmClaimedOptions?: number[];
   batteryCapacityKwh: number;
@@ -186,7 +192,7 @@ export interface UserProfile {
 export interface AiChatMessage {
   id: string;
   sender: 'user' | 'agent';
-  agentType?: 'Profile' | 'Eligibility' | 'Financial' | 'Recommendation' | 'Dealer' | 'FollowUp' | 'Orchestrator';
+  agentType?: 'Profile' | 'Eligibility' | 'Financial' | 'Recommendation' | 'Dealer' | 'FollowUp' | 'Orchestrator' | 'Voltu';
   text: string;
   timestamp: string;
   quickActions?: { label: string; actionKey: string }[];

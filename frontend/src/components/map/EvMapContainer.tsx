@@ -1,13 +1,30 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Store, Navigation, Phone, ExternalLink, ShieldCheck } from 'lucide-react';
+import { Store, Navigation, Phone, ExternalLink, ShieldCheck, AlertCircle, RefreshCw, Zap } from 'lucide-react';
 import evMapData from '@/data/evMapData.json';
 import { EvMapFilters, LayerFilter, StatusFilter } from './EvMapFilters';
 import { EvMapLegend } from './EvMapLegend';
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+
+export interface ChargingStationData {
+  id: string;
+  name: string;
+  operator: string;
+  address: string;
+  lat: number;
+  lng: number;
+  status: string;
+  powerKw: number;
+  totalGuns: number;
+  availableGuns: number;
+  costPerKwh: number;
+  lastVerified: string;
+}
 
 // Helper component to center map on user location
 function RecenterMap({ center }: { center: [number, number] }) {
@@ -18,7 +35,7 @@ function RecenterMap({ center }: { center: [number, number] }) {
   return null;
 }
 
-// Custom DivIcons for Leaflet (Avoids default Leaflet image path asset errors)
+// Custom DivIcons for Leaflet
 const createChargerIcon = (status: string) => {
   const colorClass =
     status === 'working'
@@ -32,23 +49,6 @@ const createChargerIcon = (status: string) => {
     html: `<div class="w-8 h-8 rounded-2xl ${colorClass} border-2 flex items-center justify-center shadow-lg transform hover:scale-115 transition-transform">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-      </svg>
-    </div>`,
-    iconSize: [32, 32],
-    iconAnchor: [16, 16],
-    popupAnchor: [0, -16],
-  });
-};
-
-const createDealerIcon = () => {
-  return L.divIcon({
-    className: 'custom-leaflet-marker',
-    html: `<div class="w-8 h-8 rounded-2xl bg-blue-600 border-2 border-blue-400 text-white flex items-center justify-center shadow-lg ring-2 ring-blue-500/30 transform hover:scale-115 transition-transform">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"></path>
-        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-        <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"></path>
-        <path d="M2 7h20"></path>
       </svg>
     </div>`,
     iconSize: [32, 32],
@@ -79,6 +79,11 @@ export function EvMapContainer() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
 
+  const [chargers, setChargers] = useState<ChargingStationData[]>([]);
+  const [isUsingFallback, setIsUsingFallback] = useState<boolean>(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
   // Delhi NCR Map Bounds & Center Constraints
   const delhiCenter: [number, number] = [28.6139, 77.2090];
   const maxBounds: [[number, number], [number, number]] = [
@@ -86,13 +91,39 @@ export function EvMapContainer() {
     [29.15, 77.65],
   ];
 
+  const fetchChargers = useCallback(async () => {
+    setLoading(true);
+    setApiError(null);
+    try {
+      const res = await fetch(`${API_BASE}/chargers`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}: Unreachable chargers API`);
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        setChargers(data);
+        setIsUsingFallback(false);
+      } else {
+        throw new Error('API returned empty chargers list');
+      }
+    } catch (e: any) {
+      console.warn('[EvMapContainer] Backend chargers API fetch failed. Using evMapData.json fallback:', e);
+      setChargers(evMapData.chargingStations as any);
+      setIsUsingFallback(true);
+      setApiError(`Could not reach backend chargers API at ${API_BASE}/chargers. Showing cached demo data.`);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchChargers();
+  }, [fetchChargers]);
+
   // Request User Location on Mount
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const coords: [number, number] = [pos.coords.latitude, pos.coords.longitude];
-          // Check if user is within NCR bounds before placing user pin
           if (
             coords[0] >= 28.0 &&
             coords[0] <= 29.3 &&
@@ -102,22 +133,15 @@ export function EvMapContainer() {
             setUserLocation(coords);
           }
         },
-        () => {
-          // Geolocation permission denied or unavailable
-        }
+        () => {},
+        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
       );
     }
   }, []);
 
-  // Filter Data
-  const filteredChargers = evMapData.chargingStations.filter((s) => {
+  const filteredChargers = chargers.filter((s) => {
     if (layerFilter === 'dealers') return false;
     if (statusFilter !== 'all' && s.status !== statusFilter) return false;
-    return true;
-  });
-
-  const filteredDealers = evMapData.dealerships.filter(() => {
-    if (layerFilter === 'chargers') return false;
     return true;
   });
 
@@ -139,6 +163,25 @@ export function EvMapContainer() {
 
       {/* Main Map Canvas Box */}
       <div className="relative flex-1 w-full min-h-[500px] sm:min-h-[580px] rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950">
+        
+        {/* Visible "Showing Cached / Demo Data" Indicator Banner (Item 1 Requirement) */}
+        {isUsingFallback && (
+          <div className="absolute top-4 left-4 right-4 sm:right-auto z-[1000] max-w-md p-3 rounded-2xl bg-amber-500/90 backdrop-blur-md border border-amber-300 text-slate-950 shadow-xl flex items-center justify-between gap-3 text-xs font-extrabold animate-in fade-in">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 text-slate-950" />
+              <span>Showing cached / demo data (Backend connection offline)</span>
+            </div>
+            <button
+              onClick={fetchChargers}
+              className="px-2.5 py-1 rounded-full bg-slate-950 hover:bg-slate-900 text-white font-bold text-[10px] transition-colors flex items-center gap-1 cursor-pointer shrink-0"
+              title="Retry API connection"
+            >
+              <RefreshCw className="w-3 h-3 text-amber-400" />
+              <span>Retry</span>
+            </button>
+          </div>
+        )}
+
         <MapContainer
           center={delhiCenter}
           zoom={11}
@@ -246,58 +289,24 @@ export function EvMapContainer() {
             </Marker>
           ))}
 
-          {/* Dealership Markers */}
-          {filteredDealers.map((dlr) => (
-            <Marker
-              key={dlr.id}
-              position={[dlr.lat, dlr.lng]}
-              icon={createDealerIcon()}
-            >
-              <Popup className="dark-map-popup">
-                <div className="p-4 bg-slate-950 border border-slate-800 rounded-2xl text-slate-100 text-xs space-y-3 min-w-[250px] shadow-2xl">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-blue-400 flex items-center gap-1">
-                      <Store className="w-3 h-3" />
-                      {dlr.brand}
-                    </span>
-                    <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-500/30 flex items-center gap-1">
-                      <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                      Empanelled
-                    </span>
-                  </div>
-
-                  <div>
-                    <h4 className="text-sm font-extrabold text-white leading-snug">{dlr.name}</h4>
-                    <p className="text-[11px] text-slate-400 mt-0.5">{dlr.address}</p>
-                  </div>
-
-                  {dlr.exclusiveOffer && (
-                    <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] font-semibold">
-                      🎁 {dlr.exclusiveOffer}
-                    </div>
-                  )}
-
-                  <div className="flex items-center justify-between text-[11px] bg-slate-900 p-2.5 rounded-xl border border-slate-800">
-                    <span className="text-slate-400">Rating: <span className="font-bold text-amber-400">★ {dlr.rating}</span> ({dlr.reviewCount})</span>
-                    <span className="text-emerald-400 font-bold">Delhi Subsidies Honored</span>
-                  </div>
-
-                  <a
-                    href={`tel:${dlr.phone}`}
-                    className="w-full py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-[11px] transition-colors flex items-center justify-center gap-1.5 shadow-md"
-                  >
-                    <Phone className="w-3.5 h-3.5" />
-                    <span>Call Showroom ({dlr.phone})</span>
-                  </a>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
         </MapContainer>
 
         {/* Floating Interactive Map Legend (Bottom Right Overlay) */}
-        <div className="absolute bottom-6 right-6 z-10 hidden sm:block max-w-xs">
+        <div className="absolute top-4 right-4 z-10 hidden sm:block max-w-xs">
           <EvMapLegend />
+        </div>
+
+        {/* Dealer Lead Generation Overlay */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[1000] w-[90%] max-w-md pointer-events-auto">
+          <div className="bg-slate-900/95 backdrop-blur-md border border-emerald-500/30 p-6 rounded-3xl shadow-2xl text-center space-y-4">
+            <div className="w-12 h-12 bg-emerald-900/50 rounded-full flex items-center justify-center mx-auto text-emerald-400 border border-emerald-500/20">
+              <Zap className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-extrabold text-white">Delhi Public Charging Network</h3>
+            <p className="text-sm text-slate-300 font-medium">
+              Over 4,500+ operational charging points across Delhi NCR under the Delhi EV Policy 2026.
+            </p>
+          </div>
         </div>
       </div>
     </div>

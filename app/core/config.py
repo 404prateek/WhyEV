@@ -42,20 +42,14 @@ class Settings(BaseSettings):
     # or the direct URL (port 5432) for a persistent backend like ours.
     DATABASE_URL: str = "postgresql+asyncpg://postgres:password@localhost:5432/whyev"
 
-    # ----- JWT -----
-    # JWT_SECRET: signs your login tokens. Different from SECRET_KEY.
-    # If someone gets this they can forge login sessions — keep it secret!
-    JWT_SECRET: str = "changeme-jwt-secret"
+    # ----- Supabase Auth -----
+    # SUPABASE_URL: Your Supabase project URL.
+    # Get this from Supabase Dashboard -> Project Settings -> API
+    SUPABASE_URL: str = "https://yvoqtdsfqgijqirwronl.supabase.co"
+    # SUPABASE_JWT_SECRET: Used to verify HS256 legacy tokens.
+    # Get this from Supabase Dashboard -> Project Settings -> API -> JWT Settings
+    SUPABASE_JWT_SECRET: str = "changeme-supabase-jwt-secret"
     JWT_ALGORITHM: str = "HS256"
-    # JWT_ACCESS_TTL: how long (seconds) an access token is valid → 900s = 15 min
-    JWT_ACCESS_TTL: int = 900
-    # JWT_REFRESH_TTL: how long (seconds) a refresh token is valid → 30 days
-    JWT_REFRESH_TTL: int = 2_592_000
-
-    # ----- Google OAuth (only auth method for MVP) -----
-    # Get this from Google Cloud Console → APIs → Credentials → OAuth 2.0 Client
-    GOOGLE_OAUTH_CLIENT_ID: str = ""
-    GOOGLE_OAUTH_CLIENT_SECRET: str = ""
 
     # ----- Open-Source LLM via Groq -----
     # Single key fallback — used if no numbered keys are set

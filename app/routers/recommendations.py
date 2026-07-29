@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException, Query, status
 from sqlalchemy import and_, select
 from sqlalchemy.dialects.postgresql import UUID
 
-from app.core.deps import CurrentUser, DBSession
+from app.core.deps import CurrentUserObj, DBSession
 from app.models.vehicle import VehicleMaster
 from app.schemas.profile import RecommendationIn, RecommendationOut, VehicleOut
 from app.services.recommendation_service import get_recommendations
@@ -15,19 +15,20 @@ from app.services.recommendation_service import get_recommendations
 router = APIRouter()
 
 
-@router.post("/recommendations", response_model=RecommendationOut)
+@router.post("/recommendations")
 async def get_vehicle_recommendations(
-    body: RecommendationIn, user_id: CurrentUser, db: DBSession
-) -> RecommendationOut:
-    shortlist, assumptions = await get_recommendations(db=db, payload=body)
-    return RecommendationOut(
-        shortlist=[VehicleOut.model_validate(v) for v in shortlist],
-        assumptions=assumptions,
-    )
+    body: RecommendationIn, user: CurrentUserObj, db: DBSession
+) -> dict:
+    enriched_shortlist, raw_vehicles, assumptions = await get_recommendations(db=db, payload=body)
+    return {
+        "shortlist": enriched_shortlist,
+        "assumptions": assumptions,
+    }
 
 
 @router.get("/vehicles/{vehicle_id}", response_model=VehicleOut)
-async def get_vehicle(vehicle_id: uuid.UUID, user_id: CurrentUser, db: DBSession) -> VehicleOut:
+@router.get("/recommendations/{vehicle_id}", response_model=VehicleOut)
+async def get_vehicle(vehicle_id: uuid.UUID, user: CurrentUserObj, db: DBSession) -> VehicleOut:
     stmt = select(VehicleMaster).where(VehicleMaster.id == vehicle_id)
     result = await db.execute(stmt)
     vehicle = result.scalar_one_or_none()
@@ -38,7 +39,7 @@ async def get_vehicle(vehicle_id: uuid.UUID, user_id: CurrentUser, db: DBSession
 
 @router.get("/vehicles", response_model=list[VehicleOut])
 async def list_vehicles(
-    user_id: CurrentUser,
+    user: CurrentUserObj,
     db: DBSession,
     category: str | None = Query(None),
     budget_max: int | None = Query(None),

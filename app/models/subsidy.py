@@ -6,6 +6,7 @@ from datetime import date, datetime
 
 from sqlalchemy import (
     Boolean,
+    CheckConstraint,
     Date,
     DateTime,
     ForeignKey,
@@ -56,6 +57,12 @@ class SubsidyRule(Base):
 
 class SubsidyApplication(Base):
     __tablename__ = "subsidy_applications"
+    __table_args__ = (
+        CheckConstraint(
+            "status IN ('calculated', 'documents_pending', 'submitted', 'disbursed')",
+            name="check_subsidy_app_status",
+        ),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), primary_key=True, default=uuid.uuid4

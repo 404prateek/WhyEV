@@ -22,7 +22,7 @@ async def get_nearby_dealers(
     # Sort by Euclidean distance (good enough for v1; replace with PostGIS in v2)
     dealers.sort(
         key=lambda d: (
-            ((d.lat or 0) - lat) ** 2 + ((d.lng or 0) - lng) ** 2
+            ((float(d.lat) if d.lat is not None else 0) - lat) ** 2 + ((float(d.lng) if d.lng is not None else 0) - lng) ** 2
         )
     )
     return dealers[:limit]

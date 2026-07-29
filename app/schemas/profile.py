@@ -80,6 +80,7 @@ class RecommendationIn(BaseModel):
     charging_preference: str | None = None
     finance_pref: str | None = None
     emi_comfort: int | None = None
+    trade_in_ice: bool | None = None  # True = user has ICE vehicle to trade in (scrappage bonus applies)
 
 
 class RecommendationOut(BaseModel):

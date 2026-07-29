@@ -165,7 +165,7 @@ class GroqPool:
         **kwargs: Any,
     ):
         """
-        Streaming version — returns an async context manager / stream object.
+        Streaming version — returns async stream created via chat.completions.create(..., stream=True).
         On 429 it retries on the next key transparently.
         """
         last_exc: Exception | None = None
@@ -182,10 +182,10 @@ class GroqPool:
                 raise GroqRateLimitError(f"All keys cooling. Retry in {wait:.0f}s.")
 
             try:
-                # Return the stream context manager from this key's client
-                return slot.client.chat.completions.stream(
+                return await slot.client.chat.completions.create(
                     model=model,
                     messages=messages,
+                    stream=True,
                     **kwargs,
                 )
             except RateLimitError as exc:
@@ -193,6 +193,7 @@ class GroqPool:
                 last_exc = exc
                 continue
             except Exception as exc:
+                log.exception("groq.stream_chat.error", key_suffix=slot.key[-6:], model=model)
                 last_exc = exc
                 await asyncio.sleep(1)
                 continue

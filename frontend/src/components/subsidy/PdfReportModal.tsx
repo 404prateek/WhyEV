@@ -4,6 +4,7 @@ import React from 'react';
 import { X, Download, ShieldCheck, Calendar, Sparkles } from 'lucide-react';
 import { useSubsidyStore, useAuthStore } from '@/lib/store';
 import { formatINR } from '@/lib/utils';
+import { SubsidyBreakdownCard } from './SubsidyBreakdownCard';
 
 export function PdfReportModal() {
   const { isPdfModalOpen, setPdfModalOpen, calculatedIncentive, scrappageIncentive, taxWaiverIncentive } = useSubsidyStore();
@@ -61,30 +62,18 @@ export function PdfReportModal() {
         {/* Breakdown Table */}
         <div className="space-y-3">
           <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Incentive Calculation Breakdown</h4>
-          <div className="rounded-2xl border border-slate-200 overflow-hidden text-xs">
-            <div className="bg-slate-50 px-4 py-2.5 font-bold text-slate-500 grid grid-cols-2">
-              <span>Benefit Type</span>
-              <span className="text-right">Amount (INR)</span>
-            </div>
-            <div className="p-4 space-y-2.5 bg-white">
-              <div className="flex justify-between">
-                <span className="text-slate-600">Direct Purchase Incentive (4W - 40.5 kWh)</span>
-                <span className="font-bold text-slate-900">{formatINR(calculatedIncentive)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-600">ICE Vehicle Scrappage Bonus</span>
-                <span className="font-bold text-slate-900">{formatINR(scrappageIncentive)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-600">100% Road Tax & Registration Fee Waiver</span>
-                <span className="font-bold text-slate-900">{formatINR(taxWaiverIncentive)}</span>
-              </div>
-              <div className="flex justify-between pt-3 border-t border-slate-100 text-sm font-extrabold">
-                <span className="text-slate-900">Total Financial Benefit:</span>
-                <span className="text-emerald-700">{formatINR(totalBenefit)}</span>
-              </div>
-            </div>
-          </div>
+          <SubsidyBreakdownCard
+            variant="pdf"
+            data={{
+              vehicle_label: '4W Car (40.5 kWh)',
+              direct_subsidy: calculatedIncentive,
+              scrappage_bonus: scrappageIncentive,
+              road_tax_waiver: taxWaiverIncentive,
+              total_benefit: totalBenefit,
+              eligible: true,
+              has_scrapping: scrappageIncentive > 0,
+            }}
+          />
         </div>
 
         {/* Mandatory Rule Box */}

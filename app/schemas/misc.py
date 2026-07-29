@@ -54,7 +54,11 @@ class NotificationPreferenceIn(BaseModel):
 # Certification
 # ---------------------------------------------------------------------------
 
+from pydantic import BaseModel, ConfigDict
+
 class CertificationRequestIn(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+
     model_id: uuid.UUID
     year: int
     odometer: int          # km

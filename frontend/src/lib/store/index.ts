@@ -77,10 +77,10 @@ export const useIntakeStore = create<IntakeState>((set) => ({
   category: '4W',
   tradeInIce: true,
   showEffectivePrice: true,
-  shortlist: MOCK_EMPANELLED_VEHICLES.filter((v) => v.category === '4W'),
+  shortlist: [],
   savedVehicleIds: ['veh-4w-tatanexonev'],
   setStep: (step) => set({ currentStep: step }),
-  nextStep: () => set((state) => ({ currentStep: Math.min(state.currentStep + 1, 6) })),
+  nextStep: () => set((state) => ({ currentStep: Math.min(state.currentStep + 1, 5) })),
   prevStep: () => set((state) => ({ currentStep: Math.max(state.currentStep - 1, 1) })),
   updateIntake: (data) => set((state) => ({ ...state, ...data })),
   toggleEffectivePrice: () => set((state) => ({ showEffectivePrice: !state.showEffectivePrice })),
@@ -141,8 +141,8 @@ export const useAiAgentStore = create<AiAgentState>((set, get) => ({
     {
       id: 'msg-init-1',
       sender: 'agent',
-      agentType: 'Orchestrator',
-      text: 'Namaste! 👋 I am your WhyEV AI Assistant. I can help calculate your exact Delhi 2026 subsidy, shortlist empanelled EVs for your daily commute, or connect you with verified dealers.',
+      agentType: 'Voltu',
+      text: 'Namaste! 👋 I am Voltu, your WhyEV AI Assistant. I can help calculate your exact Delhi 2026 subsidy, shortlist empanelled EVs for your daily commute, or connect you with verified dealers.',
       timestamp: 'Just now',
     },
   ],
@@ -156,17 +156,30 @@ export const useAiAgentStore = create<AiAgentState>((set, get) => ({
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
+    const agentMsgId = `msg-agent-${Date.now()}`;
+    const initialAgentMsg: AiChatMessage = {
+      id: agentMsgId,
+      sender: 'agent',
+      agentType: 'Voltu',
+      text: '',
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+
     set((state) => ({
-      messages: [...state.messages, userMsg],
+      messages: [...state.messages, userMsg, initialAgentMsg],
       isThinking: true,
     }));
 
     try {
-      const responseMsg = await aiAgentApi.sendMessage(get().messages, text);
-      set((state) => ({
-        messages: [...state.messages, responseMsg],
-        isThinking: false,
-      }));
+      await aiAgentApi.sendMessage(get().messages, text, (chunkText) => {
+        set((state) => ({
+          messages: state.messages.map((m) =>
+            m.id === agentMsgId ? { ...m, text: chunkText } : m
+          ),
+          isThinking: false, // Turn off thinking as soon as first chunk arrives
+        }));
+      });
+      set({ isThinking: false });
     } catch {
       set({ isThinking: false });
     }
