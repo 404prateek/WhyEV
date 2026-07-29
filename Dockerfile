@@ -8,13 +8,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Install Python deps
-COPY pyproject.toml .
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -e ".[dev]"
-
-# Copy source
+# Copy source code & project definition
 COPY . .
+
+# Upgrade pip & install package dependencies
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir .
 
 # Non-root user for security
 RUN addgroup --system whyev && adduser --system --ingroup whyev whyev
