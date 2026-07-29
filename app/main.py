@@ -88,10 +88,10 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS — allow any localhost/127.0.0.1 origin on any port during dev
+# CORS — allow any *.vercel.app domain and any localhost/127.0.0.1 origin
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
+    allow_origin_regex=r"https://.*\.vercel\.app|http://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
