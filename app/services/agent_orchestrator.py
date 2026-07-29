@@ -328,15 +328,18 @@ def _generate_smart_fallback(user_text: str, tool_name: str, tool_result: dict) 
     elif tool_name == "find_vehicles":
         vehicles = tool_result.get("vehicles", [])
         if vehicles:
-            v_list = "\n".join([f"• {v['make']} {v['model']} ({v['category']}) — ₹{v['price']:,} (Range: {v['range_km']} km)" for v in vehicles[:3]])
+            v_list = "\n".join([
+                f"• {v['make']} {v['model']} — Ex-Showroom ₹{v.get('exShowroomPrice', 0):,} (Effective On-Road: ₹{v.get('effectivePrice', 0):,}, Range: {v.get('rangeKm', 0)} km)"
+                for v in vehicles[:3]
+            ])
             return (
-                f"Namaste! 🙏 I am Voltu. Here are the top empanelled EV models matching your criteria:\n\n"
+                f"Namaste! 🙏 I am Voltu. Here are the top empanelled EV models under your budget in Delhi:\n\n"
                 f"{v_list}\n\n"
-                f"All these models qualify for the Delhi 2026 subsidy & 100% Road Tax Waiver. Would you like to connect with a nearby empanelled dealer for a test drive?"
+                f"All these models qualify for the Delhi EV Policy 2026 benefits and 100% Road Tax Waiver. Would you like to check the detailed subsidy breakdown for any of these?"
             )
         else:
             return (
-                "Namaste! 🙏 I am Voltu. I found several empanelled models like Tata Nexon EV (489 km range) and MG Windsor EV (449 km range) under the Delhi EV Policy. Would you like me to filter by your budget?"
+                "Namaste! 🙏 I am Voltu. I found several empanelled models like Tata Tiago EV (₹6.99 Lakh), MG Comet EV (₹7.80 Lakh), and Tata Punch EV (₹9.69 Lakh) under ₹10 Lakh in Delhi. Would you like to see their full subsidy breakdown?"
             )
 
     elif tool_name == "get_dealer_info":
