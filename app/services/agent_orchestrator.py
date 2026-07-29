@@ -184,13 +184,17 @@ async def execute_tool(
             budget = raw_budget * 100_000 if raw_budget < 100 else raw_budget
 
         cat = tool_args.get("category")
-        if not cat:
-            # Default to 4W if budget is over 3L, otherwise 2W
+        user_text_lower = (user_text or "").lower()
+        if any(w in user_text_lower for w in ["car", "4w", "four wheeler", "suv", "sedan", "hatchback"]):
+            cat = "4W"
+        elif any(w in user_text_lower for w in ["bike", "scooter", "2w", "two wheeler"]):
+            cat = "2W"
+        elif not cat:
             cat = "4W" if (budget is None or budget > 300_000) else "2W"
 
         payload = RecommendationIn(
             budget_max=budget or 1_500_000,
-            preferred_categories=[cat] if cat else ["4W"],
+            preferred_categories=[cat],
             daily_km=tool_args.get("daily_km", 40),
             city="Delhi",
         )
@@ -256,7 +260,9 @@ You are a routing assistant for Voltu, WhyEV's AI Assistant for India.
 Your ONLY job is to look at the user's message and decide which tool to call.
 
 ROUTING RULES:
-1. User asks for vehicle recommendations, best EVs under a budget (e.g. "what ev is best under 10 lakh", "suggest an EV car", "best 4W EV"), call `find_vehicles`.
+1. User asks for vehicle recommendations or best EVs under a budget (e.g. "best ev car under 10 lakh", "suggest an EV car"), call `find_vehicles`.
+   - IMPORTANT: If user mentions "car", "4W", "SUV", "four wheeler", or budget > 3 Lakh (e.g. 10 lakh), ALWAYS set `category="4W"`.
+   - If user mentions "scooter", "bike", "2W", "two wheeler", set `category="2W"`.
 2. User asks explicitly about subsidy calculation, Delhi policy eligibility, or 30-day deadline, call `calculate_subsidy`.
 3. User asks about profile completion or status, call `get_profile_status`.
 4. User asks about charging stations or map, call `get_dealer_info`.
