@@ -8,12 +8,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Copy source code & project definition
-COPY . .
-
-# Upgrade pip & install package dependencies
+# Copy & install Python requirements
+COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir .
+    pip install --no-cache-dir -r requirements.txt
+
+# Copy application source
+COPY . .
 
 # Non-root user for security
 RUN addgroup --system whyev && adduser --system --ingroup whyev whyev
