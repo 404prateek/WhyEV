@@ -13,21 +13,22 @@ export function AuthModal() {
   const [step, setStep] = useState<'phone' | 'otp'>('phone');
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
 
   if (!isAuthModalOpen) return null;
 
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
+    setAuthError(null);
     try {
       const res = await authService.loginWithGoogle();
-      // If Supabase is configured, this redirects the browser (no further code runs).
-      // If using mock fallback (dev without Supabase), res.user is populated directly.
       if (res.success && res.user) {
         login(res.user);
         setAuthModalOpen(false);
       }
     } catch (e: any) {
-      console.error('Google login error:', e.message);
+      console.error('Google login error:', e);
+      setAuthError(e?.message || 'Google sign in failed. Please try again.');
     } finally {
       setGoogleLoading(false);
     }
@@ -69,6 +70,12 @@ export function AuthModal() {
             Save your subsidy report, vehicle shortlist, and track your 30-day deadline
           </p>
         </div>
+
+        {authError && (
+          <div className="p-3 mb-4 rounded-xl bg-rose-950/80 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2">
+            <span className="font-semibold">{authError}</span>
+          </div>
+        )}
 
         {/* Google OAuth Button — Primary CTA */}
         <button

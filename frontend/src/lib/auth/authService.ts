@@ -94,17 +94,66 @@ class SupabaseAuthService implements AuthProvider {
     const supabase = getSupabaseClient();
     if (!supabase) return null;
 
-    const { data } = await supabase.auth.getUser();
-    const u = data.user;
+    // Retry up to 3 times to allow Supabase SDK time to parse session from hash / storage
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const sessionUser = sessionData.session?.user;
+      
+      if (sessionUser) {
+        const fullName = sessionUser.user_metadata?.full_name || sessionUser.user_metadata?.name || sessionUser.email?.split('@')[0] || 'New User';
+        return {
+          id: sessionUser.id,
+          name: fullName,
+          email: sessionUser.email || '',
+          avatarUrl: sessionUser.user_metadata?.avatar_url || '',
+          phone: sessionUser.phone || sessionUser.user_metadata?.phone || '',
+          state: 'Delhi',
+          city: 'New Delhi',
+          memberSince: 'Just now',
+          isDelhiResident: true,
+          housingType: 'apartment',
+          hasAssignedParking: true,
+          hasHomeCharger: false,
+          dailyCommuteKm: 30,
+          budgetMin: 500000,
+          budgetMax: 1500000,
+          familySize: 4,
+          preferredCategory: '4W',
+          tradeInIceVehicle: false,
+          profileCompletionPct: 60,
+          savedReports: [],
+        };
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 400));
+    }
+
+    const { data: userData } = await supabase.auth.getUser();
+    const u = userData.user;
     if (!u) return null;
 
+    const fullName = u.user_metadata?.full_name || u.user_metadata?.name || u.email?.split('@')[0] || 'New User';
     return {
-      ...MOCK_USER_PROFILE,
       id: u.id,
-      name: u.user_metadata?.full_name || u.user_metadata?.name || u.email?.split('@')[0] || 'User',
+      name: fullName,
       email: u.email || '',
-      avatarUrl: u.user_metadata?.avatar_url,
-      isDelhiResident: false, // user can update this in profile
+      avatarUrl: u.user_metadata?.avatar_url || '',
+      phone: u.phone || u.user_metadata?.phone || '',
+      state: 'Delhi',
+      city: 'New Delhi',
+      memberSince: 'Just now',
+      isDelhiResident: true,
+      housingType: 'apartment',
+      hasAssignedParking: true,
+      hasHomeCharger: false,
+      dailyCommuteKm: 30,
+      budgetMin: 500000,
+      budgetMax: 1500000,
+      familySize: 4,
+      preferredCategory: '4W',
+      tradeInIceVehicle: false,
+      profileCompletionPct: 60,
+      savedReports: [],
     };
   }
 }

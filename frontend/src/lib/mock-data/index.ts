@@ -257,25 +257,25 @@ export const MOCK_SAVED_SUBSIDY_REPORTS: SavedSubsidyReport[] = [
 ];
 
 export const MOCK_USER_PROFILE: UserProfile = {
-  id: 'usr-prateek-2026',
-  name: 'Prateek Kumar',
-  phone: '+91 98765 43210',
-  email: 'prateek@whyev.in',
+  id: 'usr-new-user',
+  name: 'New User',
+  phone: '',
+  email: '',
   state: 'Delhi',
   city: 'New Delhi',
-  memberSince: 'July 2026',
+  memberSince: 'Just now',
   isDelhiResident: true,
   housingType: 'apartment',
   hasAssignedParking: true,
   hasHomeCharger: false,
-  dailyCommuteKm: 42,
-  budgetMin: 800000,
-  budgetMax: 1800000,
+  dailyCommuteKm: 30,
+  budgetMin: 500000,
+  budgetMax: 1500000,
   familySize: 4,
   preferredCategory: '4W',
-  tradeInIceVehicle: true,
-  profileCompletionPct: 85,
-  savedReports: MOCK_SAVED_SUBSIDY_REPORTS,
+  tradeInIceVehicle: false,
+  profileCompletionPct: 50,
+  savedReports: [],
 };
 
 export const MOCK_SUBSIDY_APPLICATION: SubsidyApplication = {

@@ -39,7 +39,7 @@ export const useAuthStore = create<AuthState>()(
       closePermissionModal: () => set({ isPermissionModalOpen: false, activePermissionRequest: null }),
     }),
     {
-      name: 'whyev-auth-session',
+      name: 'whyev-auth-session-v2',
       partialize: (state) => ({
         user: state.user,
         isAuthenticated: state.isAuthenticated,

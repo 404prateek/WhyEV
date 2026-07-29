@@ -66,7 +66,7 @@ export function DashboardOverview() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-6">
         <div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-            Welcome back, {dashboardData?.user_name?.split(' ')[0] || user?.name?.split(' ')[0] || 'Prateek'}! 👋
+            Welcome back, {dashboardData?.user_name?.split(' ')[0] || user?.name?.split(' ')[0] || 'EV Driver'}! 👋
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 font-normal mt-1">
             Personal Command Centre · Live API Integration (GET /api/v1/users/me/dashboard)

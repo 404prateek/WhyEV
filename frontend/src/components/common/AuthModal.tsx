@@ -42,8 +42,11 @@ export function AuthModal() {
 
   if (!isAuthModalOpen) return null;
 
+  const [authError, setAuthError] = useState<string | null>(null);
+
   const handleGoogleLogin = async () => {
     setLoadingGoogle(true);
+    setAuthError(null);
     try {
       const res = await authService.loginWithGoogle();
       if (res.success) {
@@ -54,6 +57,9 @@ export function AuthModal() {
           router.push(redirect);
         }
       }
+    } catch (e: any) {
+      console.error('Google login error:', e);
+      setAuthError(e?.message || 'Google sign in failed. Please try again.');
     } finally {
       setLoadingGoogle(false);
     }
@@ -122,6 +128,11 @@ export function AuthModal() {
 
           {/* Primary CTA: Google OAuth */}
           <div className="space-y-3 pt-1">
+            {authError && (
+              <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
+                {authError}
+              </div>
+            )}
             <button
               onClick={handleGoogleLogin}
               disabled={loadingGoogle || loadingEmail}
