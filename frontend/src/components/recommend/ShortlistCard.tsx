@@ -17,14 +17,22 @@ export function ShortlistCard({ vehicle }: ShortlistCardProps) {
   const { showEffectivePrice, savedVehicleIds, toggleSaveVehicle } = useIntakeStore();
   const isSaved = savedVehicleIds.includes(vehicle.id);
 
-  // Dynamic line item math per vehicle
-  const directSubsidy = vehicle.directSubsidy || 0;
+  // Dynamic line item math per vehicle (Delhi EV Policy 2026 Gazette Rules)
+  const categoryScrappageMap: Record<string, number> = {
+    '2W': 10000,
+    '3W': 25000,
+    '4W': 100000,
+    'N1_goods': 50000,
+  };
+  const directSubsidy = vehicle.category === '4W' ? 0 : (vehicle.directSubsidy || 0);
   const roadTaxWaiver = vehicle.roadTaxWaiver || Math.round(vehicle.exShowroomPrice * 0.04);
-  const scrappageBonus = vehicle.scrappageBonus || 0;
+  const scrappageBonus = (vehicle.scrappageBonus && vehicle.scrappageBonus !== 25000)
+    ? vehicle.scrappageBonus
+    : (categoryScrappageMap[vehicle.category] || 100000);
   const freeInsurance = vehicle.freeInsurance || (vehicle.category === '4W' ? 20000 : 8000);
   const freeRcRegistration = vehicle.freeRcRegistration || (vehicle.category === '4W' ? 5000 : 3000);
 
-  // Total monetary price discount applied to on-road cost
+  // Total monetary price discount applied to ex-showroom price
   const totalPriceDiscount = directSubsidy + roadTaxWaiver + scrappageBonus;
 
   // Dynamic Effective On-Road Price per model
