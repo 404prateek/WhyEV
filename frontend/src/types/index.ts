@@ -16,12 +16,12 @@ export interface EmpanelledVehicle {
   effectivePrice: number;
   // --- Subsidy breakdown (Delhi EV Policy 2026) ---
   subsidyAmount: number;       // direct purchase incentive (₹/kWh capped)
-  directSubsidy: number;       // same as subsidyAmount
+  directSubsidy?: number;      // same as subsidyAmount
   scrappageBonus: number;      // scrappage/trade-in bonus (0 if no trade-in)
-  roadTaxWaiver: number;       // road tax amount waived (4% of ex-showroom for 4W)
+  roadTaxWaiver?: number;      // road tax amount waived (4% of ex-showroom for 4W)
   freeInsurance?: number;      // 1st-year free insurance value
   freeRcRegistration?: number; // free RC registration fee waived
-  totalBenefit: number;        // grand total of all above
+  totalBenefit?: number;       // grand total of all above
   rangeKm: number;
   rangeKmClaimedOptions?: number[];
   batteryCapacityKwh: number;
