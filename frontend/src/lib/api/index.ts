@@ -289,20 +289,66 @@ export const aiAgentApi = {
         }
       }
     } catch (e) {
-      console.warn('Backend stream error in aiAgentApi, using local Voltu fallback:', e);
+      console.error('[Voltu] Backend connection failed — falling back to local responses. Check NEXT_PUBLIC_API_URL env var.', e);
     }
 
     // Only use fallback when backend truly failed (empty response)
     if (!fullText.trim()) {
-      fullText = [
-        "Namaste! 🙏 I'm Voltu, your WhyEV AI assistant. I can help you with:",
-        "• **Exact subsidy calculation** — just tell me your EV model, city, and whether you're trading in an old vehicle",
-        "• **Vehicle recommendations** — best EVs under your budget in Delhi NCR (e.g. Tata Tiago EV ₹6.99L, MG Windsor EV ₹13.5L)",
-        "• **30-day RC deadline** — I'll calculate when you need to file your claim",
-        "• **Dealer information** — empanelled showrooms near you",
-        "",
-        "What would you like to know today?",
-      ].join('\n');
+      // Note: Use • bullets — the chat renderer handles them. Do NOT use **text** here
+      // because the fallback fires when backend is down and markdown doesn't help diagnosis.
+      const q = userPrompt.toLowerCase();
+      if (q.includes('subsid') || q.includes('eligible') || q.includes('benefit')) {
+        fullText = [
+          "Under Delhi EV Policy 2026, if you buy an empanelled EV and register in Delhi NCR, you get:",
+          "• 100% Road Tax Waiver (4% of ex-showroom price — e.g. ₹56,000 on a ₹14L car)",
+          "• Scrappage Bonus: ₹1,00,000 for 4W / ₹10,000 for 2W if you trade in an old petrol vehicle",
+          "• Free 1st-Year Comprehensive Insurance (Govt paid)",
+          "• Free RTO RC Registration (100% waived)",
+          "",
+          "Type your EV model, city, and whether you have a trade-in for an exact calculation.",
+        ].join('\n');
+      } else if (q.includes('car') || q.includes('lakh') || q.includes('ev') || q.includes('suggest') || q.includes('recommend') || q.includes('best')) {
+        fullText = [
+          "Here are top Delhi-empanelled EVs in 2026:",
+          "• Tata Tiago EV — ₹6.99L ex-showroom | 285 km range | Hatchback",
+          "• MG Comet EV — ₹7.80L ex-showroom | 230 km range | Micro SUV",
+          "• Tata Punch EV — ₹9.69L ex-showroom | 421 km range | Compact SUV",
+          "• Tata Nexon EV — ₹14.49L ex-showroom | 465 km range | Mid SUV",
+          "• MG Windsor EV — ₹13.50L ex-showroom | 332 km range | Crossover",
+          "• Mahindra BE 6 — ₹18.90L ex-showroom | 556 km range | Performance SUV",
+          "",
+          "All qualify for 100% Road Tax Waiver + Free Insurance under Delhi EV Policy 2026. Tell me your budget and daily commute distance for a personalised shortlist!",
+        ].join('\n');
+      } else if (q.includes('deadline') || q.includes('30') || q.includes('rc') || q.includes('days')) {
+        fullText = [
+          "The 30-Day RC Filing Rule is mandatory under Delhi EV Policy 2026:",
+          "• After your vehicle RC is issued, you have exactly 30 days to file on the GNCTD transport portal",
+          "• Missing the deadline = automatic forfeiture of all subsidies — no extensions allowed",
+          "• Documents needed: RC copy, purchase invoice, Aadhaar-linked bank account, dealer certificate",
+          "",
+          "Tell me your RC registration date and I'll calculate your exact deadline!",
+        ].join('\n');
+      } else if (q.includes('dealer') || q.includes('showroom') || q.includes('charging')) {
+        fullText = [
+          "Delhi NCR has 4,500+ public EV charging stations and empanelled dealers across:",
+          "• Central Delhi: Connaught Place, Karol Bagh, Nehru Place",
+          "• South Delhi: Saket, Vasant Kunj, Okhla",
+          "• Noida / Greater Noida: Sector 18, Sector 62, Greater Noida Expressway",
+          "• Gurugram: Golf Course Road, Udyog Vihar, Cyber City",
+          "",
+          "Visit the Map tab in WhyEV to see live charging stations near you!",
+        ].join('\n');
+      } else {
+        fullText = [
+          "Namaste! I'm Voltu, your WhyEV AI assistant. I can help you with:",
+          "• Exact subsidy calculation — tell me your EV model, city, and trade-in status",
+          "• Vehicle recommendations — best EVs under your budget in Delhi NCR",
+          "• 30-day RC deadline — I'll calculate when you need to file your claim",
+          "• Dealer and charging station info near you",
+          "",
+          "What would you like to know today?",
+        ].join('\n');
+      }
       if (onChunk) onChunk(fullText);
     }
 

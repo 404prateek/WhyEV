@@ -5,6 +5,47 @@ import { Bot, X, Send, Sparkles, ShieldCheck, User, Minimize2 } from 'lucide-rea
 import { useAiAgentStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
 
+// Lightweight inline markdown → JSX renderer (no external deps)
+function renderMarkdown(text: string): React.ReactNode {
+  if (!text) return null;
+  const lines = text.split('\n');
+  return lines.map((line, lineIdx) => {
+    // Process inline bold (**text**) and italic (*text*)
+    const segments: React.ReactNode[] = [];
+    const inlineRegex = /\*\*(.+?)\*\*|\*(.+?)\*/g;
+    let lastIdx = 0;
+    let match;
+    while ((match = inlineRegex.exec(line)) !== null) {
+      if (match.index > lastIdx) {
+        segments.push(line.slice(lastIdx, match.index));
+      }
+      if (match[1] !== undefined) {
+        // **bold**
+        segments.push(<strong key={`b-${lineIdx}-${match.index}`} className="font-bold text-white">{match[1]}</strong>);
+      } else if (match[2] !== undefined) {
+        // *italic*
+        segments.push(<em key={`i-${lineIdx}-${match.index}`} className="italic">{match[2]}</em>);
+      }
+      lastIdx = match.index + match[0].length;
+    }
+    if (lastIdx < line.length) segments.push(line.slice(lastIdx));
+
+    const content = segments.length > 0 ? segments : [line];
+    const isBullet = line.startsWith('• ') || line.startsWith('- ');
+
+    if (isBullet) {
+      return (
+        <div key={lineIdx} className="flex items-start gap-1.5 my-0.5">
+          <span className="text-emerald-400 shrink-0 mt-0.5">•</span>
+          <span>{content}</span>
+        </div>
+      );
+    }
+    if (line === '') return <div key={lineIdx} className="h-1" />;
+    return <div key={lineIdx}>{content}</div>;
+  });
+}
+
 export function AiAgentDrawer() {
   const { isOpen, setOpen, messages, isThinking, sendMessage } = useAiAgentStore();
   const [input, setInput] = useState('');
@@ -126,7 +167,9 @@ export function AiAgentDrawer() {
                           {displayAgentName}
                         </div>
                       )}
-                      <p className="whitespace-pre-wrap">{msg.text || (isThinking ? 'Voltu is thinking…' : '')}</p>
+                      <div className="space-y-0.5 leading-relaxed">
+                        {renderMarkdown(msg.text || (isThinking ? 'Voltu is thinking…' : ''))}
+                      </div>
                     </div>
                     <span className="text-[9px] text-slate-500 mt-1 block px-1">{msg.timestamp}</span>
                   </div>
