@@ -7,12 +7,25 @@ import { formatINR } from '@/lib/utils';
 import { SubsidyBreakdownCard } from './SubsidyBreakdownCard';
 
 export function PdfReportModal() {
-  const { isPdfModalOpen, setPdfModalOpen, calculatedIncentive, scrappageIncentive, taxWaiverIncentive } = useSubsidyStore();
+  const {
+    isPdfModalOpen,
+    setPdfModalOpen,
+    calculatedIncentive,
+    scrappageIncentive,
+    taxWaiverIncentive,
+    totalBenefit,
+    selectedVehicleLabel,
+    selectedVehicleVariant,
+    selectedCity,
+    selectedCategory,
+  } = useSubsidyStore();
   const { user } = useAuthStore();
 
   if (!isPdfModalOpen) return null;
 
-  const totalBenefit = calculatedIncentive + scrappageIncentive + taxWaiverIncentive;
+  // Generate a unique report reference from current timestamp
+  const reportRef = `DEL-${new Date().getFullYear()}-${Math.floor(Date.now() / 1000).toString(36).toUpperCase()}`;
+  const vehicleDisplay = selectedVehicleLabel || 'EV Subsidy Report';
 
   const handleDownload = () => {
     window.print();
@@ -40,8 +53,8 @@ export function PdfReportModal() {
             </div>
           </div>
           <div className="text-right text-[11px] text-slate-400 font-medium">
-            <div>Report ID: #DEL-2026-8809</div>
-            <div>Issued: {new Date().toLocaleDateString()}</div>
+            <div>Report ID: #{reportRef}</div>
+            <div>Issued: {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</div>
           </div>
         </div>
 
@@ -49,14 +62,25 @@ export function PdfReportModal() {
         <div className="grid grid-cols-2 gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs">
           <div>
             <span className="text-slate-500 block">Applicant Name:</span>
-            <span className="font-bold text-slate-900">{user?.name || 'Abhishek Sharma'}</span>
+            <span className="font-bold text-slate-900">{user?.name || 'EV Applicant'}</span>
           </div>
           <div>
             <span className="text-slate-500 block">Residency Verification:</span>
             <span className="font-bold text-emerald-700 flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5" /> Verified Delhi/NCR
+              <ShieldCheck className="w-3.5 h-3.5" />
+              {selectedCity ? `${selectedCity} (Verified)` : 'Verified Delhi/NCR'}
             </span>
           </div>
+          <div>
+            <span className="text-slate-500 block">Vehicle:</span>
+            <span className="font-bold text-slate-900">{vehicleDisplay}</span>
+          </div>
+          {selectedVehicleVariant && (
+            <div>
+              <span className="text-slate-500 block">Variant:</span>
+              <span className="font-bold text-slate-900">{selectedVehicleVariant}</span>
+            </div>
+          )}
         </div>
 
         {/* Breakdown Table */}
@@ -65,7 +89,9 @@ export function PdfReportModal() {
           <SubsidyBreakdownCard
             variant="pdf"
             data={{
-              vehicle_label: '4W Car (40.5 kWh)',
+              vehicle_label: vehicleDisplay,
+              variant: selectedVehicleVariant,
+              category: selectedCategory || '4W',
               direct_subsidy: calculatedIncentive,
               scrappage_bonus: scrappageIncentive,
               road_tax_waiver: taxWaiverIncentive,
@@ -76,13 +102,21 @@ export function PdfReportModal() {
           />
         </div>
 
+        {/* Total summary */}
+        {totalBenefit > 0 && (
+          <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between text-sm">
+            <span className="font-bold text-emerald-900">Total Financial Benefit (Policy Calculated)</span>
+            <span className="font-extrabold text-emerald-700 text-base">{formatINR(totalBenefit)}</span>
+          </div>
+        )}
+
         {/* Mandatory Rule Box */}
         <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 flex items-start gap-3 text-xs">
           <Calendar className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
           <div className="space-y-1">
             <div className="font-bold text-amber-900">Mandatory 30-Day Filing Rule</div>
             <p className="text-slate-600 leading-relaxed font-normal">
-              Per Delhi EV Policy 2026, subsidy claim applications must be submitted on the official portal within exactly 30 days of RC issuance.
+              Per Delhi EV Policy 2026, subsidy claim applications must be submitted on the official portal within exactly 30 days of RC issuance. Late submissions result in automatic forfeiture.
             </p>
           </div>
         </div>

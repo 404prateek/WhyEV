@@ -67,7 +67,9 @@ export function ProfileOverview({
             <Phone className="w-4 h-4 text-emerald-600 shrink-0" />
             <div>
               <div className="text-[10px] text-slate-400 font-medium uppercase">Phone Number</div>
-              <div className="font-bold text-slate-900">{user.phone || '+91 98765 43210'}</div>
+              <div className="font-bold text-slate-900">
+                {user.phone ? user.phone : <span className="text-slate-400 font-normal italic">Not provided — edit to add</span>}
+              </div>
             </div>
           </div>
 
@@ -75,7 +77,11 @@ export function ProfileOverview({
             <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
             <div>
               <div className="text-[10px] text-slate-400 font-medium uppercase">State & City</div>
-              <div className="font-bold text-slate-900">{user.city}, {user.state || 'Delhi'}</div>
+              <div className="font-bold text-slate-900">
+                {(user.city || user.state)
+                  ? `${user.city || ''}${user.city && user.state ? ', ' : ''}${user.state || ''}`
+                  : <span className="text-slate-400 font-normal italic">Not provided</span>}
+              </div>
             </div>
           </div>
 

@@ -52,6 +52,7 @@ async def calculate_subsidy_endpoint(
     body: SubsidyCalcIn, user: CurrentUserOptional, db: DBSession
 ) -> SubsidyCalcOut:
     is_empanelled = True
+    # Determine vehicle price and category — with or without a DB vehicle_id
     if body.vehicle_id:
         from app.models.vehicle import VehicleMaster
         stmt = select(VehicleMaster).where(VehicleMaster.id == body.vehicle_id)
@@ -59,11 +60,21 @@ async def calculate_subsidy_endpoint(
         v = result.scalar_one_or_none()
         if not v:
             raise HTTPException(status_code=404, detail="Vehicle not found")
-        vehicle_price = v.price or 0
+        vehicle_price = v.price or body.price or 0
         category = v.category or body.category
         is_empanelled = v.is_empanelled
     else:
         category = body.category
+        # Use price sent directly by frontend (ex-showroom price field)
+        # Fall back to a reasonable mid-range price so the policy engine is never called
+        # with price=0 (which would zero out road tax waiver calculations).
+        _category_price_defaults = {
+            "2W": 150_000,
+            "3W": 350_000,
+            "4W": 1_000_000,
+            "N1_goods": 800_000,
+        }
+        vehicle_price = body.price or _category_price_defaults.get(category, 1_000_000)
 
     res = await calculate_subsidy(
         db=db,

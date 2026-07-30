@@ -147,9 +147,13 @@ export const subsidyApi = {
     }
 
     // Fallback local Delhi Policy 2026 calculation
-    const isDelhi = (params.city || '').toLowerCase().includes('delhi');
-    const roadTaxWaiverEstimated = isDelhi ? Math.round(params.price * 0.04) : 0;
-    const scrappageBonus = (isDelhi && params.hasTradeInIce) ? (params.category === '4W' ? 100000 : 10000) : 0;
+    // Covers all Delhi NCR cities: Delhi, Gurugram, Noida, Faridabad, Ghaziabad, Greater Noida
+    const NCR_CITIES = ['delhi', 'gurugram', 'gurgaon', 'noida', 'faridabad', 'ghaziabad', 'greater noida', 'new delhi'];
+    const isNcr = NCR_CITIES.some(c => (params.city || '').toLowerCase().includes(c));
+    const roadTaxWaiverEstimated = isNcr ? Math.round(params.price * 0.04) : 0;
+    const scrappageBonus = (isNcr && params.hasTradeInIce)
+      ? (params.category === '2W' ? 10000 : params.category === '3W' ? 25000 : 100000)
+      : 0;
     const totalBenefit = roadTaxWaiverEstimated + scrappageBonus;
 
     return {
@@ -158,7 +162,7 @@ export const subsidyApi = {
       roadTaxWaiverEstimated,
       totalBenefit,
       eligible: true,
-      notes: ['Calculated via Delhi EV Policy 2026 Engine'],
+      notes: ['Calculated via Delhi EV Policy 2026 Engine (offline fallback)'],
     };
   },
 
@@ -288,17 +292,17 @@ export const aiAgentApi = {
       console.warn('Backend stream error in aiAgentApi, using local Voltu fallback:', e);
     }
 
+    // Only use fallback when backend truly failed (empty response)
     if (!fullText.trim()) {
-      const promptLower = userPrompt.toLowerCase();
-      if (promptLower.includes('eligible') || promptLower.includes('subsidy')) {
-        fullText = "Namaste! 🙏 I am Voltu. Under Delhi EV Policy 2026, all empanelled electric vehicles purchased and registered in Delhi qualify for a 100% Road Tax Waiver and Scrappage Bonus (up to ₹1,00,000 for 4W / ₹10,000 for 2W). Make sure to upload your RC within 30 days of registration to claim your subsidy!";
-      } else if (promptLower.includes('deadline') || promptLower.includes('30-day') || promptLower.includes('rc')) {
-        fullText = "Namaste! 🙏 Under the Delhi EV Policy 2026, buyers must submit their vehicle RC and bank details within exactly 30 days of RC issuance. Delays beyond 30 days result in automated subsidy forfeiture by the transport department.";
-      } else if (promptLower.includes('car') || promptLower.includes('10 lakh') || promptLower.includes('best ev') || promptLower.includes('recommend')) {
-        fullText = "Namaste! 🙏 Here are the top empanelled EV models under ₹10 Lakh in Delhi:\n\n• Tata Tiago EV — Ex-Showroom ₹6.99 Lakh (Effective On-Road: ₹6.46 Lakh | 285 km range)\n• MG Comet EV — Ex-Showroom ₹7.80 Lakh (Effective On-Road: ₹7.23 Lakh | 230 km range)\n• Tata Punch EV — Ex-Showroom ₹9.69 Lakh (Effective On-Road: ₹9.05 Lakh | 421 km range)\n\nAll models qualify for 100% Road Tax Waiver and Free 1st-Year Insurance under Delhi Policy 2026!";
-      } else {
-        fullText = "Namaste! 🙏 I am Voltu, your WhyEV AI Assistant. I can calculate your exact Delhi 2026 EV subsidy, check your 30-day RC deadline, or recommend empanelled EVs for your daily commute. How can I help you today?";
-      }
+      fullText = [
+        "Namaste! 🙏 I'm Voltu, your WhyEV AI assistant. I can help you with:",
+        "• **Exact subsidy calculation** — just tell me your EV model, city, and whether you're trading in an old vehicle",
+        "• **Vehicle recommendations** — best EVs under your budget in Delhi NCR (e.g. Tata Tiago EV ₹6.99L, MG Windsor EV ₹13.5L)",
+        "• **30-day RC deadline** — I'll calculate when you need to file your claim",
+        "• **Dealer information** — empanelled showrooms near you",
+        "",
+        "What would you like to know today?",
+      ].join('\n');
       if (onChunk) onChunk(fullText);
     }
 

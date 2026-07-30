@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { UserProfile, EmpanelledVehicle, VehicleCategory, AiChatMessage, SubsidyApplication } from '@/types';
-import { MOCK_EMPANELLED_VEHICLES, MOCK_SUBSIDY_APPLICATION } from '@/lib/mock-data';
+import { MOCK_EMPANELLED_VEHICLES } from '@/lib/mock-data';
 import { aiAgentApi } from '@/lib/api';
 
 // --- 1. AUTH STORE WITH PERSISTENCE & MODAL CONTROL ---
@@ -94,33 +94,56 @@ export const useIntakeStore = create<IntakeState>((set) => ({
 
 // --- 3. SUBSIDY STORE ---
 interface SubsidyState {
-  application: SubsidyApplication;
   isDelhiResident: boolean;
   batteryCapacityKwh: number;
   hasScrappage: boolean;
   calculatedIncentive: number;
   scrappageIncentive: number;
   taxWaiverIncentive: number;
+  totalBenefit: number;
+  // For PDF modal: real vehicle info from last calculation
+  selectedVehicleLabel: string;
+  selectedVehicleVariant: string;
+  selectedCity: string;
+  selectedCategory: string;
   isPdfModalOpen: boolean;
   setPdfModalOpen: (open: boolean) => void;
-  updateCalculation: (incentive: number, scrappage: number, tax: number) => void;
+  updateCalculation: (
+    incentive: number,
+    scrappage: number,
+    tax: number,
+    total: number,
+    vehicleLabel: string,
+    vehicleVariant: string,
+    city: string,
+    category: string
+  ) => void;
 }
 
 export const useSubsidyStore = create<SubsidyState>((set) => ({
-  application: MOCK_SUBSIDY_APPLICATION,
   isDelhiResident: true,
   batteryCapacityKwh: 40.5,
-  hasScrappage: true,
-  calculatedIncentive: 150000,
-  scrappageIncentive: 25000,
-  taxWaiverIncentive: 125000,
+  hasScrappage: false,
+  calculatedIncentive: 0,
+  scrappageIncentive: 0,
+  taxWaiverIncentive: 0,
+  totalBenefit: 0,
+  selectedVehicleLabel: '',
+  selectedVehicleVariant: '',
+  selectedCity: 'Delhi',
+  selectedCategory: '4W',
   isPdfModalOpen: false,
   setPdfModalOpen: (open) => set({ isPdfModalOpen: open }),
-  updateCalculation: (incentive, scrappage, tax) =>
+  updateCalculation: (incentive, scrappage, tax, total, vehicleLabel, vehicleVariant, city, category) =>
     set({
       calculatedIncentive: incentive,
       scrappageIncentive: scrappage,
       taxWaiverIncentive: tax,
+      totalBenefit: total,
+      selectedVehicleLabel: vehicleLabel,
+      selectedVehicleVariant: vehicleVariant,
+      selectedCity: city,
+      selectedCategory: category,
     }),
 }));
 

@@ -17,7 +17,7 @@ export function AccountSettings({ user, onUpdate }: AccountSettingsProps) {
   const { logout } = useAuthStore();
 
   const [name, setName] = useState(user.name);
-  const [phone, setPhone] = useState(user.phone || '+91 98765 43210');
+  const [phone, setPhone] = useState(user.phone || '');
   const [stateName, setStateName] = useState(user.state || 'Delhi');
   const [city, setCity] = useState(user.city || 'New Delhi');
   const [preferredCategory, setPreferredCategory] = useState<VehicleCategory>(user.preferredCategory || '4W');

@@ -51,7 +51,7 @@ interface CalcResult {
 }
 
 export function SubsidyCalculator() {
-  const { setPdfModalOpen } = useSubsidyStore();
+  const { setPdfModalOpen, updateCalculation } = useSubsidyStore();
   const { requestPermission } = useAuthStore();
 
   // ── Selection Mode ──
@@ -161,12 +161,31 @@ export function SubsidyCalculator() {
         gvw,
       });
 
-      setResult({
+      const resultData = {
         ...res,
         isEstimate: selectionMode === 'category_fallback',
-      });
+      };
+      setResult(resultData);
       setCalculated(true);
       setDevToast(null);
+
+      // ── Connect to PDF modal and subsidy store with REAL data ──
+      const vehicleLabel =
+        selectionMode === 'vehicle' && selectedVehicle
+          ? `${selectedVehicle.make} ${selectedVehicle.model}`
+          : getCategoryLabel(calcCat);
+      const vehicleVariant =
+        selectionMode === 'vehicle' && selectedVehicle ? selectedVehicle.variant : '';
+      updateCalculation(
+        res.purchaseIncentive,
+        res.scrappageBonus,
+        res.roadTaxWaiverEstimated,
+        res.totalBenefit,
+        vehicleLabel,
+        vehicleVariant,
+        city,
+        calcCat
+      );
     } catch (e: any) {
       const errorMsg = e?.message || 'Failed to calculate subsidy. Please try again.';
       if (process.env.NODE_ENV !== 'production') {

@@ -141,7 +141,7 @@ TOOLS = [
 # ---------------------------------------------------------------------------
 
 async def execute_tool(
-    tool_name: str, tool_args: dict, db: AsyncSession, user_id: uuid.UUID
+    tool_name: str, tool_args: dict, db: AsyncSession, user_id: uuid.UUID, user_text: str = ""
 ) -> dict:
     """Execute the tool the router chose and return a DB-backed result dict."""
 
@@ -398,7 +398,7 @@ async def stream_agent_response(
     yield f'data: {json.dumps({"type": "meta", "tool": tool_name, "label": label})}\n\n'
 
     # --- Step 2: Execute tool (DB-backed) ---
-    tool_result = await execute_tool(tool_name, tool_args, db, user_id)
+    tool_result = await execute_tool(tool_name, tool_args, db, user_id, user_text)
 
     # --- Step 3: Save user turn ---
     user_turn = AiConversation(
