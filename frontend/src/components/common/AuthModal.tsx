@@ -11,7 +11,7 @@ import { authService } from '@/services/authService';
 
 export function AuthModal() {
   const router = useRouter();
-  const { isAuthModalOpen, closeAuthModal, targetRedirectUrl, login } = useAuthStore();
+  const { isAuthModalOpen, closeAuthModal, targetRedirectUrl, authModalTitle, authModalSubtitle, login } = useAuthStore();
   const [isSignInMode, setIsSignInMode] = useState(true);
   const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [loadingEmail, setLoadingEmail] = useState(false);
@@ -96,7 +96,7 @@ export function AuthModal() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 16 }}
           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-md bg-white/95 backdrop-blur-2xl border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-2xl relative text-slate-900 space-y-6"
+          className="w-full max-w-md max-h-[calc(100vh-2rem)] overflow-y-auto bg-white/95 backdrop-blur-2xl border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-2xl relative text-slate-900 space-y-6"
         >
           {/* Close Button (X) */}
           <button
@@ -112,11 +112,11 @@ export function AuthModal() {
             <div className="flex justify-center mb-2">
               <SaaSLogo />
             </div>
-            <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-              {isSignInMode ? 'Welcome to WhyEV' : 'Join WhyEV Today'}
+            <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+              {authModalTitle || (isSignInMode ? 'Unlock Your Personalized EV Report' : 'Join WhyEV Today')}
             </h2>
-            <p className="text-xs text-slate-500 leading-relaxed font-normal max-w-xs mx-auto">
-              Sign in to access your EV recommendations, Delhi Policy 2026 subsidies, and 30-day post-RC tracker.
+            <p className="text-xs text-slate-500 leading-relaxed font-medium max-w-xs mx-auto">
+              {authModalSubtitle || 'Sign in to view your complete Delhi EV Policy 2026 tax breakdown, 30-day post-RC claim tracker, and empanelled EV shortlist.'}
             </p>
           </div>
 

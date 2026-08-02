@@ -139,7 +139,7 @@ export function InteractiveChargingMapModule() {
       <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
         <SearchBar onSearchSelect={handleSearchSelect} onLocateMe={handleLocateMe} />
 
-        <div className="flex items-center gap-2 self-end md:self-auto">
+        <div className="flex items-center justify-center mx-auto md:mx-0 gap-2 self-center md:self-auto pt-1 md:pt-0">
           <div className="px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-extrabold flex items-center gap-2 shadow-xs">
             <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping" />
             <span>{filteredStations.length} Active Stations in Delhi NCR</span>
@@ -168,7 +168,7 @@ export function InteractiveChargingMapModule() {
       )}
 
       {/* Main Full-Height React Leaflet Map Canvas */}
-      <div className="relative w-full h-[600px] sm:h-[680px]">
+      <div className="relative w-full h-[420px] sm:h-[600px] lg:h-[680px]">
         <MapCanvasContainer
           stations={filteredStations}
           selectedStationId={selectedStation?.id || null}

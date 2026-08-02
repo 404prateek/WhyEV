@@ -32,7 +32,7 @@ export function AiAgentDrawer() {
   ];
 
   return (
-    <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-white/95 backdrop-blur-2xl border-l border-slate-200/90 shadow-2xl flex flex-col transition-all duration-300">
+    <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-96 max-h-screen bg-white/95 backdrop-blur-2xl border-l border-slate-200/90 shadow-2xl flex flex-col transition-all duration-300">
       {/* Drawer Header */}
       <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
         <div className="flex items-center gap-3">
@@ -100,9 +100,17 @@ export function AiAgentDrawer() {
             <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
               <Bot className="w-4 h-4 animate-bounce" />
             </div>
-            <div className="p-3 rounded-2xl rounded-tl-none bg-slate-50 border border-slate-200 text-slate-500 text-xs flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping" />
-              <span>Analyzing empanelled vehicle database & policy rules...</span>
+            <div className="p-3.5 rounded-2xl rounded-tl-none bg-emerald-50/80 border border-emerald-200/90 text-slate-800 text-xs space-y-1.5 shadow-xs">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-emerald-600 fill-emerald-600 animate-spin" />
+                <span>Computing Live Delhi 2026 Policy Data...</span>
+              </div>
+              <div className="flex items-center gap-1.5 pt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" style={{ animationDelay: '0.2s' }} />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" style={{ animationDelay: '0.4s' }} />
+                <span className="text-[11px] text-slate-600 font-medium ml-1">Analyzing database...</span>
+              </div>
             </div>
           </div>
         )}

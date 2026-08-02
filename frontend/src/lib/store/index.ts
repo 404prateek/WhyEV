@@ -10,12 +10,14 @@ interface AuthState {
   isAuthenticated: boolean;
   isAuthModalOpen: boolean;
   targetRedirectUrl: string | null;
+  authModalTitle: string | null;
+  authModalSubtitle: string | null;
   isPermissionModalOpen: boolean;
   activePermissionRequest: 'location' | 'notifications' | 'camera' | null;
   login: (user: UserProfile) => void;
   logout: () => void;
   setAuthModalOpen: (open: boolean) => void;
-  openAuthModal: (redirectUrl?: string) => void;
+  openAuthModal: (redirectUrl?: string, title?: string, subtitle?: string) => void;
   closeAuthModal: () => void;
   requestPermission: (perm: 'location' | 'notifications' | 'camera') => void;
   closePermissionModal: () => void;
@@ -28,13 +30,21 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       isAuthModalOpen: false,
       targetRedirectUrl: null,
+      authModalTitle: null,
+      authModalSubtitle: null,
       isPermissionModalOpen: false,
       activePermissionRequest: null,
-      login: (user) => set({ user, isAuthenticated: true, isAuthModalOpen: false }),
+      login: (user) => set({ user, isAuthenticated: true, isAuthModalOpen: false, authModalTitle: null, authModalSubtitle: null }),
       logout: () => set({ user: null, isAuthenticated: false }),
       setAuthModalOpen: (open) => set({ isAuthModalOpen: open }),
-      openAuthModal: (redirectUrl) => set({ isAuthModalOpen: true, targetRedirectUrl: redirectUrl || null }),
-      closeAuthModal: () => set({ isAuthModalOpen: false, targetRedirectUrl: null }),
+      openAuthModal: (redirectUrl, title, subtitle) =>
+        set({
+          isAuthModalOpen: true,
+          targetRedirectUrl: redirectUrl || null,
+          authModalTitle: title || null,
+          authModalSubtitle: subtitle || null,
+        }),
+      closeAuthModal: () => set({ isAuthModalOpen: false, targetRedirectUrl: null, authModalTitle: null, authModalSubtitle: null }),
       requestPermission: (perm) => set({ isPermissionModalOpen: true, activePermissionRequest: perm }),
       closePermissionModal: () => set({ isPermissionModalOpen: false, activePermissionRequest: null }),
     }),
@@ -172,3 +182,173 @@ export const useAiAgentStore = create<AiAgentState>((set, get) => ({
     }
   },
 }));
+
+// --- 5. MEGA CITY LOCALIZATION STORE ---
+export interface CityMetadata {
+  id: string;
+  name: string;
+  state: string;
+  landmark: string;
+  policyTitle: string;
+  policyActiveUntil: string;
+  benefits: string;
+  dealersCount: string;
+  chargingBaysCount: string;
+  popularSuburbs: string[];
+}
+
+export const MEGA_CITIES_DICTIONARY: Record<string, CityMetadata> = {
+  'delhi-ncr': {
+    id: 'delhi-ncr',
+    name: 'Delhi NCR',
+    state: 'Delhi',
+    landmark: 'India Gate',
+    policyTitle: 'Delhi EV Policy',
+    policyActiveUntil: '31 March 2030',
+    benefits: '100% Road Tax Waiver & Purchase Incentives',
+    dealersCount: '180+ EV Showrooms',
+    chargingBaysCount: '2,450+ Active Bays',
+    popularSuburbs: ['Connaught Place', 'Okhla', 'Saket', 'Gurugram', 'Noida'],
+  },
+  mumbai: {
+    id: 'mumbai',
+    name: 'Mumbai',
+    state: 'Maharashtra',
+    landmark: 'Gateway of India',
+    policyTitle: 'Maharashtra EV Policy',
+    policyActiveUntil: '31 March 2027',
+    benefits: '100% Road Tax & Registration Waiver',
+    dealersCount: '140+ EV Showrooms',
+    chargingBaysCount: '1,890+ Active Bays',
+    popularSuburbs: ['Bandra', 'Andheri', 'Worli', 'Thane', 'Navi Mumbai'],
+  },
+  bengaluru: {
+    id: 'bengaluru',
+    name: 'Bengaluru',
+    state: 'Karnataka',
+    landmark: 'Vidhana Soudha',
+    policyTitle: 'Karnataka EV Policy',
+    policyActiveUntil: '31 December 2028',
+    benefits: 'Road Tax Concessions & Registration Exemption',
+    dealersCount: '160+ EV Showrooms',
+    chargingBaysCount: '2,120+ Active Bays',
+    popularSuburbs: ['Indiranagar', 'Koramangala', 'Whitefield', 'HSR Layout'],
+  },
+  hyderabad: {
+    id: 'hyderabad',
+    name: 'Hyderabad',
+    state: 'Telangana',
+    landmark: 'Charminar',
+    policyTitle: 'Telangana EV Policy',
+    policyActiveUntil: '31 December 2029',
+    benefits: '100% Road Tax & Registration Fee Waiver',
+    dealersCount: '120+ EV Showrooms',
+    chargingBaysCount: '1,420+ Active Bays',
+    popularSuburbs: ['Gachibowli', 'Hitec City', 'Jubilee Hills', 'Banjara Hills'],
+  },
+  pune: {
+    id: 'pune',
+    name: 'Pune',
+    state: 'Maharashtra',
+    landmark: 'Shaniwar Wada',
+    policyTitle: 'Maharashtra EV Policy',
+    policyActiveUntil: '31 March 2027',
+    benefits: '100% Road Tax Exemption & Green Parking Perks',
+    dealersCount: '110+ EV Showrooms',
+    chargingBaysCount: '1,180+ Active Bays',
+    popularSuburbs: ['Kothrud', 'Viman Nagar', 'Hinjewadi', 'Baner'],
+  },
+  chennai: {
+    id: 'chennai',
+    name: 'Chennai',
+    state: 'Tamil Nadu',
+    landmark: 'Marina Beach',
+    policyTitle: 'Tamil Nadu EV Policy',
+    policyActiveUntil: '31 December 2027',
+    benefits: '100% Road Tax & Registration Fee Waiver',
+    dealersCount: '115+ EV Showrooms',
+    chargingBaysCount: '1,350+ Active Bays',
+    popularSuburbs: ['Adyar', 'Velachery', 'Anna Nagar', 'OMR'],
+  },
+};
+
+interface CityState {
+  activeCityId: string;
+  isCityModalOpen: boolean;
+  isAutoDetecting: boolean;
+  gpsDetectedCityId: string | null;
+  activeCity: CityMetadata;
+  selectCity: (cityId: string) => void;
+  openCityModal: () => void;
+  closeCityModal: () => void;
+  detectLocationGps: () => Promise<void>;
+}
+
+export const useCityStore = create<CityState>()(
+  persist(
+    (set, get) => ({
+      activeCityId: 'delhi-ncr',
+      isCityModalOpen: false,
+      isAutoDetecting: false,
+      gpsDetectedCityId: null,
+      activeCity: MEGA_CITIES_DICTIONARY['delhi-ncr'],
+      selectCity: (cityId: string) => {
+        const cityData = MEGA_CITIES_DICTIONARY[cityId] || MEGA_CITIES_DICTIONARY['delhi-ncr'];
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('whyev_location_has_set', 'true');
+        }
+        set({ activeCityId: cityId, activeCity: cityData, isCityModalOpen: false, gpsDetectedCityId: null });
+      },
+      openCityModal: () => set({ isCityModalOpen: true }),
+      closeCityModal: () => set({ isCityModalOpen: false }),
+      detectLocationGps: async () => {
+        set({ isAutoDetecting: true });
+        if (typeof window !== 'undefined' && 'geolocation' in navigator) {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              const { latitude, longitude } = pos.coords;
+              const cityCoords = [
+                { id: 'delhi-ncr', lat: 28.6139, lng: 77.2090 },
+                { id: 'mumbai', lat: 19.0760, lng: 72.8777 },
+                { id: 'bengaluru', lat: 12.9716, lng: 77.5946 },
+                { id: 'hyderabad', lat: 17.3850, lng: 78.4867 },
+                { id: 'pune', lat: 18.5204, lng: 73.8567 },
+                { id: 'chennai', lat: 13.0827, lng: 80.2707 },
+              ];
+              let closestId = 'delhi-ncr';
+              let minDistance = Infinity;
+              cityCoords.forEach((c) => {
+                const d = Math.hypot(c.lat - latitude, c.lng - longitude);
+                if (d < minDistance) {
+                  minDistance = d;
+                  closestId = c.id;
+                }
+              });
+              const cityData = MEGA_CITIES_DICTIONARY[closestId] || MEGA_CITIES_DICTIONARY['delhi-ncr'];
+              set({
+                activeCityId: closestId,
+                activeCity: cityData,
+                isAutoDetecting: false,
+                isCityModalOpen: true,
+                gpsDetectedCityId: closestId,
+              });
+            },
+            () => {
+              set({ isAutoDetecting: false, isCityModalOpen: true });
+            },
+            { timeout: 8000 }
+          );
+        } else {
+          set({ isAutoDetecting: false, isCityModalOpen: true });
+        }
+      },
+    }),
+    {
+      name: 'whyev-active-city',
+      partialize: (state) => ({
+        activeCityId: state.activeCityId,
+      }),
+    }
+  )
+);
+

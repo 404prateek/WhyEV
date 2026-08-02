@@ -1,0 +1,122 @@
+[
+  {
+    "manufacturer": "Tata",
+    "model": "Tiago EV",
+    "variant": "Base",
+    "price": "₹7.99 Lakh",
+    "bodyType": "Hatchback",
+    "range": "250 km"
+  },
+  {
+    "manufacturer": "Tata",
+    "model": "Tigor EV",
+    "variant": "Base",
+    "price": "₹12.49 Lakh",
+    "bodyType": "Sedan",
+    "range": "315 km"
+  },
+  {
+    "manufacturer": "Tata",
+    "model": "Punch EV",
+    "variant": "Smart",
+    "price": "₹9.99 Lakh",
+    "bodyType": "SUV",
+    "range": "315 km"
+  },
+  {
+    "manufacturer": "Tata",
+    "model": "Nexon EV",
+    "variant": "Creative",
+    "price": "₹12.49 Lakh",
+    "bodyType": "SUV",
+    "range": "489 km"
+  },
+  {
+    "manufacturer": "Tata",
+    "model": "Curvv EV",
+    "variant": "Creative",
+    "price": "₹17.49 Lakh",
+    "bodyType": "SUV Coupe",
+    "range": "502 km"
+  },
+  {
+    "manufacturer": "MG",
+    "model": "Comet EV",
+    "variant": "Executive",
+    "price": "₹7.36 Lakh",
+    "bodyType": "Hatchback",
+    "range": "230 km"
+  },
+  {
+    "manufacturer": "MG",
+    "model": "Windsor EV",
+    "variant": "Excite",
+    "price": "₹14.00 Lakh",
+    "bodyType": "Crossover",
+    "range": "332 km"
+  },
+  {
+    "manufacturer": "MG",
+    "model": "ZS EV",
+    "variant": "Executive",
+    "price": "₹18.98 Lakh",
+    "bodyType": "SUV",
+    "range": "461 km"
+  },
+  {
+    "manufacturer": "Mahindra",
+    "model": "XUV400",
+    "variant": "EC Pro",
+    "price": "₹15.49 Lakh",
+    "bodyType": "SUV",
+    "range": "456 km"
+  },
+  {
+    "manufacturer": "Mahindra",
+    "model": "BE 6",
+    "variant": "Pack One",
+    "price": "₹18.90 Lakh",
+    "bodyType": "SUV Coupe",
+    "range": "557 km"
+  },
+  {
+    "manufacturer": "Mahindra",
+    "model": "XEV 9e",
+    "variant": "Pack One",
+    "price": "₹21.90 Lakh",
+    "bodyType": "SUV Coupe",
+    "range": "542 km"
+  },
+  {
+    "manufacturer": "Hyundai",
+    "model": "Creta Electric",
+    "variant": "Executive",
+    "price": "₹17.99 Lakh",
+    "bodyType": "SUV",
+    "range": "473 km"
+  },
+  {
+    "manufacturer": "Citroen",
+    "model": "eC3",
+    "variant": "Live",
+    "price": "₹12.90 Lakh",
+    "bodyType": "Hatchback",
+    "range": "320 km"
+  },
+  {
+    "manufacturer": "BYD",
+    "model": "Dolphin",
+    "variant": "Dynamic",
+    "price": "₹24.99 Lakh",
+    "bodyType": "Hatchback",
+    "range": "340 km"
+  },
+  {
+    "manufacturer": "BYD",
+    "model": "Atto 3",
+    "variant": "Dynamic",
+    "price": "₹24.99 Lakh",
+    "bodyType": "SUV",
+    "range": "468 km"
+  }
+]

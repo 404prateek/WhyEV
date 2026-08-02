@@ -1,16 +1,16 @@
 export const ROUTES = {
   HOME: '/',
   RECOMMEND: '/recommend',
-  SUBSIDY: '/subsidy',
+  SUBSIDY: '/recommend', // Redirect standalone subsidy links to Find Your EV embedded savings
   DEALERS: '/dealers',
   DASHBOARD: '/dashboard',
   BATTERY_CERT: '/battery-cert',
   CHARGING: '/map',
   MAP: '/map',
+  LIVE_FEED: '/live-feed',
   MARKETPLACE: '/marketplace',
   PROFILE: '/profile',
   ADMIN: '/admin',
-  DOCUMENT_VERIFICATION: '/subsidy/document-verification',
 } as const;
 
 export interface NavItem {
@@ -19,24 +19,24 @@ export interface NavItem {
   isExternal?: boolean;
   badge?: string;
   tag?: string;
+  category?: 'discovery' | 'intelligence' | 'ownership';
 }
 
 export const MAIN_NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: ROUTES.HOME },
-  { label: 'EV Matcher', href: ROUTES.RECOMMEND },
-  { label: 'Subsidy 2026', href: ROUTES.SUBSIDY, badge: 'USP' },
-  { label: 'Dealers', href: ROUTES.DEALERS },
-  { label: 'Map', href: ROUTES.MAP },
+  { label: 'Find Your EV', href: ROUTES.RECOMMEND },
+  { label: 'Charging Map', href: ROUTES.MAP },
+  { label: 'Discover', href: ROUTES.LIVE_FEED },
+  { label: 'Battery Health', href: ROUTES.BATTERY_CERT },
   { label: 'Dashboard', href: ROUTES.DASHBOARD },
 ];
 
 export const FOOTER_NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: ROUTES.HOME },
-  { label: 'Subsidy Calculator 2026', href: ROUTES.SUBSIDY },
-  { label: 'Empanelled EV Matcher', href: ROUTES.RECOMMEND },
-  { label: 'Verified Dealers', href: ROUTES.DEALERS },
+  { label: 'Find Your EV', href: ROUTES.RECOMMEND },
   { label: 'Charging Map', href: ROUTES.MAP },
-  { label: '30-Day Application Tracker', href: ROUTES.DASHBOARD },
-  { label: 'Battery Inspection Cert', href: ROUTES.BATTERY_CERT },
-  { label: 'Used Marketplace', href: ROUTES.MARKETPLACE },
+  { label: 'Discover', href: ROUTES.LIVE_FEED },
+  { label: 'Battery Health & Inspection', href: ROUTES.BATTERY_CERT },
+  { label: 'Dashboard', href: ROUTES.DASHBOARD },
+  { label: 'Used EV Marketplace', href: ROUTES.MARKETPLACE },
 ];

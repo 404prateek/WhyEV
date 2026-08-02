@@ -61,22 +61,22 @@ export function DashboardOverview() {
       </div>
 
       {/* Sticky Section Anchor Sub-Nav Bar */}
-      <div className="sticky top-20 z-20 bg-white/95 backdrop-blur-md p-1.5 rounded-full border border-slate-200/90 shadow-sm flex items-center gap-1 sm:gap-2 max-w-fit mx-auto text-xs font-bold text-slate-600">
+      <div className="sticky top-20 z-20 bg-white/95 backdrop-blur-md p-1.5 rounded-full border border-slate-200/90 shadow-sm flex items-center gap-1 sm:gap-2 max-w-full overflow-x-auto no-scrollbar mx-auto text-xs font-bold text-slate-600 px-3">
         <button
           onClick={() => scrollToSection('high-stakes-banner')}
-          className="px-3.5 py-1.5 rounded-full hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer"
+          className="px-3.5 py-1.5 rounded-full hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer whitespace-nowrap min-h-[36px]"
         >
           Claim Alert
         </button>
         <button
           onClick={() => scrollToSection('three-card-grid')}
-          className="px-3.5 py-1.5 rounded-full hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer"
+          className="px-3.5 py-1.5 rounded-full hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer whitespace-nowrap min-h-[36px]"
         >
           Pipeline & AI
         </button>
         <button
           onClick={() => scrollToSection('saved-shortlist')}
-          className="px-3.5 py-1.5 rounded-full hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer"
+          className="px-3.5 py-1.5 rounded-full hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer whitespace-nowrap min-h-[36px]"
         >
           Saved Shortlist
         </button>
@@ -106,10 +106,10 @@ export function DashboardOverview() {
                   </span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                  {application.daysRemaining} Days Remaining to Submit Delhi EV Subsidy Claim
+                  {application.daysRemaining} Days Left to Claim {formatINR(application.totalBenefit)} Subsidy
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-700 max-w-xl leading-relaxed font-normal">
-                  Applications filed after Day 30 post-RC issuance are rejected by the Transport Department. Total calculated benefit: <span className="font-extrabold text-emerald-700">{formatINR(application.totalBenefit)}</span>.
+                <p className="text-xs sm:text-sm text-slate-700 max-w-xl font-medium">
+                  Transport Department rule: Post-RC claims expire on Day 30. Pre-filled paperwork is ready for filing.
                 </p>
               </div>
             </div>
@@ -287,10 +287,10 @@ export function DashboardOverview() {
       {!isAiOpen && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-40 p-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-2xl transition-all transform hover:scale-110 flex items-center gap-2 border border-emerald-400/40 cursor-pointer"
+          className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 p-3.5 sm:p-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-2xl transition-all transform hover:scale-105 flex items-center gap-2 border border-emerald-400/40 cursor-pointer"
           title="Open AI Assistant"
         >
-          <Bot className="w-6 h-6 text-white" />
+          <Bot className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           <span className="text-xs font-bold pr-1 hidden sm:inline">Ask WhyEV AI</span>
         </button>
       )}

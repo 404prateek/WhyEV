@@ -5,7 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-le
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Navigation } from 'lucide-react';
+import { Navigation, Zap, Star, ArrowRight } from 'lucide-react';
 import { StationData } from './PreviewPanel';
 import { StationStatusType } from './StatusBadge';
 
@@ -25,7 +25,6 @@ function RecenterMap({ center }: { center: [number, number] }) {
   return null;
 }
 
-// 4-State Custom Color Status DivIcons
 const createStationIcon = (status: StationStatusType, isSelected: boolean) => {
   const statusConfig = {
     working: 'bg-emerald-600 border-emerald-400 text-white ring-4 ring-emerald-500/30',
@@ -92,7 +91,6 @@ export function MapCanvasContainer({
         style={{ width: '100%', height: '100%', minHeight: '550px', background: '#f8fafc' }}
         className="z-0"
       >
-        {/* CartoDB Voyager Clean Light Tile Layer */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
@@ -100,10 +98,8 @@ export function MapCanvasContainer({
           maxZoom={19}
         />
 
-        {/* User Location Recenter */}
         {userLocation && <RecenterMap center={userLocation} />}
 
-        {/* User Location Pin */}
         {userLocation && (
           <>
             <Marker position={userLocation} icon={createUserIcon()}>
@@ -121,22 +117,57 @@ export function MapCanvasContainer({
           </>
         )}
 
-        {/* Marker Clustering Group */}
-        <MarkerClusterGroup
-          chunkedLoading
-          showCoverageOnHover={false}
-          maxClusterRadius={40}
-        >
-          {stations.map((stn) => (
-            <Marker
-              key={stn.id}
-              position={[stn.lat, stn.lng]}
-              icon={createStationIcon(stn.status, stn.id === selectedStationId)}
-              eventHandlers={{
-                click: () => onStationSelect(stn),
-              }}
-            />
-          ))}
+        <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} maxClusterRadius={40}>
+          {stations.map((stn) => {
+            const availableCount = stn.connectors.reduce((acc, c) => acc + c.available, 0);
+            const totalCount = stn.connectors.reduce((acc, c) => acc + c.total, 0);
+            const connTypes = Array.from(new Set(stn.connectors.map((c) => c.type))).join(', ');
+            const speedKw = stn.maxPowerKw;
+
+            return (
+              <Marker
+                key={stn.id}
+                position={[stn.lat, stn.lng]}
+                icon={createStationIcon(stn.status, stn.id === selectedStationId)}
+              >
+                {/* Compact Floating Preview Card beside/above pin */}
+                <Popup className="custom-station-popup">
+                  <div className="p-3 w-56 space-y-2 text-slate-900 font-sans">
+                    <div>
+                      <div className="text-[10px] font-black uppercase text-emerald-700">{stn.operator}</div>
+                      <h4 className="text-xs font-black text-slate-900 leading-snug truncate">{stn.name}</h4>
+                      <p className="text-[10px] text-slate-500 font-medium truncate">{stn.address}</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-1.5 text-[10px] font-bold border-t border-b border-slate-100 py-1.5">
+                      <div>
+                        <span className="text-slate-400 block">Availability</span>
+                        <span className="text-emerald-700 font-black">{availableCount}/{totalCount} Free</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-400 block">Speed</span>
+                        <span className="text-slate-800">{speedKw} kW Fast</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-0.5">
+                      <div className="flex items-center gap-1 text-[10px] font-extrabold text-amber-600">
+                        <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
+                        <span>4.8</span>
+                      </div>
+                      <button
+                        onClick={() => onStationSelect(stn)}
+                        className="px-3 py-1 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[10px] transition-all flex items-center gap-1 cursor-pointer shadow-2xs"
+                      >
+                        <span>View Details</span>
+                        <ArrowRight className="w-2.5 h-2.5" />
+                      </button>
+                    </div>
+                  </div>
+                </Popup>
+              </Marker>
+            );
+          })}
         </MarkerClusterGroup>
       </MapContainer>
 

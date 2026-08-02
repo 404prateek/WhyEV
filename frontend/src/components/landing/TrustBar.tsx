@@ -14,7 +14,7 @@ export function TrustBar() {
     {
       icon: Store,
       title: 'Verified Dealers',
-      desc: '18 empanelled showrooms in NCR',
+      desc: '18 verified showrooms in NCR',
     },
     {
       icon: Bot,
@@ -24,13 +24,13 @@ export function TrustBar() {
     {
       icon: BatteryCharging,
       title: 'Battery Certification',
-      desc: 'Standardized 0-100 NABL health reports',
+      desc: 'Standardized 0-100 health reports',
     },
   ];
 
   const stats = [
     { value: '₹1.42 Cr+', label: 'Subsidies Calculated' },
-    { value: '28 Models', label: 'Empanelled EVs' },
+    { value: '28 Models', label: 'Verified EVs' },
     { value: '92%', label: 'Funnel Awareness Gap Solved' },
     { value: '100%', label: 'No Spam Data Privacy' },
   ];

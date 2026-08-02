@@ -18,10 +18,13 @@ export function VehicleImagePlaceholder({
 }: VehicleImagePlaceholderProps) {
   return (
     <div
-      className={`relative ${className} bg-slate-900 border-b border-slate-800 text-white flex flex-col justify-between p-5 overflow-hidden select-none`}
+      className={`relative ${className} bg-slate-900 border-b border-slate-800 text-white flex flex-col justify-between p-5 overflow-hidden select-none group/placeholder`}
     >
       {/* Background Subtle Radial Grid Pattern */}
       <div className="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]" />
+
+      {/* Shimmer loading light bar */}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none animate-shimmer" />
 
       {/* Top Header Badge */}
       <div className="relative z-10 flex items-center justify-between">
