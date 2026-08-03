@@ -63,12 +63,9 @@ export function Navbar() {
 
   const navItems = [
     { label: 'Home', href: ROUTES.HOME, icon: Home },
-    { label: 'Shop', href: ROUTES.RECOMMEND, icon: Sparkles },
-    { label: 'Certified Used EVs', href: ROUTES.MARKETPLACE, icon: ShoppingBag },
+    { label: 'Find Your EV', href: ROUTES.RECOMMEND, icon: Sparkles },
     { label: 'Map', href: ROUTES.MAP, icon: Zap },
     { label: 'Discover', href: ROUTES.LIVE_FEED, icon: Newspaper },
-    { label: 'Battery Health', href: ROUTES.BATTERY_CERT, icon: BatteryCharging },
-    { label: 'Inspection', href: ROUTES.DEALERS, icon: Store },
     { label: 'Dashboard', href: ROUTES.DASHBOARD, icon: LayoutDashboard },
   ];
 
@@ -86,25 +83,13 @@ export function Navbar() {
 
   const mobileCategories: MobileNavCategory[] = [
     {
-      title: 'Discovery & Platform',
+      title: 'Navigation',
       items: [
-        { label: 'Shop', href: ROUTES.RECOMMEND, icon: Sparkles, desc: 'Personalized electric vehicle marketplace' },
-        { label: 'Discover', href: ROUTES.LIVE_FEED, icon: Newspaper, desc: 'Launches, policy alerts & EV updates' },
-        { label: 'Charging Stations Map', href: ROUTES.MAP, icon: Zap, desc: 'Live availability & charging map' },
-      ],
-    },
-    {
-      title: 'Health & Intelligence',
-      items: [
-        { label: 'Battery Health & Inspection', href: ROUTES.BATTERY_CERT, icon: BatteryCharging, desc: 'Certified cell health & diagnostics' },
-        { label: 'Dashboard', href: ROUTES.DASHBOARD, icon: LayoutDashboard, desc: 'View claim status & saved vehicles' },
-      ],
-    },
-    {
-      title: 'Marketplace',
-      items: [
-        { label: 'Verified Showrooms', href: ROUTES.DEALERS, icon: Store, desc: 'Verified Delhi NCR EV dealers' },
-        { label: 'Used EV Marketplace', href: ROUTES.MARKETPLACE, icon: ShoppingBag, desc: 'Pre-inspected pre-owned EVs' },
+        { label: 'Home', href: ROUTES.HOME, icon: Home, desc: 'WhyEV homepage' },
+        { label: 'Find Your EV', href: ROUTES.RECOMMEND, icon: Sparkles, desc: 'Explore and compare electric vehicles' },
+        { label: 'Map', href: ROUTES.MAP, icon: Zap, desc: 'Find Delhi NCR charging stations' },
+        { label: 'Discover', href: ROUTES.LIVE_FEED, icon: Newspaper, desc: 'Launches, policy alerts & updates' },
+        { label: 'Dashboard', href: ROUTES.DASHBOARD, icon: LayoutDashboard, desc: 'Control center workspace' },
       ],
     },
   ];
@@ -423,8 +408,28 @@ export function Navbar() {
                 </div>
               </div>
 
-              {/* Drawer Footer Single Auth / Logout Button */}
+              {/* Drawer Footer: Leave a Review then Single Auth / Logout Button */}
               <div className="pt-4 border-t border-slate-100 space-y-3 mt-6">
+                {/* Leave a Review (Normal Menu Styling) */}
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setIsReviewModalOpen(true);
+                  }}
+                  className="w-full flex items-center justify-between p-3 rounded-2xl bg-slate-50/70 border border-slate-100 text-slate-700 hover:bg-slate-100 transition-all cursor-pointer min-h-[48px]"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-white text-slate-600 border border-slate-200 flex items-center justify-center shrink-0">
+                      <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+                    </div>
+                    <div className="text-xs font-bold text-slate-900">
+                      Leave a Review
+                    </div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+                </button>
+
+                {/* Single Auth / Logout Button */}
                 {mounted && isAuthenticated ? (
                   <Button
                     variant="outline"
@@ -450,23 +455,6 @@ export function Navbar() {
                     Login
                   </Button>
                 )}
-
-                {/* Hamburger Bottom Item: Leave a Review */}
-                <div className="pt-2 border-t border-slate-100">
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      setIsReviewModalOpen(true);
-                    }}
-                    className="w-full p-3 rounded-2xl bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-200 text-emerald-900 font-extrabold text-xs transition-all flex items-center justify-between cursor-pointer group"
-                  >
-                    <div className="flex items-center gap-2">
-                      <Star className="w-4 h-4 text-emerald-600 fill-emerald-600" />
-                      <span>⭐ Leave a Review</span>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-emerald-600 group-hover:translate-x-0.5 transition-transform" />
-                  </button>
-                </div>
               </div>
             </motion.div>
           </>

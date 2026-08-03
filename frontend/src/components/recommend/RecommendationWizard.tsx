@@ -439,74 +439,55 @@ export function RecommendationWizard() {
       </AnimatePresence>
 
       {/* =========================================
-          5-SCENE 3-5s RECOMMENDATION ASSEMBLY ANIMATION MODAL
+          CREATIVE RECOMMENDATION LOADING ANIMATION MODAL
       ========================================= */}
       <AnimatePresence>
         {isLoadingAnimation && (
           <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center p-6 text-white text-center">
-            <div className="max-w-lg space-y-8">
-              {/* 5-Scene Visual Elements Container */}
-              <div className="relative w-full h-36 overflow-hidden border-b-2 border-emerald-500/50 flex items-center justify-center">
-                {/* Scene 1: Sleek EV enters */}
-                {animationScene >= 1 && (
-                  <motion.div
-                    initial={{ x: '-100%', opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
-                    className="absolute left-4 flex items-center gap-2 text-emerald-400"
-                  >
-                    <Car className="w-16 h-16 drop-shadow-[0_0_20px_rgba(16,185,129,0.9)]" />
-                  </motion.div>
-                )}
+            <div className="max-w-lg space-y-8 w-full">
+              {/* CREATIVE TEXT ABOVE THE ANIMATED CAR */}
+              <div className="space-y-3">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 text-xs font-black uppercase tracking-wider shadow-lg">
+                  <Sparkles className="w-3.5 h-3.5 animate-spin text-emerald-400" />
+                  <span>Please Wait · WhyEV Matchmaking Engine</span>
+                </div>
 
-                {/* Scene 2: Charging icons illuminate */}
-                {animationScene >= 2 && (
-                  <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="absolute left-28 p-2 rounded-full bg-emerald-600/30 border border-emerald-400 text-emerald-400"
+                <div className="min-h-[64px] flex items-center justify-center">
+                  <motion.h2
+                    key={sentenceIndex}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.28 }}
+                    className="text-xl sm:text-3xl font-black text-slate-100 tracking-tight"
                   >
-                    <Zap className="w-6 h-6 fill-emerald-400 animate-pulse" />
-                  </motion.div>
-                )}
-
-                {/* Scene 3: Government incentive badges appear */}
-                {animationScene >= 3 && (
-                  <motion.div
-                    initial={{ y: -20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    className="absolute right-28 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/20 border border-amber-400 text-amber-300 font-extrabold text-xs"
-                  >
-                    <Gift className="w-4 h-4 text-amber-400" />
-                    <span>Subsidy Verified</span>
-                  </motion.div>
-                )}
-
-                {/* Scene 4: Vehicle cards assemble */}
-                {animationScene >= 4 && (
-                  <motion.div
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="absolute right-4 p-2.5 rounded-2xl bg-slate-900 border border-slate-700 text-slate-300 text-xs font-bold flex items-center gap-2"
-                  >
-                    <Layers className="w-4 h-4 text-teal-400" />
-                    <span>Grid Assembled</span>
-                  </motion.div>
-                )}
+                    {ANIMATION_SENTENCES[sentenceIndex]}
+                  </motion.h2>
+                </div>
               </div>
 
-              {/* Fading Sentence Sequence (0.7s per step) */}
-              <div className="min-h-[60px] flex items-center justify-center">
-                <motion.p
-                  key={sentenceIndex}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.25 }}
-                  className="text-lg sm:text-2xl font-black text-slate-100 tracking-tight"
+              {/* SLEEK EV DRIVING SMOOTHLY FROM LEFT TO RIGHT */}
+              <div className="relative w-full h-28 overflow-hidden rounded-2xl bg-slate-900/60 border border-slate-800 flex items-center px-2">
+                {/* Glowing Road Line */}
+                <div className="absolute inset-x-0 bottom-4 h-0.5 bg-gradient-to-r from-transparent via-emerald-500 to-transparent opacity-80" />
+                <div className="absolute inset-x-0 bottom-4 h-0.5 border-b-2 border-dashed border-emerald-400/60" />
+
+                {/* Car moving from -20% left to 100% right */}
+                <motion.div
+                  initial={{ x: '-20%' }}
+                  animate={{ x: '100%' }}
+                  transition={{ duration: 3.2, ease: 'linear', repeat: Infinity }}
+                  className="flex items-center gap-2 text-emerald-400 filter drop-shadow-[0_0_16px_rgba(16,185,129,0.9)]"
                 >
-                  {ANIMATION_SENTENCES[sentenceIndex]}
-                </motion.p>
+                  <div className="relative flex items-center">
+                    <Car className="w-14 h-14" />
+                    <Zap className="w-5 h-5 text-emerald-300 fill-emerald-300 animate-pulse absolute -right-2 top-2" />
+                  </div>
+                  <div className="flex items-center gap-1 opacity-75">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  </div>
+                </motion.div>
               </div>
             </div>
           </div>
@@ -514,7 +495,7 @@ export function RecommendationWizard() {
       </AnimatePresence>
 
       {/* =========================================
-          EXPANDED 30+ EV FILTERS DRAWER (Fullscreen Mobile / Side Drawer Desktop)
+          EXPANDED EV FILTERS & PREFERENCES DRAWER
       ========================================= */}
       <AnimatePresence>
         {isFilterDrawerOpen && (
@@ -526,10 +507,11 @@ export function RecommendationWizard() {
               transition={{ type: 'spring', damping: 25, stiffness: 240 }}
               className="w-full max-w-md bg-white h-full shadow-2xl p-6 overflow-y-auto space-y-6 text-slate-900"
             >
+              {/* Drawer Header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                 <div className="flex items-center gap-2">
                   <SlidersHorizontal className="w-5 h-5 text-emerald-600" />
-                  <h3 className="text-xl font-black text-slate-900">Comprehensive EV Filters</h3>
+                  <h3 className="text-xl font-black text-slate-900">EV Filters & Preferences</h3>
                 </div>
                 <button
                   onClick={() => setIsFilterDrawerOpen(false)}
@@ -539,87 +521,190 @@ export function RecommendationWizard() {
                 </button>
               </div>
 
-              {/* Survey Preferences editable inside Filters */}
-              <div className="p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200 space-y-3">
-                <span className="text-xs font-black text-emerald-900 uppercase tracking-wider block">Your Saved Preferences</span>
-
-                <div className="space-y-3 text-xs font-bold">
-                  <div>
-                    <label className="text-slate-500 block text-[10px]">Budget Upper Limit (₹ Lakh)</label>
+              {/* SECTION 1: BUDGET SLIDER & MANUAL INPUT */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <div>
+                  <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">Budget</h4>
+                  <p className="text-[11px] text-slate-500 font-medium">What is your target budget for an EV?</p>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex justify-between text-xs font-bold">
+                    <span className="text-slate-500">₹0 Lakh</span>
+                    <span className="text-emerald-700 font-black text-sm">₹{upperBudget} Lakh</span>
+                    <span className="text-slate-500">₹50 Lakh</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="5"
+                    max="50"
+                    value={upperBudget}
+                    onChange={(e) => setUpperBudget(Number(e.target.value))}
+                    className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
+                  />
+                  <div className="flex items-center justify-between pt-1 border-t border-slate-200/80">
+                    <label className="text-[10px] font-bold text-slate-500 uppercase">Manual Budget Entry (₹ Lakh):</label>
                     <input
                       type="number"
                       value={upperBudget}
-                      onChange={(e) => setUpperBudget(Number(e.target.value))}
-                      className="w-full h-10 px-3 rounded-xl border border-emerald-300 font-bold bg-white text-slate-900"
+                      onChange={(e) => setUpperBudget(Number(e.target.value) || 0)}
+                      className="w-24 h-9 px-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 font-extrabold text-xs focus:border-emerald-500 focus:outline-none"
                     />
                   </div>
-                  <div>
-                    <label className="text-slate-500 block text-[10px]">Daily Commute (km)</label>
+                </div>
+              </div>
+
+              {/* SECTION 2: COMMUTE DISTANCE SLIDER & MANUAL INPUT */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <div>
+                  <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">Daily Commute Distance</h4>
+                  <p className="text-[11px] text-slate-500 font-medium">How far do you usually drive on an average day?</p>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex justify-between text-xs font-bold">
+                    <span className="text-slate-500">0 km</span>
+                    <span className="text-emerald-700 font-black text-sm">{commuteDistance} km / day</span>
+                    <span className="text-slate-500">150 km</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="150"
+                    value={commuteDistance}
+                    onChange={(e) => setCommuteDistance(Number(e.target.value))}
+                    className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
+                  />
+                  <div className="flex items-center justify-between pt-1 border-t border-slate-200/80">
+                    <label className="text-[10px] font-bold text-slate-500 uppercase">Manual Commute Entry (km):</label>
                     <input
                       type="number"
                       value={commuteDistance}
-                      onChange={(e) => setCommuteDistance(Number(e.target.value))}
-                      className="w-full h-10 px-3 rounded-xl border border-emerald-300 font-bold bg-white text-slate-900"
+                      onChange={(e) => setCommuteDistance(Number(e.target.value) || 0)}
+                      className="w-24 h-9 px-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 font-extrabold text-xs focus:border-emerald-500 focus:outline-none"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Core 30+ EV Filters */}
-              <div className="space-y-4 text-xs font-bold">
-                <div className="space-y-1">
-                  <label className="text-slate-500 uppercase tracking-wider text-[10px]">Brand</label>
-                  <select
-                    value={filterBrand}
-                    onChange={(e) => setFilterBrand(e.target.value)}
-                    className="w-full h-11 px-3.5 rounded-xl bg-slate-50 border border-slate-200 font-bold text-slate-900 focus:outline-none"
+              {/* SECTION 3: BRAND OPTION PILLS (No dropdown!) */}
+              <div className="space-y-2">
+                <div>
+                  <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">Vehicle Brand</h4>
+                  <p className="text-[11px] text-slate-500 font-medium">Select your preferred EV manufacturer</p>
+                </div>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {['All', 'Tata', 'Mahindra', 'MG', 'Hyundai'].map((b) => (
+                    <button
+                      key={b}
+                      onClick={() => setFilterBrand(b)}
+                      className={`px-3.5 py-1.5 rounded-full text-xs font-extrabold transition-all cursor-pointer ${
+                        filterBrand === b
+                          ? 'bg-emerald-600 text-white border border-emerald-600 shadow-xs'
+                          : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
+                      }`}
+                    >
+                      {b === 'All' ? 'All Brands' : b}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* SECTION 4: BODY STYLE OPTION PILLS */}
+              <div className="space-y-2">
+                <div>
+                  <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">Body Style</h4>
+                  <p className="text-[11px] text-slate-500 font-medium">Which body style matches your preference?</p>
+                </div>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {['All', 'SUV', 'Hatchback', 'Sedan', 'Compact SUV', 'Luxury'].map((bs) => (
+                    <button
+                      key={bs}
+                      onClick={() => setFilterBodyStyle(bs)}
+                      className={`px-3.5 py-1.5 rounded-full text-xs font-extrabold transition-all cursor-pointer ${
+                        filterBodyStyle === bs
+                          ? 'bg-emerald-600 text-white border border-emerald-600 shadow-xs'
+                          : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
+                      }`}
+                    >
+                      {bs === 'All' ? 'All Body Styles' : bs}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* SECTION 5: PARKING LOCATION OPTION PILLS */}
+              <div className="space-y-2">
+                <div>
+                  <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">Parking Location</h4>
+                  <p className="text-[11px] text-slate-500 font-medium">Where do you usually park your vehicle at night?</p>
+                </div>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {['Apartment', 'Independent House', 'Villa', 'Society Parking', 'Office Parking'].map((p) => (
+                    <button
+                      key={p}
+                      onClick={() => setSelectedParking(p)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-extrabold transition-all cursor-pointer ${
+                        selectedParking === p
+                          ? 'bg-emerald-600 text-white border border-emerald-600 shadow-xs'
+                          : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
+                      }`}
+                    >
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* SECTION 6: INCENTIVES & FEATURES TOGGLES */}
+              <div className="space-y-2">
+                <div>
+                  <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">Features & Incentives</h4>
+                  <p className="text-[11px] text-slate-500 font-medium">Select required feature & subsidy criteria</p>
+                </div>
+                <div className="space-y-2 pt-1">
+                  <button
+                    onClick={() => setFilterFastChargingOnly(!filterFastChargingOnly)}
+                    className={`w-full p-3 rounded-2xl border text-left flex items-center justify-between text-xs font-bold transition-all cursor-pointer ${
+                      filterFastChargingOnly
+                        ? 'bg-emerald-50 border-emerald-500 text-emerald-900'
+                        : 'bg-slate-50 border-slate-200 text-slate-700'
+                    }`}
                   >
-                    <option value="All">All Brands</option>
-                    <option value="Tata">Tata Motors</option>
-                    <option value="Mahindra">Mahindra</option>
-                    <option value="MG">MG Motor</option>
-                    <option value="Hyundai">Hyundai</option>
-                  </select>
-                </div>
+                    <span>DC Fast Charging Support</span>
+                    <span className="text-emerald-700 font-black">{filterFastChargingOnly ? '✓ Active' : '+ Add'}</span>
+                  </button>
 
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                    <span className="text-slate-800">DC Fast Charging Support</span>
-                    <input
-                      type="checkbox"
-                      checked={filterFastChargingOnly}
-                      onChange={(e) => setFilterFastChargingOnly(e.target.checked)}
-                      className="w-5 h-5 accent-emerald-600 cursor-pointer"
-                    />
-                  </div>
+                  <button
+                    onClick={() => setFilterIncentiveOnly(!filterIncentiveOnly)}
+                    className={`w-full p-3 rounded-2xl border text-left flex items-center justify-between text-xs font-bold transition-all cursor-pointer ${
+                      filterIncentiveOnly
+                        ? 'bg-emerald-50 border-emerald-500 text-emerald-900'
+                        : 'bg-slate-50 border-slate-200 text-slate-700'
+                    }`}
+                  >
+                    <span>Government Incentive Eligible</span>
+                    <span className="text-emerald-700 font-black">{filterIncentiveOnly ? '✓ Active' : '+ Add'}</span>
+                  </button>
 
-                  <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                    <span className="text-slate-800">Government Incentive Eligible</span>
-                    <input
-                      type="checkbox"
-                      checked={filterIncentiveOnly}
-                      onChange={(e) => setFilterIncentiveOnly(e.target.checked)}
-                      className="w-5 h-5 accent-emerald-600 cursor-pointer"
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                    <span className="text-slate-800">Sunroof & ADAS Features</span>
-                    <input
-                      type="checkbox"
-                      checked={filterSunroof}
-                      onChange={(e) => setFilterSunroof(e.target.checked)}
-                      className="w-5 h-5 accent-emerald-600 cursor-pointer"
-                    />
-                  </div>
+                  <button
+                    onClick={() => setFilterSunroof(!filterSunroof)}
+                    className={`w-full p-3 rounded-2xl border text-left flex items-center justify-between text-xs font-bold transition-all cursor-pointer ${
+                      filterSunroof
+                        ? 'bg-emerald-50 border-emerald-500 text-emerald-900'
+                        : 'bg-slate-50 border-slate-200 text-slate-700'
+                    }`}
+                  >
+                    <span>Sunroof & ADAS Features</span>
+                    <span className="text-emerald-700 font-black">{filterSunroof ? '✓ Active' : '+ Add'}</span>
+                  </button>
                 </div>
               </div>
 
+              {/* Apply Button */}
               <button
                 onClick={() => setIsFilterDrawerOpen(false)}
-                className="w-full h-12 rounded-full bg-emerald-600 text-white font-extrabold text-xs sm:text-sm cursor-pointer shadow-md shadow-emerald-600/20"
+                className="w-full h-12 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm cursor-pointer shadow-md shadow-emerald-600/20 transition-all"
               >
-                Apply 30+ Filters
+                Apply Preferences & Filters
               </button>
             </motion.div>
           </div>

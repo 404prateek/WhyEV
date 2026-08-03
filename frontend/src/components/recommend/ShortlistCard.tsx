@@ -61,7 +61,7 @@ export function ShortlistCard({ vehicle, onCompare, isCompared = false }: Shortl
 
   return (
     <>
-      <div className="rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between group hover:-translate-y-0.5">
+      <div className="rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between group hover:-translate-y-0.5 text-center">
         {/* Top: Landscape Image */}
         <div className="relative w-full h-36 sm:h-44 bg-slate-950 overflow-hidden">
           <img
@@ -72,9 +72,9 @@ export function ShortlistCard({ vehicle, onCompare, isCompared = false }: Shortl
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
         </div>
 
-        {/* Middle: Brand, Model, Starting Price & CLICKABLE GOVERNMENT BENEFIT CHIPS */}
-        <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
-          <div className="space-y-1">
+        {/* Middle: Brand, Model, Starting Price & Centrally Aligned Chips */}
+        <div className="p-4 space-y-3 flex-1 flex flex-col items-center justify-between text-center">
+          <div className="space-y-1 w-full text-center">
             <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
               {vehicle.make}
             </div>
@@ -86,22 +86,22 @@ export function ShortlistCard({ vehicle, onCompare, isCompared = false }: Shortl
             </div>
           </div>
 
-          {/* CLICKABLE GOVERNMENT BENEFIT CHIPS */}
-          <div className="space-y-1.5 pt-1">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
+          {/* Centrally Aligned Government Benefit Chips */}
+          <div className="space-y-1.5 pt-1 w-full flex flex-col items-center">
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block text-center">
               Applicable Govt Benefits
             </span>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap justify-center gap-1.5">
               <button
                 onClick={() => setSelectedScheme(MOCK_SCHEMES[0])}
-                className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-900 text-[10px] font-black transition-all cursor-pointer flex items-center gap-1 shadow-2xs"
+                className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-900 text-[10px] font-black transition-all cursor-pointer flex items-center justify-center gap-1 shadow-2xs"
               >
                 <Check className="w-3 h-3 text-emerald-600" />
                 <span>PM E-DRIVE</span>
               </button>
               <button
                 onClick={() => setSelectedScheme(MOCK_SCHEMES[1])}
-                className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-900 text-[10px] font-black transition-all cursor-pointer flex items-center gap-1 shadow-2xs"
+                className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-900 text-[10px] font-black transition-all cursor-pointer flex items-center justify-center gap-1 shadow-2xs"
               >
                 <Check className="w-3 h-3 text-emerald-600" />
                 <span>Delhi EV Policy</span>
@@ -110,8 +110,8 @@ export function ShortlistCard({ vehicle, onCompare, isCompared = false }: Shortl
           </div>
         </div>
 
-        {/* Bottom Actions: Compare (✓ Selected when active) & View Details */}
-        <div className="p-3 pt-0 grid grid-cols-2 gap-2">
+        {/* Bottom Centrally Aligned Actions */}
+        <div className="p-3 pt-0 grid grid-cols-2 gap-2 text-center">
           {onCompare && (
             <button
               onClick={() => {
@@ -135,16 +135,22 @@ export function ShortlistCard({ vehicle, onCompare, isCompared = false }: Shortl
           <button
             onClick={() => {
               if (!isAuthenticated) {
+                const viewedId = localStorage.getItem('whyev_free_details_viewed_id');
+                if (!viewedId || viewedId === vehicle.id) {
+                  localStorage.setItem('whyev_free_details_viewed_id', vehicle.id);
+                  setIsDetailsOpen(true);
+                  return;
+                }
                 openAuthModal(
                   '/recommend',
-                  'Sign in to View Complete EV Details',
-                  'Sign in to unlock complete vehicle details, personalized subsidy calculations, comparisons, and saved vehicles.'
+                  'Sign in for Unlimited EV Details',
+                  'You have used your 1 free vehicle preview. Sign in to unlock unlimited vehicle details, personalized subsidy calculations, comparisons, and saved vehicles.'
                 );
                 return;
               }
               setIsDetailsOpen(true);
             }}
-            className="py-2.5 px-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs transition-all flex items-center justify-center gap-1 cursor-pointer shadow-2xs"
+            className="py-2.5 px-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs transition-all flex items-center justify-center gap-1 cursor-pointer shadow-2xs text-center"
           >
             <Eye className="w-3.5 h-3.5" />
             <span>View Details</span>
