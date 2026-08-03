@@ -1,140 +1,216 @@
+import json
 import re
 import cloudscraper
 from bs4 import BeautifulSoup
 
-# Initialize the cloudscraper browser session
-scraper = cloudscraper.create_scraper(
-    browser={
-        'browser': 'chrome',
-        'platform': 'windows',
-        'desktop': True
-    }
-)
-
-# Price range mapping
+# 1. Global mapping of budget ranges to CarDekho URLs
 PRICE_URLS = {
-    "under 5": ("Under 5 Lakh", "https://www.cardekho.com/filter/new-electric+cars+under-5-lakh"),
-    "5-10": ("5 - 10 Lakh", "https://www.cardekho.com/filter/new-electric+cars+5-lakh-10-lakh"),
-    "10-15": ("10 - 15 Lakh", "https://www.cardekho.com/new-electric+cars+10-lakh-15-lakh"),
-    "15-20": ("15 - 20 Lakh", "https://www.cardekho.com/new-electric+cars+15-lakh-20-lakh"),
-    "20-35": ("20 - 35 Lakh", "https://www.cardekho.com/filter/new-electric+cars+20-lakh-35-lakh"),
-    "above 35": ("Above 35 Lakh", "https://www.cardekho.com/filter/new-electric+cars+above-35-lakh"),
-    "all": ("All Electric Cars", "https://www.cardekho.com/new-electric+cars")
+    "Under 5 Lakh": "https://www.cardekho.com/filter/new-electric+cars+under-5-lakh",
+    "5 - 10 Lakh": "https://www.cardekho.com/filter/new-electric+cars+5-lakh-10-lakh",
+    "10 - 15 Lakh": "https://www.cardekho.com/new-electric+cars+10-lakh-15-lakh",
+    "15 - 20 Lakh": "https://www.cardekho.com/new-electric+cars+15-lakh-20-lakh",
+    "20 - 35 Lakh": "https://www.cardekho.com/filter/new-electric+cars+20-lakh-35-lakh",
+    "Above 35 Lakh": "https://www.cardekho.com/filter/new-electric+cars+above-35-lakh",
+    "All Electric Cars": "https://www.cardekho.com/new-electric+cars"
 }
 
-# Alias mapping for flexible input (Option Numbers or Range Strings)
-KEY_ALIAS = {
-    "1": "under 5", "under 5": "under 5", "under 5 lakh": "under 5",
-    "2": "5-10", "5-10": "5-10", "5 - 10 lakh": "5-10",
-    "3": "10-15", "10-15": "10-15", "10 - 15 lakh": "10-15",
-    "4": "15-20", "15-20": "15-20", "15 - 20 lakh": "15-20",
-    "5": "20-35", "20-35": "20-35", "20 - 35 lakh": "20-35",
-    "6": "above 35", "above 35": "above 35", "above 35 lakh": "above 35",
-    "7": "all", "all": "all", "all electric cars": "all"
+# 2. List of Indian cities to ignore when parsing variant tables
+INDIAN_CITIES = {
+    'noida', 'gurgaon', 'gurugram', 'thane', 'mumbai', 'delhi', 'new delhi', 
+    'bangalore', 'bengaluru', 'pune', 'kolkata', 'chennai', 'hyderabad', 
+    'ahmedabad', 'jaipur', 'lucknow', 'surat', 'patna', 'chandigarh', 
+    'ludhiana', 'kochi', 'ghaziabad', 'faridabad', 'agra', 'indore', 
+    'bhopal', 'nagpur', 'vadodara', 'coimbatore', 'visakhapatnam'
 }
 
-def get_ev_cars(price_range: str, print_formatted: bool = True) -> list:
+def create_scraper_session():
+    """Initialize cloudscraper session with desktop browser headers."""
+    return cloudscraper.create_scraper(
+        browser={
+            'browser': 'chrome',
+            'platform': 'windows',
+            'desktop': True
+        }
+    )
+
+def extract_variant_prices(scraper, detail_url):
     """
-    Fetches EV details from CarDekho for a specified price range.
+    Scrapes individual detail page for all variant names and on-road prices.
+    Ignores city price tables to prevent false variant entries.
+    Returns: {"Variant Name": "On-Road Price"}
     """
-    lookup_key = str(price_range).strip().lower()
+    variants_dict = {}
+    try:
+        res = scraper.get(detail_url)
+        if res.status_code != 200:
+            return variants_dict
+
+        soup = BeautifulSoup(res.text, "html.parser")
+
+        # Method A: Extract from standard price table rows (<tr>)
+        rows = soup.find_all('tr')
+        for row in rows:
+            # Skip rows inside "nearby cities" or "other cities" sections
+            parent_text = row.parent.get_text(separator=" ", strip=True).lower() if row.parent else ""
+            if 'nearby' in parent_text or 'other cities' in parent_text or 'city price' in parent_text:
+                continue
+
+            row_text = row.get_text(separator=" ", strip=True)
+            if ('Rs' in row_text or '₹' in row_text) and ('Lakh' in row_text or 'Crore' in row_text):
+                price_match = re.search(r'(?:Rs\.?|₹)\s*[\d.,]+\s*(?:Lakh|Crore|Cr)?', row_text, re.IGNORECASE)
+                if price_match:
+                    price_str = price_match.group(0).strip()
+                    variant_name = row_text.replace(price_str, '').replace('*', '').strip()
+                    
+                    # Clean up unwanted UI elements & labels
+                    variant_name_clean = re.sub(
+                        r'View.*Offers|Get.*Offers|\(Base Model\)|\(Top Model\)', 
+                        '', 
+                        variant_name, 
+                        flags=re.IGNORECASE
+                    ).strip()
+
+                    # Filter out city names and duplicate entries
+                    if (variant_name_clean.lower() not in INDIAN_CITIES and 
+                        variant_name_clean and 
+                        variant_name_clean not in variants_dict and 
+                        len(variant_name_clean) > 2):
+                        
+                        variants_dict[variant_name_clean] = price_str
+
+        # Method B: Fallback using variant headers if table parsing yields nothing
+        if not variants_dict:
+            variant_divs = soup.find_all('div', class_=re.compile(r'variantDtlhead'))
+            for v_div in variant_divs:
+                v_text = v_div.get_text(separator=" ", strip=True)
+                v_text_clean = re.sub(
+                    r'View.*Offers|Get.*Offers|\(Base Model\)|\(Top Model\)', 
+                    '', 
+                    v_text, 
+                    flags=re.IGNORECASE
+                ).strip()
+                
+                price_match = re.search(r'(?:Rs\.?|₹)\s*[\d.,]+\s*(?:Lakh|Crore|Cr)?', v_text_clean, re.IGNORECASE)
+                if price_match:
+                    price_str = price_match.group(0).strip()
+                    variant_name = v_text_clean.replace(price_str, '').replace('*', '').strip()
+                    
+                    if (variant_name.lower() not in INDIAN_CITIES and 
+                        variant_name and 
+                        variant_name not in variants_dict):
+                        
+                        variants_dict[variant_name] = price_str
+
+    except Exception as e:
+        print(f"   [!] Error parsing detail page ({detail_url}): {e}")
+
+    return variants_dict
+
+
+def scrape_evs_by_price_range(selected_range: str) -> dict:
+    """
+    Main function to scrape EV data for a given price range.
     
-    if lookup_key not in KEY_ALIAS:
-        valid_keys = ", ".join(f"'{k}'" for k in PRICE_URLS.keys())
-        print(f"Error: Invalid range '{price_range}'. Use 1-7 or keys: {valid_keys}")
-        return []
+    Parameters:
+        selected_range (str): Budget key (e.g., 'Under 5 Lakh', '10 - 15 Lakh')
+        
+    Returns:
+        dict: Nested dictionary structured as:
+            {
+                "Model Name": {
+                    "overall_price_range": "₹X - Y Lakh",
+                    "specifications": "Specs",
+                    "detail_url": "URL",
+                    "variants": {
+                        "Sub Variant Name": "Price"
+                    }
+                }
+            }
+    """
+    url = PRICE_URLS.get(selected_range)
+    if not url:
+        print(f"Error: Invalid range '{selected_range}'. Valid options: {list(PRICE_URLS.keys())}")
+        return {}
 
-    range_code = KEY_ALIAS[lookup_key]
-    selected_label, url = PRICE_URLS[range_code]
-
+    scraper = create_scraper_session()
+    print(f"[*] Connecting to listing page: {url}")
     response = scraper.get(url)
+
     if response.status_code != 200:
-        print(f"Error: Failed to fetch webpage (Status Code: {response.status_code})")
-        return []
+        print(f"Error: HTTP Status Code {response.status_code}")
+        return {}
 
     soup = BeautifulSoup(response.text, "html.parser")
-    all_divs = soup.find_all('div')
-    card_containers = []
 
-    for div in all_divs:
+    # Locate car containers
+    card_containers = []
+    for div in soup.find_all('div'):
         text = div.get_text(separator=" ", strip=True)
         if ('Get On-Road Price' in text or 'Ex-Showroom Price' in text) and ('₹' in text or 'Rs' in text):
             if len(text) < 1000 and not any(div in c.parents for c in card_containers):
                 card_containers.append(div)
 
-    extracted_cars = []
-    seen_names = set()
+    print(f"[*] Found {len(card_containers)} vehicle cards. Scraping specifications & variants...\n")
+
+    results = {}
 
     for card in card_containers:
-        title_tag = card.find(['h2', 'h3', 'a'])
-        if not title_tag: 
+        heading = card.find(['h2', 'h3'])
+        if not heading:
             continue
-            
-        car_name = title_tag.get_text(strip=True)
-        
-        # Filter out stray UI buttons
-        if any(b in car_name.lower() for b in ['get on-road', 'offers', 'compare', 'view', 'price in']):
-            heading = card.find(['h2', 'h3'])
-            if heading:
-                car_name = heading.get_text(strip=True)
+        car_name = heading.get_text(strip=True)
 
-        # Ignore invalid model names or stray button texts
-        if not car_name or car_name in seen_names or len(car_name) < 3:
-            continue
-            
-        if any(b in car_name.lower() for b in ['get on-road', 'view offers', 'price in']):
+        if not car_name or car_name in results or len(car_name) < 3:
             continue
 
         card_text = card.get_text(separator=" ", strip=True)
 
-        # Regex Extraction
+        # 1. Base Price Range
         price_match = re.search(r'(?:Rs\.?|₹)\s*[\d.,]+\s*(?:-\s*[\d.,]+\s*)?\s*(?:Lakh|Crore|Cr)?', card_text, re.IGNORECASE)
-        price = price_match.group(0).strip() if price_match else "N/A"
+        base_price_range = price_match.group(0).strip() if price_match else "N/A"
 
+        # 2. Specs extraction
         specs_match = re.findall(r'\b\d+(?:\.\d+)?\s*(?:seater|kWh|km|bhp|hp|kW)\b', card_text, re.IGNORECASE)
         specs_str = " • ".join(dict.fromkeys(specs_match)) if specs_match else "N/A"
 
-        link_tag = card.find('a', href=True)
-        full_url = "N/A"
-        if link_tag and link_tag['href']:
-            href = link_tag['href']
-            full_url = href if href.startswith('http') else f"https://www.cardekho.com{href}"
+        # 3. Locate detail URL
+        detail_url = "N/A"
+        for a in card.find_all('a', href=True):
+            href = a['href']
+            link_text = a.get_text(strip=True)
+            if 'price-in' in href or 'get on-road price' in link_text.lower():
+                detail_url = href if href.startswith('http') else f"https://www.cardekho.com{href}"
+                break
 
-        car_data = {
-            "Model Name": car_name,
-            "Specs": specs_str,
-            "Price Range": price,
-            "Model URL": full_url
+        if detail_url == "N/A":
+            first_a = card.find('a', href=True)
+            if first_a:
+                base_href = first_a['href']
+                base_link = base_href if base_href.startswith('http') else f"https://www.cardekho.com{base_href}"
+                detail_url = f"{base_link.rstrip('/')}/price-in-new-delhi"
+
+        # 4. Extract variants dictionary
+        print(f" -> Extracting variants for: {car_name}")
+        variants_data = extract_variant_prices(scraper, detail_url) if detail_url != "N/A" else {}
+
+        # 5. Populate model result entry
+        results[car_name] = {
+            "overall_price_range": base_price_range,
+            "specifications": specs_str,
+            "detail_url": detail_url,
+            "variants": variants_data if variants_data else {"Standard / Base": base_price_range}
         }
-        
-        extracted_cars.append(car_data)
-        seen_names.add(car_name)
 
-    # Print requested block format
-    if print_formatted and extracted_cars:
-        print("\n" + "=" * 50)
-        print(f"  RESULTS FOR RANGE: {selected_label.upper()}")
-        print("=" * 50)
-        for car in extracted_cars:
-            print(f"Model Name: {car['Model Name']}")
-            print(f"Specs: {car['Specs']}")
-            print(f"Price Range: {car['Price Range']}")
-            print("-" * 40)
-
-    return extracted_cars
+    return results
 
 
-# Interactive menu when executing the script directly from terminal
 if __name__ == "__main__":
-    print("=== CarDekho EV Scraper ===")
-    print("Select a Price Range:")
-    print("  [1] under 5")
-    print("  [2] 5-10")
-    print("  [3] 10-15")
-    print("  [4] 15-20")
-    print("  [5] 20-35")
-    print("  [6] above 35")
-    print("  [7] all")
+    target_budget = "Under 5 Lakh"
     
-    user_choice = input("\nEnter choice: ").strip()
-    get_ev_cars(user_choice)
+    print(f"--- RUNNING SCRAPER FOR BUDGET: {target_budget} ---")
+    scraped_data = scrape_evs_by_price_range(target_budget)
+
+    print("\n" + "=" * 60)
+    print("FINAL RESULT DICTIONARY:")
+    print("=" * 60)
+    print(json.dumps(scraped_data, indent=4, ensure_ascii=False))
