@@ -283,3 +283,78 @@ export const MOCK_SUBSIDY_APPLICATION: SubsidyApplication = {
   submittedAt: undefined,
   daysRemaining: 12,
 };
+
+export const MOCK_SUBSIDY_APPLICATIONS: SubsidyApplication[] = [
+  MOCK_SUBSIDY_APPLICATION,
+];
+
+export const MOCK_CHARGING_STATIONS = [
+  {
+    id: 'stn-tata-cp',
+    name: 'Tata Power EZ Charge - Connaught Place',
+    latitude: 28.6315,
+    longitude: 77.2167,
+    address: 'Outer Circle, Connaught Place',
+    city: 'New Delhi',
+    connectorTypes: ['CCS2', 'Type 2 AC'],
+    chargingSpeedKw: 60,
+    availabilityStatus: 'available' as const,
+    workingStatus: 'Operational (2/2 Guns Active)',
+    pricingPerKwh: 18,
+    operatingHours: '24/7 Open',
+    amenities: ['Coffee Shop', 'Washrooms', 'Shopping Mall', 'Covered Bay'],
+    images: ['https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&auto=format&fit=crop&q=80'],
+    lastUpdated: '5 mins ago',
+  },
+  {
+    id: 'stn-statiq-saket',
+    name: 'Statiq Fast Charging Hub - Select CITYWALK',
+    latitude: 28.5286,
+    longitude: 77.2195,
+    address: 'P1 Parking, Select CITYWALK Mall, Saket',
+    city: 'New Delhi',
+    connectorTypes: ['CCS2', 'GB/T'],
+    chargingSpeedKw: 120,
+    availabilityStatus: 'available' as const,
+    workingStatus: 'Operational (4/4 Guns Active)',
+    pricingPerKwh: 20,
+    operatingHours: '09:00 AM - 11:00 PM',
+    amenities: ['Mall Access', 'Valet Parking', 'Food Court', 'Security'],
+    images: ['https://images.unsplash.com/photo-1563720223185-11003d516935?w=600&auto=format&fit=crop&q=80'],
+    lastUpdated: '12 mins ago',
+  },
+];
+
+export const MOCK_NEWS_ARTICLES = [
+  {
+    id: 'art-1',
+    slug: 'delhi-ev-policy-2026-subsidy-guide',
+    title: 'Delhi EV Policy 2026: Complete Direct Subsidy & Road Tax Exemption Guide',
+    image: '/explore/curvv-ev-desktop.png',
+    summary: 'Everything EV buyers need to know about the extended Delhi state subsidies, 30-day filing timeline post-RC, and scrappage bonuses.',
+    content: 'The Delhi Government has officially notified the Delhi EV Policy 2026, offering up to ₹1,50,000 direct bank transfer subsidies for electric cars and 100% road tax waiver...',
+    author: 'Vikram Sharma',
+    source: 'WhyEV Policy Desk',
+    readTime: '4 min read',
+    publishedDate: '01 August 2026',
+    category: 'Policy & Subsidies',
+    tags: ['Delhi EV Policy', 'Direct Subsidy', 'PM E-DRIVE'],
+    isFeatured: true,
+  },
+  {
+    id: 'art-2',
+    slug: 'tata-curvv-ev-real-world-range-test',
+    title: 'Tata Curvv EV Real-World Highway Range Test: 450 km Delivered?',
+    image: '/explore/curvv-ev-desktop.png',
+    summary: 'We tested the 55 kWh Tata Curvv EV on the Yamuna Expressway under summer conditions with full air conditioning to measure true range.',
+    content: 'Claimed range specifications often vary from highway reality. In our test from Noida to Agra, the Curvv EV achieved 412 km on a single charge...',
+    author: 'Rohan Gupta',
+    source: 'WhyEV Tech Lab',
+    readTime: '6 min read',
+    publishedDate: '28 July 2026',
+    category: 'Reviews & Tests',
+    tags: ['Tata Curvv EV', 'Real World Range', 'Battery Test'],
+    isFeatured: false,
+  },
+];
+

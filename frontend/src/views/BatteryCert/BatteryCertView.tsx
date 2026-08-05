@@ -580,15 +580,15 @@ export function BatteryCertView() {
             </div>
 
             {/* DOORSTEP INSPECTION CTA */}
-            <div className="p-6 rounded-3xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
-              <div className="space-y-0.5">
-                <h4 className="text-base font-black text-white">Need a Doorstep Battery Inspection?</h4>
-                <p className="text-xs text-slate-400 font-medium">Get NABL-certified technician inspection for pre-owned EV buying/selling.</p>
+            <div className="p-6 rounded-3xl bg-emerald-50/90 border border-emerald-200/90 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
+              <div className="space-y-0.5 text-left">
+                <h4 className="text-base font-black text-emerald-950">Need a Doorstep Battery Inspection?</h4>
+                <p className="text-xs text-emerald-800 font-medium">Get NABL-certified technician inspection for pre-owned EV buying/selling.</p>
               </div>
 
               <button
                 onClick={() => setIsInspectionModalOpen(true)}
-                className="px-6 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs transition-all cursor-pointer shrink-0 shadow-sm"
+                className="px-6 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs transition-all cursor-pointer shrink-0 shadow-md shadow-emerald-600/20"
               >
                 Book Inspection (₹999)
               </button>
