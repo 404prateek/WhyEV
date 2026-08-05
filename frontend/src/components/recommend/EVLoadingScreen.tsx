@@ -2,53 +2,48 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
-import loadingData from '@/data/recommendation/loadingMessages.json';
 import { AnimatedEVCar } from './AnimatedEVCar';
-import { ProgressIndicator } from './ProgressIndicator';
 
 interface EVLoadingScreenProps {
   onComplete: () => void;
 }
 
-export function EVLoadingScreen({ onComplete }: EVLoadingScreenProps) {
-  const [msgIdx, setMsgIdx] = useState(0);
-  const [quoteIdx, setQuoteIdx] = useState(0);
-  const [progress, setProgress] = useState(5);
+const LOADING_MESSAGES = [
+  'Finding your best EV matches...',
+  'Checking applicable subsidies...',
+  'Comparing battery range...',
+  'Calculating ownership savings...',
+  'Matching vehicles to your lifestyle...',
+  'Generating recommendations...',
+];
 
-  const messages = loadingData.messages;
-  const quotes = loadingData.quotes;
+export function EVLoadingScreen({ onComplete }: EVLoadingScreenProps) {
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
 
   useEffect(() => {
-    // Pick random quote on mount
-    setQuoteIdx(Math.floor(Math.random() * quotes.length));
+    const intervalTime = 600;
+    const totalMessages = LOADING_MESSAGES.length;
 
-    // Rotate messages every 700ms
-    const msgInterval = setInterval(() => {
-      setMsgIdx((prev) => (prev + 1) % messages.length);
-    }, 700);
+    const messageTimer = setInterval(() => {
+      setCurrentMessageIndex((prev) => {
+        if (prev < totalMessages - 1) {
+          return prev + 1;
+        } else {
+          clearInterval(messageTimer);
+          return prev;
+        }
+      });
+    }, intervalTime);
 
-    // Progress bar fill (0% -> 100% over 2.8s)
-    const startTime = Date.now();
-    const durationMs = 2800;
-
-    const progressInterval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const pct = Math.min(100, Math.round((elapsed / durationMs) * 100));
-      setProgress(pct);
-
-      if (elapsed >= durationMs) {
-        clearInterval(progressInterval);
-        clearInterval(msgInterval);
-        onComplete();
-      }
-    }, 50);
+    const completionTimer = setTimeout(() => {
+      onComplete();
+    }, 3800);
 
     return () => {
-      clearInterval(msgInterval);
-      clearInterval(progressInterval);
+      clearInterval(messageTimer);
+      clearTimeout(completionTimer);
     };
-  }, [onComplete, messages.length, quotes.length]);
+  }, [onComplete]);
 
   return (
     <AnimatePresence>
@@ -56,50 +51,36 @@ export function EVLoadingScreen({ onComplete }: EVLoadingScreenProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-2xl text-slate-900"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-2xl text-slate-900"
       >
-        <div className="w-full max-w-2xl bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-2xl text-center space-y-6 relative overflow-hidden">
-          {/* Header Pill */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-extrabold shadow-xs">
-            <Sparkles className="w-4 h-4 fill-emerald-600 text-emerald-600 animate-spin" />
-            <span>WhyEV Policy Recommendation Engine</span>
-          </div>
-
-          {/* Dynamic Rotating Loading Title */}
-          <div className="h-14 flex items-center justify-center">
+        <div className="w-full max-w-xl bg-white rounded-3xl p-6 sm:p-10 shadow-2xl text-center space-y-8 relative overflow-hidden">
+          {/* Dynamic Fading Text Messages */}
+          <div className="h-16 flex items-center justify-center px-4">
             <AnimatePresence mode="wait">
-              <motion.h3
-                key={messages[msgIdx]}
+              <motion.p
+                key={LOADING_MESSAGES[currentMessageIndex]}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.25 }}
-                className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight"
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="text-lg sm:text-2xl font-black text-slate-900 tracking-tight"
               >
-                {messages[msgIdx]}
-              </motion.h3>
+                {LOADING_MESSAGES[currentMessageIndex]}
+              </motion.p>
             </AnimatePresence>
           </div>
 
-          {/* Sleek Animated Parallax EV Car */}
+          {/* Premium EV Car Driving Animation */}
           <AnimatedEVCar />
 
-          {/* Battery Charge Progress Bar */}
-          <ProgressIndicator progressPct={progress} />
-
-          {/* Sustainability Inspirational Quote */}
-          <div className="pt-4 border-t border-slate-100 max-w-lg mx-auto">
-            <AnimatePresence mode="wait">
-              <motion.blockquote
-                key={quotes[quoteIdx]}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="text-xs sm:text-sm font-semibold text-emerald-700 italic"
-              >
-                "{quotes[quoteIdx]}"
-              </motion.blockquote>
-            </AnimatePresence>
+          {/* Smooth Ambient Line Loading Indicator */}
+          <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden max-w-md mx-auto relative">
+            <motion.div
+              initial={{ width: '0%' }}
+              animate={{ width: '100%' }}
+              transition={{ duration: 3.6, ease: 'easeInOut' }}
+              className="h-full bg-emerald-600 rounded-full"
+            />
           </div>
         </div>
       </motion.div>

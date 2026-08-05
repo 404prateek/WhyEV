@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Sparkles, Zap, Newspaper, LayoutDashboard } from 'lucide-react';
+import { Home, Sparkles, Zap, Newspaper, BatteryCharging } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/routes/routes';
@@ -13,10 +13,10 @@ export function MobileBottomNav() {
 
   const navItems = [
     { label: 'Home', href: ROUTES.HOME, icon: Home },
-    { label: 'Find Your EV', href: ROUTES.RECOMMEND, icon: Sparkles },
-    { label: 'Charging Map', href: ROUTES.MAP, icon: Zap },
+    { label: 'Shop', href: ROUTES.RECOMMEND, icon: Sparkles },
+    { label: 'Map', href: ROUTES.MAP, icon: Zap },
     { label: 'Discover', href: ROUTES.LIVE_FEED, icon: Newspaper, isUsp: true },
-    { label: 'Dashboard', href: ROUTES.DASHBOARD, icon: LayoutDashboard },
+    { label: 'Battery', href: ROUTES.BATTERY_HEALTH, icon: BatteryCharging },
   ];
 
   return (

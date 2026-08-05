@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, Landmark, Zap, CheckCircle2, ShieldCheck, ChevronLeft, ChevronRight } from 'lucide-react';
-import { HeroSearchBar } from './HeroSearchBar';
+import { ArrowRight, ChevronLeft, ChevronRight, Sparkles, Landmark, Zap } from 'lucide-react';
 
 export function HeroSection() {
+  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -49,13 +50,6 @@ export function HeroSection() {
     },
   ];
 
-  const categoryChips = [
-    { label: 'Under ₹15 Lakh', query: 'under 15 lakh' },
-    { label: '400+ km Range', query: '400 km' },
-    { label: 'Max Subsidy Savings', query: 'subsidy' },
-    { label: 'Family Electric SUVs', query: 'SUV' },
-  ];
-
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
   }, [heroSlides.length]);
@@ -64,18 +58,15 @@ export function HeroSection() {
     setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
   }, [heroSlides.length]);
 
-  // 5.5-Second Auto-Rotation Timer
+  // 6.0-Second Auto-Rotation Timer
   useEffect(() => {
     if (isPaused) return;
     const timer = setInterval(() => {
       nextSlide();
-    }, 5500);
+    }, 6000);
     return () => clearInterval(timer);
   }, [isPaused, nextSlide]);
 
-  const activeSlideData = heroSlides[currentSlide];
-
-  // Helper classes for desktop alignment
   const getContainerAlignClass = (align: string) => {
     if (align === 'right') return 'md:items-end md:text-right md:ml-auto';
     if (align === 'center') return 'md:items-center md:text-center md:mx-auto';
@@ -94,17 +85,21 @@ export function HeroSection() {
     return 'justify-center md:justify-start';
   };
 
+  const handleStartJourney = () => {
+    router.push('/recommend?flow=recommend');
+  };
+
   return (
     <section id="home" className="w-full bg-white space-y-6 sm:space-y-8">
-      {/* 1. Responsive Multi-Slide Hero Carousel Banner (True Simultaneous Cross-Fade) */}
+      {/* 1. Responsive Multi-Slide Hero Carousel Banner */}
       <div
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onTouchStart={() => setIsPaused(true)}
         onTouchEnd={() => setIsPaused(false)}
-        className="relative w-full h-[62vh] md:h-[82vh] min-h-[420px] md:min-h-[520px] max-h-[750px] overflow-hidden bg-slate-950 select-none"
+        className="relative w-full h-[60vh] md:h-[78vh] min-h-[400px] md:min-h-[500px] max-h-[720px] overflow-hidden bg-slate-950 select-none"
       >
-        {/* SLIDE BACKGROUND LAYERS (Simultaneous Cross-Fade: Zero Blank Frames or Flashes) */}
+        {/* SLIDE BACKGROUND LAYERS */}
         {heroSlides.map((slide, idx) => {
           const isActive = idx === currentSlide;
           return (
@@ -115,14 +110,12 @@ export function HeroSection() {
               transition={{ duration: 0.7, ease: 'easeInOut' }}
               className="absolute inset-0 w-full h-full pointer-events-none"
             >
-              {/* DESKTOP BACKGROUND IMAGE */}
               <img
                 src={slide.image}
                 alt={slide.headline}
                 className="hidden md:block w-full h-full object-cover object-center"
               />
 
-              {/* MOBILE BACKGROUND IMAGE */}
               <div
                 className="md:hidden absolute inset-0 bg-no-repeat"
                 style={{
@@ -132,7 +125,6 @@ export function HeroSection() {
                 }}
               />
 
-              {/* Desktop Overlay per Slide Position */}
               {slide.desktopAlign === 'left' && (
                 <div className="hidden md:block absolute inset-y-0 left-0 w-3/5 bg-gradient-to-r from-slate-950/95 via-slate-950/65 to-transparent" />
               )}
@@ -143,7 +135,6 @@ export function HeroSection() {
                 <div className="hidden md:block absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/45 to-slate-950/80" />
               )}
 
-              {/* Mobile Top Text Gradient Overlay (Per-slide customized dark gradient) */}
               <div className={`md:hidden absolute top-0 inset-x-0 ${slide.mobileOverlay}`} />
             </motion.div>
           );
@@ -156,6 +147,12 @@ export function HeroSection() {
             if (!isActive) return null;
 
             const IconComponent = slide.icon;
+            const targetLink =
+              slide.id === 1
+                ? '/recommend'
+                : slide.id === 2
+                ? '/subsidy'
+                : '/map';
 
             return (
               <motion.div
@@ -166,23 +163,19 @@ export function HeroSection() {
                 transition={{ duration: 0.6, ease: 'easeOut' }}
                 className={`max-w-xl space-y-3 md:space-y-4 flex flex-col items-center pointer-events-auto ${getContainerAlignClass(slide.desktopAlign)}`}
               >
-                {/* Headline */}
                 <h1 className={`text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] drop-shadow-md ${getHeadingAlignClass(slide.desktopAlign)}`}>
                   {slide.headline}
                 </h1>
 
-                {/* Subheading */}
                 <p className={`text-xs sm:text-base lg:text-lg text-slate-200 font-medium leading-relaxed max-w-xs sm:max-w-lg drop-shadow-xs ${getHeadingAlignClass(slide.desktopAlign)}`}>
                   {slide.subheading}
                 </p>
 
-                {/* Primary Button */}
                 <div className={`pt-1.5 sm:pt-4 flex w-full ${getButtonJustifyClass(slide.desktopAlign)}`}>
                   <Link
-                    href={slide.ctaLink}
-                    className="h-[44px] sm:h-[52px] px-6 sm:px-8 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm transition-all shadow-xl shadow-emerald-900/30 hover:shadow-2xl flex items-center justify-center gap-2 sm:gap-2.5 w-fit cursor-pointer"
+                    href={targetLink}
+                    className="h-[44px] sm:h-[52px] px-6 sm:px-8 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm transition-all shadow-xl shadow-emerald-900/30 hover:shadow-2xl flex items-center justify-center gap-2 sm:gap-2.5 w-fit cursor-pointer whitespace-nowrap"
                   >
-                    <IconComponent className="w-4 h-4 fill-white" />
                     <span>{slide.ctaLabel}</span>
                     <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -192,7 +185,7 @@ export function HeroSection() {
           })}
         </div>
 
-        {/* Desktop Left/Right Navigation Arrow Controls */}
+        {/* Desktop Controls */}
         <div className="hidden md:flex absolute inset-y-0 right-6 items-center gap-2 z-20 pointer-events-none">
           <button
             onClick={prevSlide}
@@ -210,7 +203,7 @@ export function HeroSection() {
           </button>
         </div>
 
-        {/* 3 Circular Carousel Indicator Dots (Centered beneath hero) */}
+        {/* Circular Indicators */}
         <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
           {heroSlides.map((slide, idx) => {
             const isActive = idx === currentSlide;
@@ -236,9 +229,31 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* 2. Interactive Marketplace EV Search */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2">
-        <HeroSearchBar />
+      {/* 2. RESPONSIVE HERO CTA (Single-line mobile phone text) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 text-center md:text-left border-b border-slate-100 pb-8 sm:pb-12">
+          {/* Heading & Subtitle */}
+          <div className="space-y-2 max-w-2xl">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+              Find the EV That's Right for You
+            </h2>
+            <p className="text-sm sm:text-base lg:text-lg text-slate-600 font-medium leading-relaxed">
+              Answer 4 quick questions and discover the best EVs, estimated savings, and incentives tailored to you.
+            </p>
+          </div>
+
+          {/* Button (Single-line text formatting on mobile phone view) */}
+          <div className="shrink-0 flex justify-center md:justify-end">
+            <button
+              type="button"
+              onClick={handleStartJourney}
+              className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-base whitespace-nowrap transition-all shadow-md hover:shadow-lg cursor-pointer"
+            >
+              <span>Start Your EV Journey</span>
+              <ArrowRight className="w-4 h-4 text-white shrink-0" />
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );

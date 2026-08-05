@@ -2,10 +2,23 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle2, Zap, ShieldCheck, ArrowRight, BatteryCharging, Gauge, Users, Sparkles, Scale, Info, Check, Image as ImageIcon, Star } from 'lucide-react';
+import {
+  X,
+  CheckCircle2,
+  Zap,
+  ShieldCheck,
+  ArrowRight,
+  Heart,
+  Building2,
+  Scale,
+  Share2,
+  Download,
+  Check,
+  Sparkles,
+} from 'lucide-react';
 import { EmpanelledVehicle } from '@/types';
-import { formatLakh, formatINR } from '@/lib/utils';
-import Link from 'next/link';
+import { formatLakh } from '@/lib/utils';
+import { useAuth } from '@/hooks/useAuth';
 
 interface VehicleDetailsModalProps {
   vehicle: EmpanelledVehicle | null;
@@ -52,10 +65,59 @@ export function VehicleDetailsModal({
   onCompare,
   isCompared = false,
 }: VehicleDetailsModalProps) {
+  const { isAuthenticated, openAuthModal } = useAuth();
+
   const [activeTab, setActiveTab] = useState<'overview' | 'variants' | 'specs' | 'savings'>('overview');
   const [selectedVariant, setSelectedVariant] = useState(MOCK_VARIANTS[0]);
+  const [isSaved, setIsSaved] = useState(false);
+  const [actionSuccessMsg, setActionSuccessMsg] = useState<string | null>(null);
 
   if (!isOpen || !vehicle) return null;
+
+  const handleProtectedAction = (action: () => void, title: string, subtitle: string) => {
+    if (!isAuthenticated) {
+      openAuthModal('/recommend', title, subtitle);
+      return;
+    }
+    action();
+  };
+
+  const handleSaveVehicle = () => {
+    handleProtectedAction(
+      () => {
+        setIsSaved((prev) => !prev);
+        const msg = !isSaved ? `${vehicle.model} saved to your favorites!` : `${vehicle.model} removed from saved vehicles.`;
+        setActionSuccessMsg(msg);
+        setTimeout(() => setActionSuccessMsg(null), 3000);
+      },
+      'Sign in to Save Vehicles',
+      'Keep track of your favorite electric vehicles in your personal account shortlist.'
+    );
+  };
+
+  const handleConnectDealer = () => {
+    handleProtectedAction(
+      () => {
+        setActionSuccessMsg(`Dealer inquiry submitted for ${vehicle.make} ${vehicle.model}! Authorized dealer will contact you.`);
+        setTimeout(() => setActionSuccessMsg(null), 4000);
+      },
+      'Sign in to Connect with Dealer',
+      'Get instant price quotes, test drive appointments, and local inventory details.'
+    );
+  };
+
+  const handleShare = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href);
+      setActionSuccessMsg('Link copied to clipboard!');
+      setTimeout(() => setActionSuccessMsg(null), 3000);
+    }
+  };
+
+  const handleDownloadBrochure = () => {
+    setActionSuccessMsg(`Downloading official brochure for ${vehicle.model}...`);
+    setTimeout(() => setActionSuccessMsg(null), 3000);
+  };
 
   return (
     <AnimatePresence>
@@ -66,55 +128,41 @@ export function VehicleDetailsModal({
           exit={{ opacity: 0, scale: 0.96, y: 16 }}
           className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-slate-200 p-4 sm:p-8 space-y-6 text-slate-900 max-h-[90vh] overflow-y-auto overflow-x-hidden"
         >
+          {/* Action Feedback Toast Notification */}
+          {actionSuccessMsg && (
+            <div className="absolute top-4 left-4 right-12 z-20 bg-slate-900 text-emerald-300 px-4 py-2.5 rounded-2xl shadow-xl border border-emerald-500/30 text-xs font-bold flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>{actionSuccessMsg}</span>
+            </div>
+          )}
+
           {/* Close Button */}
           <button
+            type="button"
             onClick={onClose}
             className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer z-10"
           >
             <X className="w-5 h-5" />
           </button>
 
-          {/* Modal Header & Hero Image */}
+          {/* Modal Header & Vehicle Banner */}
           <div className="space-y-4 border-b border-slate-100 pb-6 pr-8 sm:pr-0">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="min-w-0">
                 <span className="text-[10px] sm:text-xs font-black text-emerald-700 tracking-wider uppercase block truncate">
                   {vehicle.make} · {vehicle.category}
                 </span>
-                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight break-words">
+                <h2 className="text-xl sm:text-3xl font-black text-slate-900 tracking-tight break-words">
                   {vehicle.make} {vehicle.model}
                 </h2>
                 <p className="text-xs sm:text-sm font-extrabold text-emerald-600">
                   Starting From {formatLakh(vehicle.exShowroomPrice)}
                 </p>
               </div>
-
-              <div className="flex items-center gap-2 shrink-0">
-                {onCompare && (
-                  <button
-                    onClick={() => onCompare(vehicle)}
-                    className={`px-3.5 py-2 rounded-full text-xs font-extrabold border transition-all flex items-center gap-1.5 cursor-pointer ${
-                      isCompared
-                        ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
-                        : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
-                    }`}
-                  >
-                    <Scale className="w-3.5 h-3.5" />
-                    <span>{isCompared ? 'Compared ✓' : 'Compare'}</span>
-                  </button>
-                )}
-                <Link
-                  href={`/dealers?vehicle=${vehicle.id}`}
-                  className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition-all shadow-md shadow-emerald-600/20 cursor-pointer flex items-center gap-1.5"
-                >
-                  <span>Connect Showroom</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
             </div>
 
-            {/* Vehicle Hero Image */}
-            <div className="relative w-full h-44 sm:h-72 rounded-2xl overflow-hidden bg-slate-950">
+            {/* Vehicle Image */}
+            <div className="relative w-full h-44 sm:h-64 rounded-2xl overflow-hidden bg-slate-950">
               <img
                 src={vehicle.imageUrl || '/explore/curvv-ev-desktop.png'}
                 alt={vehicle.model}
@@ -130,9 +178,72 @@ export function VehicleDetailsModal({
                 </span>
               </div>
             </div>
+
+            {/* EXTENDED VEHICLE ACTIONS TOOLBAR */}
+            <div className="pt-2 flex flex-wrap items-center gap-2 sm:gap-3">
+              {/* Save Vehicle */}
+              <button
+                type="button"
+                onClick={handleSaveVehicle}
+                className={`px-4 py-2.5 rounded-2xl border text-xs font-extrabold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  isSaved
+                    ? 'bg-rose-50 border-rose-200 text-rose-600 shadow-2xs'
+                    : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
+                }`}
+              >
+                <Heart className={`w-4 h-4 ${isSaved ? 'fill-rose-600' : ''}`} />
+                <span>{isSaved ? 'Saved' : 'Save Vehicle'}</span>
+              </button>
+
+              {/* Connect Dealer */}
+              <button
+                type="button"
+                onClick={handleConnectDealer}
+                className="px-4 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition-all shadow-md shadow-emerald-600/20 flex items-center gap-1.5 cursor-pointer"
+              >
+                <Building2 className="w-4 h-4" />
+                <span>Connect Dealer</span>
+              </button>
+
+              {/* Compare */}
+              {onCompare && (
+                <button
+                  type="button"
+                  onClick={() => onCompare(vehicle)}
+                  className={`px-4 py-2.5 rounded-2xl border text-xs font-extrabold transition-all flex items-center gap-1.5 cursor-pointer ${
+                    isCompared
+                      ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
+                      : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
+                  }`}
+                >
+                  <Scale className="w-4 h-4 text-emerald-700" />
+                  <span>{isCompared ? 'Compared ✓' : 'Compare'}</span>
+                </button>
+              )}
+
+              {/* Share */}
+              <button
+                type="button"
+                onClick={handleShare}
+                className="px-4 py-2.5 rounded-2xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-extrabold text-xs transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <Share2 className="w-4 h-4" />
+                <span>Share</span>
+              </button>
+
+              {/* Download Brochure */}
+              <button
+                type="button"
+                onClick={handleDownloadBrochure}
+                className="px-4 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <Download className="w-4 h-4" />
+                <span>Download Brochure</span>
+              </button>
+            </div>
           </div>
 
-          {/* Navigation Tabs (Scrollable on phone to avoid overflow) */}
+          {/* Tabs Navigation */}
           <div className="flex items-center gap-2 border-b border-slate-100 pb-3 overflow-x-auto no-scrollbar whitespace-nowrap max-w-full">
             {[
               { id: 'overview', label: 'Overview & Why Fits' },
@@ -142,6 +253,7 @@ export function VehicleDetailsModal({
             ].map((tab) => (
               <button
                 key={tab.id}
+                type="button"
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`px-3.5 py-2 rounded-full text-xs font-extrabold transition-all cursor-pointer shrink-0 ${
                   activeTab === tab.id
@@ -154,10 +266,9 @@ export function VehicleDetailsModal({
             ))}
           </div>
 
-          {/* TAB 1: OVERVIEW & WHY THIS FITS YOU */}
+          {/* TAB 1: OVERVIEW */}
           {activeTab === 'overview' && (
             <div className="space-y-6">
-              {/* Why This EV Fits You Card */}
               <div className="p-4 sm:p-6 rounded-2xl bg-emerald-50/80 border border-emerald-200 space-y-3">
                 <div className="flex items-center gap-2 text-emerald-900 font-black text-sm">
                   <Sparkles className="w-4 h-4 text-emerald-600" />
@@ -169,7 +280,6 @@ export function VehicleDetailsModal({
                 </p>
               </div>
 
-              {/* Quick Specs Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 min-w-0">
                 <div className="p-3.5 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1 min-w-0">
                   <div className="text-[10px] font-extrabold uppercase text-slate-400">Ex-Showroom</div>
@@ -191,7 +301,7 @@ export function VehicleDetailsModal({
             </div>
           )}
 
-          {/* TAB 2: VARIANT INSPECTOR */}
+          {/* TAB 2: VARIANTS */}
           {activeTab === 'variants' && (
             <div className="space-y-6">
               <div className="space-y-1">
@@ -201,11 +311,11 @@ export function VehicleDetailsModal({
                 </p>
               </div>
 
-              {/* Variant Selection Buttons (Wrapping on phone) */}
               <div className="flex flex-wrap items-center gap-2">
                 {MOCK_VARIANTS.map((v) => (
                   <button
                     key={v.name}
+                    type="button"
                     onClick={() => setSelectedVariant(v)}
                     className={`px-3.5 py-2 rounded-full text-xs font-black border transition-all cursor-pointer ${
                       selectedVariant.name === v.name
@@ -218,7 +328,6 @@ export function VehicleDetailsModal({
                 ))}
               </div>
 
-              {/* Selected Variant Detail Card */}
               <div className="p-4 sm:p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-3 gap-2">
                   <div>
@@ -260,7 +369,7 @@ export function VehicleDetailsModal({
             </div>
           )}
 
-          {/* TAB 3: FULL SPECIFICATIONS */}
+          {/* TAB 3: SPECS */}
           {activeTab === 'specs' && (
             <div className="space-y-4 text-xs font-medium text-slate-700">
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
@@ -275,7 +384,7 @@ export function VehicleDetailsModal({
             </div>
           )}
 
-          {/* TAB 4: VISUALLY PROMINENT GOVERNMENT SAVINGS */}
+          {/* TAB 4: SAVINGS */}
           {activeTab === 'savings' && (
             <div className="p-4 sm:p-8 rounded-3xl bg-emerald-50 border-2 border-emerald-500/80 shadow-lg space-y-6 text-slate-900">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-emerald-200 pb-4">

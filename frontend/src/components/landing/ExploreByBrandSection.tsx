@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowRight, Landmark, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface BrandCardData {
   id: string;
@@ -12,18 +11,16 @@ interface BrandCardData {
   price: string;
   desktopImage: string;
   mobileImage?: string;
-  vehicleParam: string;
 }
 
 const BRAND_CARDS: BrandCardData[] = [
   {
-    id: 'tata-curvv',
+    id: 'tata-curvv-ev',
     brand: 'Tata Motors',
     vehicleName: 'Tata Curvv EV',
     price: 'Starting from ₹17.49 Lakh',
     desktopImage: '/explore/curvv-ev-desktop.png',
     mobileImage: '/explore/curvv-ev-mobile.png',
-    vehicleParam: 'veh-4w-tatacurvvev',
   },
   {
     id: 'mahindra-be6',
@@ -31,23 +28,41 @@ const BRAND_CARDS: BrandCardData[] = [
     vehicleName: 'Mahindra BE 6',
     price: 'Starting from ₹18.90 Lakh',
     desktopImage: '/explore/be6-desktop.png',
-    vehicleParam: 'veh-4w-mahindrabe6',
   },
   {
-    id: 'mg-windsor',
+    id: 'mg-windsor-ev',
     brand: 'MG Motor',
     vehicleName: 'MG Windsor EV',
-    price: 'Starting from ₹14.00 Lakh',
+    price: 'Starting from ₹13.50 Lakh',
     desktopImage: '/explore/windsor-desktop.png',
-    vehicleParam: 'veh-4w-mgwindsorev',
   },
   {
-    id: 'hyundai-creta',
+    id: 'hyundai-creta-electric',
     brand: 'Hyundai',
     vehicleName: 'Hyundai Creta Electric',
     price: 'Starting from ₹17.99 Lakh',
     desktopImage: '/explore/creta-desktop.png',
-    vehicleParam: 'veh-4w-hyundaicretaev',
+  },
+  {
+    id: 'tesla-model-y',
+    brand: 'Tesla',
+    vehicleName: 'Tesla Model Y',
+    price: 'Starting from ₹50.00 Lakh',
+    desktopImage: '/hero-slide-2.png',
+  },
+  {
+    id: 'byd-seal',
+    brand: 'BYD',
+    vehicleName: 'BYD Seal',
+    price: 'Starting from ₹41.00 Lakh',
+    desktopImage: '/hero-slide-3.jpg',
+  },
+  {
+    id: 'bmw-i4',
+    brand: 'BMW',
+    vehicleName: 'BMW i4',
+    price: 'Starting from ₹72.50 Lakh',
+    desktopImage: '/hero-slide-3.jpg',
   },
 ];
 
@@ -93,7 +108,7 @@ export function ExploreByBrandSection() {
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
         {/* SECTION HEADER */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="space-y-2">
+          <div className="space-y-2 text-left">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
               Explore by Brand
             </h2>
@@ -121,7 +136,7 @@ export function ExploreByBrandSection() {
           </div>
         </div>
 
-        {/* FEATURED BRAND SNAP CAROUSEL (1 Large Featured Card occupying ~82% width, showing ~20% peek of next card) */}
+        {/* FEATURED BRAND SNAP CAROUSEL */}
         <div
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
@@ -154,26 +169,25 @@ export function ExploreByBrandSection() {
                       : 'border-slate-800 opacity-90 hover:opacity-100'
                   }`}
                 >
-                  {/* Vehicle Background Image (Clean daylight setting) */}
+                  {/* Vehicle Background Image */}
                   <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
                     <img
                       src={card.desktopImage}
                       alt={card.vehicleName}
                       className="w-full h-full object-cover object-center transition-transform duration-700 ease-out hover:scale-105"
                     />
-                    {/* Subtle bottom gradient only for text legibility */}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
                   </div>
 
-                  {/* Top Left: Clean White Typography Brand Name (No floating pill!) */}
-                  <div className="relative z-10">
+                  {/* Top Left: Brand Name */}
+                  <div className="relative z-10 text-left">
                     <span className="text-xs sm:text-sm font-bold text-white tracking-widest uppercase drop-shadow-md">
                       {card.brand}
                     </span>
                   </div>
 
-                  {/* Bottom Left: Vehicle Name, Starting Price, and Side-by-Side Buttons */}
-                  <div className="relative z-10 space-y-4 sm:space-y-6 pt-16">
+                  {/* Bottom Left: Vehicle Name & View Details CTA */}
+                  <div className="relative z-10 space-y-4 sm:space-y-6 pt-16 text-left">
                     <div className="space-y-1">
                       <h3 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight drop-shadow-lg">
                         {card.vehicleName}
@@ -183,21 +197,13 @@ export function ExploreByBrandSection() {
                       </p>
                     </div>
 
-                    {/* Buttons: Side-by-Side on Desktop & Responsive Mobile */}
-                    <div className="flex items-center gap-3 sm:gap-4 flex-row flex-wrap">
+                    <div className="flex items-center gap-3 pt-2">
                       <Link
-                        href={`/recommend?vehicle=${card.vehicleParam}`}
-                        className="h-[46px] sm:h-[52px] px-6 sm:px-8 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm transition-all shadow-xl shadow-emerald-900/30 hover:shadow-2xl flex items-center justify-center gap-2 cursor-pointer shrink-0"
+                        href={`/vehicle/${card.id}`}
+                        className="h-[48px] px-8 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm transition-all shadow-xl shadow-emerald-900/30 hover:shadow-2xl flex items-center justify-center gap-2 cursor-pointer shrink-0"
                       >
-                        <span>Explore EV</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-                      <Link
-                        href={`/recommend?vehicle=${card.vehicleParam}#savings`}
-                        className="h-[46px] sm:h-[52px] px-6 sm:px-8 rounded-full bg-slate-950/80 hover:bg-slate-950 text-slate-100 font-extrabold text-xs sm:text-sm border border-white/25 transition-all backdrop-blur-md flex items-center justify-center gap-2 cursor-pointer shrink-0"
-                      >
-                        <Landmark className="w-4 h-4 text-emerald-400" />
-                        <span>View Offers & Savings</span>
+                        <span>View Details</span>
+                        <ArrowRight className="w-4 h-4 text-white" />
                       </Link>
                     </div>
                   </div>
@@ -206,7 +212,7 @@ export function ExploreByBrandSection() {
             })}
           </div>
 
-          {/* 4 Centered Pagination Indicator Dots */}
+          {/* Pagination Indicator Dots */}
           <div className="flex items-center justify-center gap-2.5 pt-2">
             {BRAND_CARDS.map((_, idx) => (
               <button

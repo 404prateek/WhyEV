@@ -1,6 +1,6 @@
 export type VehicleCategory = '2W' | '3W' | '4W';
 
-export type EmpanelledStatus = 'unverified' | 'confirmed' | 'not_empanelled';
+export type EmpanelledStatus = 'unverified' | 'confirmed' | 'verified' | 'not_empanelled';
 export type VehicleAvailability = 'available' | 'being_phased_out' | 'upcoming' | 'available_may_be_discontinued';
 
 export interface EmpanelledVehicle {
@@ -114,6 +114,7 @@ export interface Dealer {
   isVerified: boolean;
   hasInventoryLive: boolean;
   exclusiveOffer?: string;
+  imageUrl?: string;
 }
 
 export interface BatteryReport {

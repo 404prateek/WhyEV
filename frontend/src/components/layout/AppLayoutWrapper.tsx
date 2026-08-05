@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Navbar } from '@/components/navbar/Navbar';
 import { Footer } from '@/components/footer/Footer';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
-import { AiAgentDrawer } from '@/components/common/AiAgentDrawer';
+import { GloAssistant } from '@/components/ai-agent/GloAssistant';
 import { AuthModal } from '@/components/common/AuthModal';
 import { PermissionModal } from '@/components/common/PermissionModal';
 import { CitySelectorModal } from '@/components/common/CitySelectorModal';
@@ -28,7 +28,7 @@ export function AppLayoutWrapper({ children }: { children: React.ReactNode }) {
         <MobileBottomNav />
 
         {/* Global Drawers & Modals */}
-        <AiAgentDrawer />
+        <GloAssistant />
         <AuthModal />
         <PermissionModal />
         <CitySelectorModal />

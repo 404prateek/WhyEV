@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, X, Send, Sparkles, ShieldCheck, User } from 'lucide-react';
+import { X, Send, Sparkles, ShieldCheck, User } from 'lucide-react';
 import { useAiAgentStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
+import { WhyEvVectorLogo } from '@/components/common/WhyEvVectorLogo';
 
 export function AiAgentDrawer() {
   const { isOpen, setOpen, messages, isThinking, sendMessage } = useAiAgentStore();
@@ -34,10 +35,10 @@ export function AiAgentDrawer() {
   return (
     <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-96 max-h-screen bg-white/95 backdrop-blur-2xl border-l border-slate-200/90 shadow-2xl flex flex-col transition-all duration-300">
       {/* Drawer Header */}
-      <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
+      <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-emerald-50/70">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-bold shadow-md shadow-emerald-600/20">
-            <Bot className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-2xl bg-emerald-600 border border-emerald-400 text-white flex items-center justify-center p-1.5 shadow-md shadow-emerald-600/20 shrink-0">
+            <WhyEvVectorLogo size={28} />
           </div>
           <div>
             <h3 className="text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
@@ -66,18 +67,18 @@ export function AiAgentDrawer() {
             >
               <div
                 className={cn(
-                  'w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs font-bold',
-                  isAgent ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-900 text-white'
+                  'w-7 h-7 rounded-xl flex items-center justify-center shrink-0 text-xs font-bold p-0.5',
+                  isAgent ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-slate-900 text-white'
                 )}
               >
-                {isAgent ? <Bot className="w-4 h-4" /> : <User className="w-4 h-4" />}
+                {isAgent ? <WhyEvVectorLogo size={20} /> : <User className="w-4 h-4" />}
               </div>
               <div>
                 <div
                   className={cn(
                     'p-3.5 rounded-2xl text-xs leading-relaxed',
                     isAgent
-                      ? 'bg-slate-50 border border-slate-200/90 text-slate-800 rounded-tl-none shadow-xs'
+                      ? 'bg-slate-50 border border-slate-200/90 text-slate-800 rounded-tl-none shadow-2xs'
                       : 'bg-emerald-600 text-white font-medium rounded-tr-none shadow-md'
                   )}
                 >
@@ -97,13 +98,13 @@ export function AiAgentDrawer() {
 
         {isThinking && (
           <div className="flex gap-2.5 max-w-[85%] mr-auto">
-            <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
-              <Bot className="w-4 h-4 animate-bounce" />
+            <div className="w-7 h-7 rounded-xl bg-emerald-100 border border-emerald-300 flex items-center justify-center p-0.5 shrink-0">
+              <WhyEvVectorLogo size={20} />
             </div>
-            <div className="p-3.5 rounded-2xl rounded-tl-none bg-emerald-50/80 border border-emerald-200/90 text-slate-800 text-xs space-y-1.5 shadow-xs">
+            <div className="p-3.5 rounded-2xl rounded-tl-none bg-emerald-50/80 border border-emerald-200/90 text-slate-800 text-xs space-y-1.5 shadow-2xs">
               <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-emerald-600 fill-emerald-600 animate-spin" />
-                <span>Computing Live Delhi 2026 Policy Data...</span>
+                <span>Computing Live Delhi Policy Data...</span>
               </div>
               <div className="flex items-center gap-1.5 pt-0.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />

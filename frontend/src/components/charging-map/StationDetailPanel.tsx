@@ -13,9 +13,6 @@ import {
   Car,
   Utensils,
   Sparkles,
-  Star,
-  MessageSquare,
-  ShieldCheck,
 } from 'lucide-react';
 import { StationData } from './PreviewPanel';
 import { StatusBadge } from './StatusBadge';
@@ -232,15 +229,23 @@ export function StationDetailPanel({
               </div>
             </div>
 
-            {/* Footer CTAs */}
-            <div className="p-6 border-t border-slate-100 bg-white flex items-center gap-3">
+            {/* Footer CTAs (Matching homepage button styling) */}
+            <div className="p-5 border-t border-slate-100 bg-white space-y-2.5">
+              <button
+                type="button"
+                onClick={() => onOpenReportModal(station)}
+                className="w-full py-3 px-4 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-900 font-extrabold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs"
+              >
+                <span>Update Station Status</span>
+              </button>
+
               <a
                 href={googleMapsUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="flex-1 py-3.5 px-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer"
+                className="w-full py-3.5 px-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer"
               >
-                <Navigation className="w-4 h-4 fill-white" />
+                <Navigation className="w-4 h-4 fill-white shrink-0" />
                 <span>Open in Google Maps / Apple Maps</span>
               </a>
             </div>

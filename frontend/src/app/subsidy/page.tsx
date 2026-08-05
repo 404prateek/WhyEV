@@ -1,6 +1,6 @@
 import React from 'react';
-import { SubsidyPage } from '@/views/Subsidy/SubsidyPage';
+import { SubsidyCalculatorView } from '@/views/Subsidy/SubsidyCalculatorView';
 
 export default function Page() {
-  return <SubsidyPage />;
+  return <SubsidyCalculatorView />;
 }

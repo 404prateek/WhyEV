@@ -2,28 +2,28 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import {
   Home,
   Sparkles,
-  Landmark,
   Zap,
   BatteryCharging,
   Newspaper,
   LayoutDashboard,
   Store,
-  ShoppingBag,
   Menu,
   X,
-  ArrowRight,
   LogIn,
   LogOut,
   ChevronRight,
-  MapPin,
   User,
   HelpCircle,
-  ShieldCheck,
   Star,
+  Bookmark,
+  Scale,
+  Phone,
+  Landmark,
+  MapPin,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SaaSLogo } from './SaaSLogo';
@@ -37,12 +37,10 @@ import { ROUTES } from '@/routes/routes';
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
-  const { user, isAuthenticated, openAuthModal, logout } = useAuth();
+  const { isAuthenticated, logout, openAuthModal } = useAuth();
   const { activeCity, openCityModal } = useCityStore();
 
   useEffect(() => {
@@ -54,26 +52,21 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const getUserInitials = (userObj: any) => {
-    if (!userObj || !userObj.name) return 'AD';
-    const parts = userObj.name.trim().split(' ');
-    if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
-    return parts[0].substring(0, 2).toUpperCase();
-  };
-
   const navItems = [
     { label: 'Home', href: ROUTES.HOME, icon: Home },
-    { label: 'Find Your EV', href: ROUTES.RECOMMEND, icon: Sparkles },
+    { label: 'Shop', href: ROUTES.RECOMMEND, icon: Sparkles },
     { label: 'Map', href: ROUTES.MAP, icon: Zap },
     { label: 'Discover', href: ROUTES.LIVE_FEED, icon: Newspaper },
     { label: 'Dashboard', href: ROUTES.DASHBOARD, icon: LayoutDashboard },
+    { label: 'Dealer Connect', href: ROUTES.DEALERS, icon: Store },
   ];
 
   interface MobileNavItem {
     label: string;
-    href: string;
+    href?: string;
     icon: React.ElementType;
-    desc: string;
+    desc?: string;
+    action?: () => void;
   }
 
   interface MobileNavCategory {
@@ -86,10 +79,34 @@ export function Navbar() {
       title: 'Navigation',
       items: [
         { label: 'Home', href: ROUTES.HOME, icon: Home, desc: 'WhyEV homepage' },
-        { label: 'Find Your EV', href: ROUTES.RECOMMEND, icon: Sparkles, desc: 'Explore and compare electric vehicles' },
-        { label: 'Map', href: ROUTES.MAP, icon: Zap, desc: 'Find Delhi NCR charging stations' },
-        { label: 'Discover', href: ROUTES.LIVE_FEED, icon: Newspaper, desc: 'Launches, policy alerts & updates' },
-        { label: 'Dashboard', href: ROUTES.DASHBOARD, icon: LayoutDashboard, desc: 'Control center workspace' },
+        { label: 'Shop', href: ROUTES.RECOMMEND, icon: Sparkles, desc: 'Explore & compare EVs' },
+        { label: 'Map', href: ROUTES.MAP, icon: Zap, desc: 'Find charging stations' },
+        { label: 'Battery Health', href: ROUTES.BATTERY_HEALTH, icon: BatteryCharging, desc: 'SOH diagnostics & certificate' },
+        { label: 'Discover', href: ROUTES.LIVE_FEED, icon: Newspaper, desc: 'EV news & policy updates' },
+        { label: 'Dashboard', href: ROUTES.DASHBOARD, icon: LayoutDashboard, desc: 'Personal EV control center' },
+        { label: 'Dealer Connect', href: ROUTES.DEALERS, icon: Store, desc: 'Verified EV dealerships' },
+        { label: 'Subsidy Calculator', href: ROUTES.SUBSIDY, icon: Landmark, desc: 'Calculate incentives & tax benefits' },
+      ],
+    },
+    {
+      title: 'Utilities',
+      items: [
+        { label: 'Saved Vehicles', href: '/profile#saved', icon: Bookmark, desc: 'Your saved shortlist' },
+        { label: 'Compare Vehicles', href: '/recommend?flow=compare', icon: Scale, desc: 'Side-by-side comparison' },
+        { label: 'Reviews', href: '/dealers#reviews', icon: Star, desc: 'Verified buyer feedback' },
+      ],
+    },
+    {
+      title: 'Support',
+      items: [
+        { label: 'Help Center', href: '/profile#support', icon: HelpCircle, desc: 'FAQs and support guides' },
+        { label: 'Contact Support', href: '/profile#contact', icon: Phone, desc: 'Get in touch with WhyEV team' },
+        {
+          label: 'Leave a Review',
+          icon: Star,
+          desc: 'Share your EV experience',
+          action: () => setIsReviewModalOpen(true),
+        },
       ],
     },
   ];
@@ -110,37 +127,32 @@ export function Navbar() {
           {/* Mobile Left: Hamburger Trigger & WhyEV Logo Group */}
           <div className="flex items-center gap-1.5 shrink-0">
             <button
-              onClick={() => {
-                setProfileDropdownOpen(false);
-                setMobileMenuOpen(true);
-              }}
+              onClick={() => setMobileMenuOpen(true)}
               className="lg:hidden p-1.5 text-slate-700 hover:text-slate-900 focus:outline-none flex items-center justify-center cursor-pointer rounded-full hover:bg-slate-100 shrink-0"
               aria-label="Open Navigation Drawer"
             >
               <Menu className="w-5 h-5 text-slate-900" />
             </button>
 
-            <Link href={ROUTES.HOME} onClick={() => setProfileDropdownOpen(false)}>
+            <Link href={ROUTES.HOME}>
               <SaaSLogo />
             </Link>
           </div>
 
-          {/* Desktop Automotive Marketplace Nav Links */}
+          {/* Desktop Nav Links */}
           <nav className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href;
+              const isActive = pathname === item.href || (item.href === ROUTES.RECOMMEND && pathname === '/shop');
               return (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all select-none ${
+                  className={`relative flex items-center px-3 py-1.5 rounded-full text-xs font-bold transition-all select-none ${
                     isActive
                       ? 'text-emerald-800 bg-emerald-50/90 shadow-2xs'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-600' : 'text-slate-400'}`} />
                   <span>{item.label}</span>
                   {isActive && (
                     <motion.div
@@ -153,185 +165,39 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Desktop Location Pill */}
-          <div className="hidden lg:flex items-center gap-2 shrink-0">
+          {/* Right Controls */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               onClick={openCityModal}
-              className="px-3 py-1.5 rounded-full bg-slate-100/90 hover:bg-emerald-50 text-slate-800 hover:text-emerald-800 border border-slate-200/90 hover:border-emerald-300 text-xs font-extrabold transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
-              title="Select Location"
+              className="flex items-center gap-1 sm:gap-1.5 p-2 sm:px-3 sm:py-1.5 rounded-full bg-slate-100 hover:bg-slate-200/80 text-slate-800 text-[11px] sm:text-xs font-extrabold border border-slate-200/90 transition-all cursor-pointer select-none"
+              title={activeCity.name}
             >
               <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-              <span>{activeCity?.name || 'Select Location'}</span>
+              <span className="hidden sm:inline">
+                {activeCity.name}
+              </span>
             </button>
-          </div>
 
-          {/* Desktop Far Right Auth Controls */}
-          <div className="hidden sm:flex items-center gap-2 shrink-0 pl-2 border-l border-slate-200/80">
             {mounted && isAuthenticated ? (
               <UserDropdown />
             ) : (
-              <>
-                <Button size="sm" variant="ghost" onClick={() => openAuthModal()}>
-                  Log in
-                </Button>
-                <Button
-                  size="sm"
-                  variant="emerald"
-                  onClick={() => openAuthModal()}
-                  rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
-                >
-                  Sign Up
-                </Button>
-              </>
-            )}
-          </div>
-
-          {/* Mobile Right Controls: Location Icon Button + Circular Profile Button */}
-          <div className="lg:hidden flex items-center gap-2 shrink-0">
-            {/* Clickable Mobile Location Icon Button */}
-            <button
-              onClick={openCityModal}
-              className="px-2 py-1 rounded-full bg-slate-100/90 hover:bg-emerald-50 text-slate-800 text-[11px] font-extrabold flex items-center gap-1 cursor-pointer transition-all border border-slate-200/90 shrink-0"
-              title="Select Location"
-            >
-              <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-              <span className="truncate max-w-[85px]">{activeCity?.name || 'Select Location'}</span>
-            </button>
-
-            {/* Circular Profile Button */}
-            {mounted && isAuthenticated ? (
-              <button
-                onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                className="w-9 h-9 rounded-full bg-emerald-600 text-white font-black text-xs flex items-center justify-center border border-emerald-500 shadow-xs cursor-pointer hover:bg-emerald-700 transition-colors shrink-0"
-                title="Profile Menu"
-                aria-label="Profile Menu"
+              <Button
+                variant="emerald"
+                size="sm"
+                onClick={() => openAuthModal()}
+                className="rounded-full px-3.5 text-xs font-extrabold"
               >
-                {getUserInitials(user)}
-              </button>
-            ) : (
-              <button
-                onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                className="w-9 h-9 rounded-full bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200 flex items-center justify-center cursor-pointer transition-colors shrink-0"
-                title="Profile Menu"
-                aria-label="Profile Menu"
-              >
-                <User className="w-4.5 h-4.5" />
-              </button>
+                Sign In
+              </Button>
             )}
           </div>
         </motion.div>
       </div>
 
-      {/* Mobile Profile Dropdown Menu */}
-      <AnimatePresence>
-        {profileDropdownOpen && (
-          <>
-            <div
-              onClick={() => setProfileDropdownOpen(false)}
-              className="lg:hidden fixed inset-0 z-40 bg-transparent pointer-events-auto"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: -10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -10 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:hidden fixed top-16 sm:top-20 right-3 sm:right-6 z-50 w-72 bg-white/95 backdrop-blur-2xl border border-slate-200/90 rounded-3xl p-4 shadow-2xl space-y-3.5 pointer-events-auto text-slate-900"
-            >
-              {/* Location Display Section at Top of Dropdown */}
-              <div className="p-3 rounded-2xl bg-emerald-50/80 border border-emerald-200/90 flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2 text-xs font-bold text-slate-900 truncate">
-                  <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span className="truncate">{activeCity?.name || 'Select Location'}</span>
-                </div>
-                <button
-                  onClick={() => {
-                    setProfileDropdownOpen(false);
-                    openCityModal();
-                  }}
-                  className="text-[11px] font-extrabold text-emerald-700 hover:text-emerald-900 underline cursor-pointer shrink-0"
-                >
-                  Change
-                </button>
-              </div>
-
-              {/* User Identity Banner (if logged in) */}
-              {mounted && isAuthenticated && (
-                <div className="px-2 py-1 border-b border-slate-100 pb-2.5">
-                  <div className="text-xs font-black text-slate-900 truncate">{user?.name || 'User Profile'}</div>
-                  <div className="text-[11px] text-slate-500 font-medium truncate">{user?.email || 'user@example.com'}</div>
-                </div>
-              )}
-
-              {/* Dropdown Navigation Options */}
-              <div className="space-y-1 text-xs font-bold text-slate-700">
-                <Link
-                  href={ROUTES.PROFILE}
-                  onClick={() => setProfileDropdownOpen(false)}
-                  className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-100 transition-colors"
-                >
-                  <User className="w-4 h-4 text-slate-500" />
-                  <span>User Profile</span>
-                </Link>
-
-                <Link
-                  href={ROUTES.DASHBOARD}
-                  onClick={() => setProfileDropdownOpen(false)}
-                  className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-100 transition-colors"
-                >
-                  <LayoutDashboard className="w-4 h-4 text-slate-500" />
-                  <span>Dashboard</span>
-                </Link>
-
-                <Link
-                  href="/profile#support"
-                  onClick={() => setProfileDropdownOpen(false)}
-                  className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-100 transition-colors"
-                >
-                  <HelpCircle className="w-4 h-4 text-slate-500" />
-                  <span>Help & Support</span>
-                </Link>
-              </div>
-
-              {/* Auth Button at Bottom of Dropdown */}
-              <div className="pt-2 border-t border-slate-100">
-                {mounted && isAuthenticated ? (
-                  <Button
-                    variant="outline"
-                    fullWidth
-                    size="sm"
-                    leftIcon={<LogOut className="w-4 h-4 text-slate-600" />}
-                    onClick={() => {
-                      setProfileDropdownOpen(false);
-                      logout();
-                    }}
-                  >
-                    Logout
-                  </Button>
-                ) : (
-                  <Button
-                    variant="emerald"
-                    fullWidth
-                    size="sm"
-                    leftIcon={<LogIn className="w-4 h-4" />}
-                    onClick={() => {
-                      setProfileDropdownOpen(false);
-                      openAuthModal();
-                    }}
-                  >
-                    Login
-                  </Button>
-                )}
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
       {/* Phone-Only Left Sliding Navigation Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
-            {/* Backdrop Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -340,16 +206,14 @@ export function Navbar() {
               className="lg:hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs pointer-events-auto"
             />
 
-            {/* Left Sliding Drawer */}
             <motion.div
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 240 }}
-              className="lg:hidden fixed top-0 bottom-0 left-0 z-50 w-[310px] max-w-[85vw] bg-white border-r border-slate-200 shadow-2xl pointer-events-auto flex flex-col justify-between p-6 pb-32 overflow-y-auto text-slate-900"
+              className="lg:hidden fixed top-0 bottom-0 left-0 z-50 w-[320px] max-w-[85vw] bg-white border-r border-slate-200 shadow-2xl pointer-events-auto flex flex-col justify-between p-6 pb-24 overflow-y-auto text-slate-900"
             >
               <div className="space-y-6">
-                {/* Drawer Header */}
                 <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                   <Link href={ROUTES.HOME} onClick={() => setMobileMenuOpen(false)}>
                     <SaaSLogo showLogo={true} />
@@ -362,23 +226,46 @@ export function Navbar() {
                   </button>
                 </div>
 
-                {/* Navigation Sections */}
-                <div className="space-y-5">
+                <div className="space-y-6">
                   {mobileCategories.map((cat, idx) => (
                     <div key={idx} className="space-y-2">
-                      <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 px-2">
-                        {cat.title}
+                      <div className="text-[10px] font-black uppercase tracking-wider text-slate-400 px-2 flex items-center justify-between">
+                        <span>{cat.title}</span>
                       </div>
                       <div className="space-y-1">
                         {cat.items.map((item) => {
                           const Icon = item.icon;
-                          const isActive = pathname === item.href;
+                          const isActive = item.href ? pathname === item.href : false;
+
+                          if (item.action) {
+                            return (
+                              <button
+                                key={item.label}
+                                onClick={() => {
+                                  setMobileMenuOpen(false);
+                                  item.action?.();
+                                }}
+                                className="w-full flex items-center justify-between p-3 rounded-2xl bg-slate-50/70 border border-slate-100 text-slate-700 hover:bg-slate-100 transition-all cursor-pointer min-h-[46px]"
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className="w-8 h-8 rounded-xl bg-white text-slate-600 border border-slate-200 flex items-center justify-center shrink-0">
+                                    <Icon className="w-4 h-4 text-emerald-600" />
+                                  </div>
+                                  <div className="text-xs font-bold text-slate-900 text-left">
+                                    {item.label}
+                                  </div>
+                                </div>
+                                <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+                              </button>
+                            );
+                          }
+
                           return (
                             <Link
                               key={item.label}
-                              href={item.href}
+                              href={item.href || '#'}
                               onClick={() => setMobileMenuOpen(false)}
-                              className={`flex items-center justify-between p-3 rounded-2xl transition-all min-h-[48px] ${
+                              className={`flex items-center justify-between p-3 rounded-2xl transition-all min-h-[46px] ${
                                 isActive
                                   ? 'bg-emerald-50 border border-emerald-200/90 text-emerald-900 font-extrabold shadow-2xs'
                                   : 'bg-slate-50/70 border border-slate-100 text-slate-700 hover:bg-slate-100'
@@ -408,28 +295,27 @@ export function Navbar() {
                 </div>
               </div>
 
-              {/* Drawer Footer: Leave a Review then Single Auth / Logout Button */}
               <div className="pt-4 border-t border-slate-100 space-y-3 mt-6">
-                {/* Leave a Review (Normal Menu Styling) */}
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setIsReviewModalOpen(true);
-                  }}
-                  className="w-full flex items-center justify-between p-3 rounded-2xl bg-slate-50/70 border border-slate-100 text-slate-700 hover:bg-slate-100 transition-all cursor-pointer min-h-[48px]"
+                <div className="text-[10px] font-black uppercase tracking-wider text-slate-400 px-2">
+                  Account
+                </div>
+
+                <Link
+                  href={ROUTES.PROFILE}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3 rounded-2xl bg-slate-50/70 border border-slate-100 text-slate-700 hover:bg-slate-100 transition-all min-h-[46px]"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-xl bg-white text-slate-600 border border-slate-200 flex items-center justify-center shrink-0">
-                      <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+                      <User className="w-4 h-4 text-emerald-600" />
                     </div>
                     <div className="text-xs font-bold text-slate-900">
-                      Leave a Review
+                      My Profile
                     </div>
                   </div>
                   <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
-                </button>
+                </Link>
 
-                {/* Single Auth / Logout Button */}
                 {mounted && isAuthenticated ? (
                   <Button
                     variant="outline"
@@ -461,7 +347,6 @@ export function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* Leave a Review Modal */}
       <LeaveReviewModal
         isOpen={isReviewModalOpen}
         onClose={() => setIsReviewModalOpen(false)}

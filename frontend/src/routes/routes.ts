@@ -1,12 +1,15 @@
 export const ROUTES = {
   HOME: '/',
+  SHOP: '/shop',
   RECOMMEND: '/recommend',
-  SUBSIDY: '/recommend', // Redirect standalone subsidy links to Find Your EV embedded savings
+  SUBSIDY: '/subsidy',
   DEALERS: '/dealers',
   DASHBOARD: '/dashboard',
   BATTERY_CERT: '/battery-cert',
+  BATTERY_HEALTH: '/battery-health',
   CHARGING: '/map',
   MAP: '/map',
+  DISCOVER: '/discover',
   LIVE_FEED: '/live-feed',
   MARKETPLACE: '/marketplace',
   PROFILE: '/profile',
@@ -24,19 +27,18 @@ export interface NavItem {
 
 export const MAIN_NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: ROUTES.HOME },
-  { label: 'Find Your EV', href: ROUTES.RECOMMEND },
-  { label: 'Charging Map', href: ROUTES.MAP },
+  { label: 'Shop', href: ROUTES.RECOMMEND },
+  { label: 'Map', href: ROUTES.MAP },
   { label: 'Discover', href: ROUTES.LIVE_FEED },
-  { label: 'Battery Health', href: ROUTES.BATTERY_CERT },
   { label: 'Dashboard', href: ROUTES.DASHBOARD },
+  { label: 'Dealer Connect', href: ROUTES.DEALERS },
 ];
 
 export const FOOTER_NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: ROUTES.HOME },
-  { label: 'Find Your EV', href: ROUTES.RECOMMEND },
-  { label: 'Charging Map', href: ROUTES.MAP },
+  { label: 'Shop', href: ROUTES.RECOMMEND },
+  { label: 'Map', href: ROUTES.MAP },
   { label: 'Discover', href: ROUTES.LIVE_FEED },
-  { label: 'Battery Health & Inspection', href: ROUTES.BATTERY_CERT },
   { label: 'Dashboard', href: ROUTES.DASHBOARD },
-  { label: 'Used EV Marketplace', href: ROUTES.MARKETPLACE },
+  { label: 'Dealer Connect', href: ROUTES.DEALERS },
 ];
