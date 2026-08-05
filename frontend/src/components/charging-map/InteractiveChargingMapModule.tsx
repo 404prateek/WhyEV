@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Loader2 } from 'lucide-react';
-import stationsData from '@/data/charging/chargingStations.json';
 import { StationData } from './PreviewPanel';
 import { StationDetailPanel } from './StationDetailPanel';
 import { CrowdsourcedReportModal } from './CrowdsourcedReportModal';
@@ -14,6 +13,7 @@ import { FilterChipsBar, FilterState } from './FilterChipsBar';
 import { StationStatusType } from './StatusBadge';
 import { useCityStore } from '@/lib/store';
 import { useAuth } from '@/hooks/useAuth';
+import { ChargingService } from '@/services/chargingService';
 
 // SSR-Safe Dynamic Import for Leaflet Map Canvas
 const MapCanvasContainer = dynamic(
@@ -35,7 +35,7 @@ export function InteractiveChargingMapModule() {
   const { activeCity, selectCity, detectLocationGps } = useCityStore();
   const { isAuthenticated } = useAuth();
 
-  const [stations, setStations] = useState<StationData[]>(stationsData as StationData[]);
+  const [stations, setStations] = useState<StationData[]>([]);
   const [detailedStation, setDetailedStation] = useState<StationData | null>(null);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [reportingStation, setReportingStation] = useState<StationData | null>(null);
@@ -54,6 +54,17 @@ export function InteractiveChargingMapModule() {
     connectorType: 'All',
     operator: 'All',
   });
+
+  // Fetch Map Station Pins Dynamically from Service Layer
+  useEffect(() => {
+    let isMounted = true;
+    ChargingService.getMapStations(activeCity.id).then((data) => {
+      if (isMounted) setStations(data);
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [activeCity.id]);
 
   // Check initial location permission preference on mount
   useEffect(() => {

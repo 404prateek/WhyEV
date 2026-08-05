@@ -1,5 +1,7 @@
 import { ChargingStation } from '@/types';
 import { MOCK_CHARGING_STATIONS } from '@/lib/mock-data';
+import { StationData } from '@/components/charging-map/PreviewPanel';
+import stationsData from '@/data/charging/chargingStations.json';
 
 export interface StationFilterParams {
   city?: string;
@@ -9,6 +11,13 @@ export interface StationFilterParams {
 }
 
 export class ChargingService {
+  /**
+   * Fetch charging station map markers dynamically for Leaflet map canvas.
+   */
+  static async getMapStations(cityId?: string): Promise<StationData[]> {
+    return stationsData as StationData[];
+  }
+
   /**
    * Fetch all charging stations from API response.
    */
