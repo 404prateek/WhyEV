@@ -4,6 +4,8 @@ from app.models.user import User, UserProfile  # noqa: F401
 from app.models.vehicle import VehicleMaster  # noqa: F401
 from app.models.subsidy import SubsidyRule, SubsidyApplication  # noqa: F401
 from app.models.dealer import Dealer, DealerLead, Appointment  # noqa: F401
+from app.models.recommendation import Recommendation  # noqa: F401
 from app.models.certification import BatteryReport  # noqa: F401
 from app.models.notification import Notification  # noqa: F401
 from app.models.conversation import AiConversation  # noqa: F401
+from app.models.news import NewsArticle  # noqa: F401

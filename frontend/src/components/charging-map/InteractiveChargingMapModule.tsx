@@ -3,14 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Loader2 } from 'lucide-react';
-import stationsData from '@/data/charging/chargingStations.json';
-import { StationData, PreviewPanel } from './PreviewPanel';
+import { StationData } from './PreviewPanel';
 import { StationDetailPanel } from './StationDetailPanel';
 import { CrowdsourcedReportModal } from './CrowdsourcedReportModal';
 import { PassiveGeofenceBanner } from './PassiveGeofenceBanner';
+import { LocationPermissionModal } from './LocationPermissionModal';
 import { SearchBar } from './SearchBar';
 import { FilterChipsBar, FilterState } from './FilterChipsBar';
 import { StationStatusType } from './StatusBadge';
+import { useCityStore } from '@/lib/store';
+import { useAuth } from '@/hooks/useAuth';
+import { ChargingService } from '@/services/chargingService';
 
 // SSR-Safe Dynamic Import for Leaflet Map Canvas
 const MapCanvasContainer = dynamic(
@@ -21,7 +24,7 @@ const MapCanvasContainer = dynamic(
       <div className="w-full h-[600px] rounded-3xl bg-slate-950 border border-slate-800 flex flex-col items-center justify-center gap-3 text-slate-400">
         <Loader2 className="w-8 h-8 text-emerald-500 animate-spin" />
         <span className="text-xs font-bold tracking-wider uppercase text-emerald-400">
-          Initializing Tesla-Style EV Charging Map...
+          Initializing EV Charging Map...
         </span>
       </div>
     ),
@@ -29,13 +32,18 @@ const MapCanvasContainer = dynamic(
 );
 
 export function InteractiveChargingMapModule() {
-  const [stations, setStations] = useState<StationData[]>(stationsData as StationData[]);
-  const [selectedStation, setSelectedStation] = useState<StationData | null>(null);
+  const { activeCity, selectCity, detectLocationGps } = useCityStore();
+  const { isAuthenticated } = useAuth();
+
+  const [stations, setStations] = useState<StationData[]>([]);
   const [detailedStation, setDetailedStation] = useState<StationData | null>(null);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [reportingStation, setReportingStation] = useState<StationData | null>(null);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [geofenceStation, setGeofenceStation] = useState<StationData | null>(null);
+
+  // Location Permission Modal State
+  const [isPermissionModalOpen, setIsPermissionModalOpen] = useState(false);
 
   // Filter State
   const [filters, setFilters] = useState<FilterState>({
@@ -47,36 +55,90 @@ export function InteractiveChargingMapModule() {
     operator: 'All',
   });
 
-  // Request GPS User Location
-  const handleLocateMe = () => {
+  // Fetch Map Station Pins Dynamically from Service Layer
+  useEffect(() => {
+    let isMounted = true;
+    ChargingService.getMapStations(activeCity.id).then((data) => {
+      if (isMounted) setStations(data);
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [activeCity.id]);
+
+  // Check initial location permission preference on mount
+  useEffect(() => {
+    try {
+      const locationPermissionHandled = localStorage.getItem('whyev_map_location_asked');
+      if (!locationPermissionHandled) {
+        setIsPermissionModalOpen(true);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
+
+  // Request Location & Detect City
+  const handleRequestLocation = async () => {
+    try {
+      localStorage.setItem('whyev_map_location_asked', 'granted');
+    } catch (e) {}
+
+    setIsPermissionModalOpen(false);
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const coords: [number, number] = [pos.coords.latitude, pos.coords.longitude];
           setUserLocation(coords);
+
+          const lat = pos.coords.latitude;
+          let detectedCityId = 'delhi-ncr';
+          if (lat > 25) detectedCityId = 'delhi-ncr';
+          else if (lat > 18) detectedCityId = 'mumbai';
+          else if (lat > 12) detectedCityId = 'bengaluru';
+
+          selectCity(detectedCityId);
+
+          if (isAuthenticated) {
+            try {
+              localStorage.setItem('whyev_user_synced_city', detectedCityId);
+            } catch (e) {}
+          }
         },
         () => {
-          alert('GPS Location access was denied or is unavailable.');
+          try {
+            localStorage.setItem('whyev_map_location_asked', 'denied');
+          } catch (e) {}
         }
       );
+    } else {
+      detectLocationGps();
     }
   };
 
-  // Passive Geofence Check (Simulated trigger for demo)
+  const handleDenyLocation = () => {
+    try {
+      localStorage.setItem('whyev_map_location_asked', 'denied');
+    } catch (e) {}
+    setIsPermissionModalOpen(false);
+  };
+
+  // Passive Geofence Check
   useEffect(() => {
     const timer = setTimeout(() => {
       if (stations.length > 0) {
-        setGeofenceStation(stations[0]); // Prompts for Connaught Place station
+        setGeofenceStation(stations[0]);
       }
     }, 4000);
     return () => clearTimeout(timer);
   }, [stations]);
 
-  // Handle Search Locality
+  // Handle Search Locality -> Opens StationDetailPanel directly
   const handleSearchSelect = (locality: string) => {
     const matched = stations.find((s) => s.locality.toLowerCase().includes(locality.toLowerCase()));
     if (matched) {
-      setSelectedStation(matched);
+      setDetailedStation(matched);
     }
   };
 
@@ -135,14 +197,21 @@ export function InteractiveChargingMapModule() {
 
   return (
     <div className="w-full max-w-7xl mx-auto space-y-6 text-slate-100 font-sans">
+      {/* First Visit Location Permission Modal */}
+      <LocationPermissionModal
+        isOpen={isPermissionModalOpen}
+        onAllow={handleRequestLocation}
+        onNotNow={handleDenyLocation}
+      />
+
       {/* Top Header & Search Bar Row */}
       <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-        <SearchBar onSearchSelect={handleSearchSelect} onLocateMe={handleLocateMe} />
+        <SearchBar onSearchSelect={handleSearchSelect} onLocateMe={handleRequestLocation} />
 
-        <div className="flex items-center gap-2 self-end md:self-auto">
+        <div className="flex items-center justify-center mx-auto md:mx-0 gap-2 self-center md:self-auto pt-1 md:pt-0">
           <div className="px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-extrabold flex items-center gap-2 shadow-xs">
             <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping" />
-            <span>{filteredStations.length} Active Stations in Delhi NCR</span>
+            <span>{filteredStations.length} Active Stations in {activeCity.name}</span>
           </div>
         </div>
       </div>
@@ -168,28 +237,17 @@ export function InteractiveChargingMapModule() {
       )}
 
       {/* Main Full-Height React Leaflet Map Canvas */}
-      <div className="relative w-full h-[600px] sm:h-[680px]">
+      <div className="relative w-full h-[420px] sm:h-[600px] lg:h-[680px]">
         <MapCanvasContainer
           stations={filteredStations}
-          selectedStationId={selectedStation?.id || null}
-          onStationSelect={(stn) => setSelectedStation(stn)}
+          selectedStationId={detailedStation?.id || null}
+          onStationSelect={(stn) => setDetailedStation(stn)}
           userLocation={userLocation}
-          onLocateMe={handleLocateMe}
-        />
-
-        {/* Desktop Right Panel / Mobile Bottom Sheet Preview */}
-        <PreviewPanel
-          station={selectedStation}
-          onClose={() => setSelectedStation(null)}
-          onViewDetails={(stn) => setDetailedStation(stn)}
-          onOpenReportModal={(stn) => {
-            setReportingStation(stn);
-            setIsReportModalOpen(true);
-          }}
+          onLocateMe={handleRequestLocation}
         />
       </div>
 
-      {/* Full Station Detail Drawer */}
+      {/* Full Station Detail Drawer (Direct Flow: Map Marker/Popup -> StationDetailPanel) */}
       <StationDetailPanel
         station={detailedStation}
         onClose={() => setDetailedStation(null)}

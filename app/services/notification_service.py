@@ -43,11 +43,11 @@ async def mark_read(*, db: AsyncSession, notif: Notification) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Gateway dispatch stubs (wired to Celery tasks in production)
+# Gateway dispatch stubs
 # ---------------------------------------------------------------------------
 
 def dispatch_sms(phone: str, message: str) -> None:
-    """Enqueue an SMS via MSG91/Twilio — called from Celery task."""
+    """Enqueue an SMS via MSG91/Twilio."""
     log.info("sms.dispatch", phone=phone[:4] + "****")
     # TODO: integrate MSG91 / Twilio SDK
 

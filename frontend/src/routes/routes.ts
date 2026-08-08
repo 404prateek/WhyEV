@@ -1,16 +1,19 @@
 export const ROUTES = {
   HOME: '/',
+  SHOP: '/shop',
   RECOMMEND: '/recommend',
   SUBSIDY: '/subsidy',
   DEALERS: '/dealers',
   DASHBOARD: '/dashboard',
   BATTERY_CERT: '/battery-cert',
+  BATTERY_HEALTH: '/battery-health',
   CHARGING: '/map',
   MAP: '/map',
+  DISCOVER: '/discover',
+  LIVE_FEED: '/live-feed',
   MARKETPLACE: '/marketplace',
   PROFILE: '/profile',
   ADMIN: '/admin',
-  DOCUMENT_VERIFICATION: '/subsidy/document-verification',
 } as const;
 
 export interface NavItem {
@@ -19,24 +22,23 @@ export interface NavItem {
   isExternal?: boolean;
   badge?: string;
   tag?: string;
+  category?: 'discovery' | 'intelligence' | 'ownership';
 }
 
 export const MAIN_NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: ROUTES.HOME },
-  { label: 'EV Matcher', href: ROUTES.RECOMMEND },
-  { label: 'Subsidy 2026', href: ROUTES.SUBSIDY, badge: 'USP' },
-  { label: 'Dealers', href: ROUTES.DEALERS },
+  { label: 'Shop', href: ROUTES.RECOMMEND },
   { label: 'Map', href: ROUTES.MAP },
+  { label: 'Discover', href: ROUTES.LIVE_FEED },
   { label: 'Dashboard', href: ROUTES.DASHBOARD },
+  { label: 'Dealer Connect', href: ROUTES.DEALERS },
 ];
 
 export const FOOTER_NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: ROUTES.HOME },
-  { label: 'Subsidy Calculator 2026', href: ROUTES.SUBSIDY },
-  { label: 'Empanelled EV Matcher', href: ROUTES.RECOMMEND },
-  { label: 'Verified Dealers', href: ROUTES.DEALERS },
-  { label: 'Charging Map', href: ROUTES.MAP },
-  { label: '30-Day Application Tracker', href: ROUTES.DASHBOARD },
-  { label: 'Battery Inspection Cert', href: ROUTES.BATTERY_CERT },
-  { label: 'Used Marketplace', href: ROUTES.MARKETPLACE },
+  { label: 'Shop', href: ROUTES.RECOMMEND },
+  { label: 'Map', href: ROUTES.MAP },
+  { label: 'Discover', href: ROUTES.LIVE_FEED },
+  { label: 'Dashboard', href: ROUTES.DASHBOARD },
+  { label: 'Dealer Connect', href: ROUTES.DEALERS },
 ];

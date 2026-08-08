@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 import { DocumentVerificationView } from '@/components/verification/DocumentVerificationView';
 
 export const metadata: Metadata = {
-  title: 'RC Upload & Vision AI OCR Pre-fill | WhyEV Delhi Policy 2026',
-  description: 'Upload your RC smartcard or invoice via drag-and-drop or camera capture. Vision AI extracts specs for your confirmation with instant manual fallback.',
+  title: 'Secure Document Verification & OCR | WhyEV Delhi Policy 2026',
+  description: 'Learn what documents are required for EV subsidy verification, how your data is extracted securely via DigiLocker OCR, and how personal privacy is protected.',
 };
 
 export default function DocumentVerificationPage() {

@@ -70,7 +70,7 @@ export function ProfileSidebar({ activeTab, onTabChange }: ProfileSidebarProps) 
       </aside>
 
       {/* Mobile Horizontal Navigation Tabs */}
-      <div className="md:hidden w-full overflow-x-auto pb-2 scrollbar-none">
+      <div className="md:hidden w-full overflow-x-auto pb-2 no-scrollbar">
         <div className="flex items-center gap-2 w-max px-1">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -79,10 +79,10 @@ export function ProfileSidebar({ activeTab, onTabChange }: ProfileSidebarProps) 
               <button
                 key={item.id}
                 onClick={() => onTabChange(item.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all min-h-[44px] cursor-pointer ${
                   isActive
                     ? 'bg-emerald-600 text-white shadow-md'
-                    : 'bg-white text-slate-700 border border-slate-200'
+                    : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />

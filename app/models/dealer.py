@@ -4,8 +4,8 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, Numeric, String, Text, func
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import DateTime, ForeignKey, Numeric, SmallInteger, String, Text, func
+from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base_class import Base
@@ -40,24 +40,37 @@ class DealerLead(Base):
     user_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("users.id"), nullable=False, index=True
     )
-    dealer_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("dealers.id"), nullable=False, index=True
+    # Nullable: leads are created unassigned; dealer assigned later by admin
+    dealer_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("dealers.id"), nullable=True, index=True
     )
     vehicle_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True), ForeignKey("vehicles_master.id"), nullable=True
     )
+    # FK to the recommendation session that generated this lead
+    recommendation_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("recommendations.id"), nullable=True, index=True
+    )
     source_module: Mapped[str | None] = mapped_column(String(20), nullable=True)  # recommendation | subsidy
+    # status: unassigned → new → contacted → converted | dropped
     status: Mapped[str] = mapped_column(
-        String(20), default="new", nullable=False
-    )  # new|contacted|converted|dropped
+        String(30), default="unassigned", nullable=False, index=True
+    )
+    # Snapshot of intake answers that generated this lead (for dealer context)
+    questionnaire_snapshot: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    # Heuristic score 0-100: higher = higher purchase intent
+    lead_quality_score: Mapped[int | None] = mapped_column(SmallInteger, nullable=True, default=0)
     consent_given_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True), nullable=True
-    )  # null until explicit opt-in
+    )  # set at wizard submission time
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
 
-    dealer: Mapped["Dealer"] = relationship(back_populates="leads")
+    dealer: Mapped["Dealer | None"] = relationship(back_populates="leads")
+    recommendation: Mapped["Recommendation | None"] = relationship(  # noqa: F821
+        "Recommendation", back_populates="leads", foreign_keys=[recommendation_id]
+    )
 
 
 class Appointment(Base):

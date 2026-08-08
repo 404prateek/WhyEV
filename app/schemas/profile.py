@@ -84,5 +84,33 @@ class RecommendationIn(BaseModel):
 
 
 class RecommendationOut(BaseModel):
+    """Legacy schema — kept for backward compatibility."""
     shortlist: list[VehicleOut]
     assumptions: list[str]
+
+
+class LeadSummaryOut(BaseModel):
+    """Minimal lead info returned inline with a recommendation response."""
+    id: uuid.UUID
+    vehicle_id: uuid.UUID | None
+    status: str
+    lead_quality_score: int | None
+
+    model_config = {"from_attributes": True}
+
+
+class RecommendationResponse(BaseModel):
+    """
+    Extended response for POST /recommendations.
+
+    Backward-compatible: `shortlist` and `assumptions` keys are preserved.
+    New keys `recommendation_id` and `leads_created` are added when the user
+    is authenticated and lead creation succeeded.
+    """
+    # Core recommendation output (unchanged shape — frontend already reads these)
+    shortlist: list[dict[str, Any]]
+    assumptions: list[str]
+
+    # Pipeline output (None for unauthenticated requests or on pipeline error)
+    recommendation_id: uuid.UUID | None = None
+    leads_created: list[LeadSummaryOut] = []

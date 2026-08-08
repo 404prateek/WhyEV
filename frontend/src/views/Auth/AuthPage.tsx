@@ -20,22 +20,17 @@ export function AuthPage() {
   const { login } = useAuthStore();
   const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [loadingEmail, setLoadingEmail] = useState(false);
-  const [authError, setAuthError] = useState<string | null>(null);
   const [email, setEmail] = useState('');
   const [showEmailInput, setShowEmailInput] = useState(false);
 
   const handleGoogleLogin = async () => {
     setLoadingGoogle(true);
-    setAuthError(null);
     try {
       const res = await authService.loginWithGoogle();
-      if (res.success && res.user) {
+      if (res.success) {
         login(res.user);
         router.push(redirectUrl);
       }
-    } catch (e: any) {
-      console.error('Google login error:', e);
-      setAuthError(e?.message || 'Google sign in failed. Please try again.');
     } finally {
       setLoadingGoogle(false);
     }
@@ -94,11 +89,6 @@ export function AuthPage() {
 
         {/* Primary CTA: Google OAuth */}
         <div className="space-y-3 pt-2">
-          {authError && (
-            <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
-              {authError}
-            </div>
-          )}
           <button
             onClick={handleGoogleLogin}
             disabled={loadingGoogle || loadingEmail}

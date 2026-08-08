@@ -28,10 +28,32 @@ class LeadCreateIn(BaseModel):
 class LeadOut(BaseModel):
     id: uuid.UUID
     user_id: uuid.UUID
-    dealer_id: uuid.UUID
+    dealer_id: uuid.UUID | None     # nullable — unassigned leads have no dealer yet
     vehicle_id: uuid.UUID | None
+    recommendation_id: uuid.UUID | None
     source_module: str | None
     status: str
+    lead_quality_score: int | None
+    consent_given_at: datetime | None
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class LeadListOut(BaseModel):
+    """Enriched lead response for GET /leads — includes denormalized vehicle & dealer names."""
+    id: uuid.UUID
+    vehicle_id: uuid.UUID | None
+    vehicle_make: str | None = None
+    vehicle_model: str | None = None
+    vehicle_category: str | None = None
+    dealer_id: uuid.UUID | None
+    dealer_name: str | None = None
+    recommendation_id: uuid.UUID | None
+    source_module: str | None
+    status: str
+    lead_quality_score: int | None
+    questionnaire_snapshot: dict | None = None
     consent_given_at: datetime | None
     created_at: datetime
 

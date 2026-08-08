@@ -1,10 +1,11 @@
-import { useAuthStore, useIntakeStore } from '@/lib/store';
+import { useAuthStore, useIntakeStore, useSubsidyStore } from '@/lib/store';
 import { ProfileService } from '@/services/profileService';
 import { UserProfile } from '@/types';
 
 export function useProfile() {
   const { user, login } = useAuthStore();
   const { savedVehicleIds, toggleSaveVehicle } = useIntakeStore();
+  const { application } = useSubsidyStore();
 
   const savedVehicles = ProfileService.getSavedVehicles(savedVehicleIds);
   const savedReports = ProfileService.getSavedReports(user);
@@ -33,6 +34,7 @@ export function useProfile() {
     user,
     savedVehicles,
     savedReports,
+    application,
     updateUserProfile,
     removeSavedVehicle,
     removeSavedReport,

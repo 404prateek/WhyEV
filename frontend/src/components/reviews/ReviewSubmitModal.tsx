@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Star, X, Upload, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/buttons/Button';
 import { Review } from '@/types';
-import { useAuthStore } from '@/lib/store';
 
 interface ReviewSubmitModalProps {
   isOpen: boolean;
@@ -26,7 +25,6 @@ export function ReviewSubmitModal({
   verifiedInteractionId,
   onReviewSubmitted,
 }: ReviewSubmitModalProps) {
-  const { user } = useAuthStore();
   const [rating, setRating] = useState<number>(5);
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const [text, setText] = useState('');
@@ -62,9 +60,9 @@ export function ReviewSubmitModal({
         targetType,
         targetId,
         targetName,
-        userId: user?.id || 'usr-anonymous',
-        userName: user?.name || 'Verified User',
-        userCity: user?.city || 'New Delhi',
+        userId: 'usr-aishwarya-2026',
+        userName: 'Aishwarya Sharma',
+        userCity: 'New Delhi',
         rating,
         text: text || 'Great verified visit experience.',
         photos,

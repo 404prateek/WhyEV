@@ -2,9 +2,10 @@
 
 import React from 'react';
 import { Clock, CheckCircle2, AlertCircle, Upload } from 'lucide-react';
-import { useAuthStore } from '@/lib/store';
+import { useSubsidyStore, useAuthStore } from '@/lib/store';
 
 export function SubsidyChecklist() {
+  const { application } = useSubsidyStore();
   const { requestPermission } = useAuthStore();
 
   const steps = [
@@ -43,7 +44,7 @@ export function SubsidyChecklist() {
               30-Day Post-RC Filing Window Active
             </div>
             <div className="text-base font-extrabold text-slate-900">
-              File within 30 days of RC issuance
+              {application.daysRemaining} Days Remaining to Submit Claim
             </div>
           </div>
         </div>

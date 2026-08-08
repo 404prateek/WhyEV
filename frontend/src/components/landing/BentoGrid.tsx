@@ -123,7 +123,7 @@ export function BentoGrid() {
               <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider block">04 · Trust Engine</span>
               <h3 className="text-xl font-bold text-slate-900">Battery Health Certification</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
-                NABL certified technician inspection issuing a standardized 0-100 score and public QR verification link.
+                Certified technician inspection issuing a standardized 0-100 score and public QR verification link.
               </p>
             </div>
 

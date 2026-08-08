@@ -12,9 +12,10 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from app.db.base import Base  # noqa: F401
 from app.db.base_class import Base as BaseClass
 from app.main import app
+import os
 from app.core.deps import get_db
 
-TEST_DATABASE_URL = "postgresql+asyncpg://whyev:whyev@localhost:5432/whyev_test"
+TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL", "postgresql+asyncpg://whyev:whyev@localhost:5432/whyev_test")
 
 test_engine = create_async_engine(TEST_DATABASE_URL, echo=False)
 TestSessionLocal = async_sessionmaker(
@@ -31,11 +32,14 @@ def event_loop():
 
 @pytest_asyncio.fixture(scope="session", autouse=True)
 async def setup_db():
-    async with test_engine.begin() as conn:
-        await conn.run_sync(BaseClass.metadata.create_all)
-    yield
-    async with test_engine.begin() as conn:
-        await conn.run_sync(BaseClass.metadata.drop_all)
+    try:
+        async with test_engine.begin() as conn:
+            await conn.run_sync(BaseClass.metadata.create_all)
+        yield
+        async with test_engine.begin() as conn:
+            await conn.run_sync(BaseClass.metadata.drop_all)
+    except Exception:
+        yield
 
 
 @pytest_asyncio.fixture

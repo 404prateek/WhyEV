@@ -6,6 +6,7 @@ import { Check, Trash2, AlertTriangle, X, Save } from 'lucide-react';
 import { UserProfile, VehicleCategory } from '@/types';
 import { Button } from '@/components/buttons/Button';
 import { useAuthStore } from '@/lib/store';
+import { profileApi } from '@/lib/api';
 
 interface AccountSettingsProps {
   user: UserProfile;
@@ -17,7 +18,7 @@ export function AccountSettings({ user, onUpdate }: AccountSettingsProps) {
   const { logout } = useAuthStore();
 
   const [name, setName] = useState(user.name);
-  const [phone, setPhone] = useState(user.phone || '');
+  const [phone, setPhone] = useState(user.phone || '+91 98765 43210');
   const [stateName, setStateName] = useState(user.state || 'Delhi');
   const [city, setCity] = useState(user.city || 'New Delhi');
   const [preferredCategory, setPreferredCategory] = useState<VehicleCategory>(user.preferredCategory || '4W');
@@ -26,12 +27,12 @@ export function AccountSettings({ user, onUpdate }: AccountSettingsProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onUpdate({
-      name,
-      phone,
-      state: stateName,
+    onUpdate({ name, phone, state: stateName, city, preferredCategory });
+    // Sync EV preferences to backend (fire-and-forget)
+    profileApi.updateProfile({
       city,
-      preferredCategory,
+      preferred_categories: [preferredCategory],
+      is_delhi_ncr: stateName.toLowerCase().includes('delhi'),
     });
     setSavedSuccess(true);
     setTimeout(() => setSavedSuccess(false), 3000);

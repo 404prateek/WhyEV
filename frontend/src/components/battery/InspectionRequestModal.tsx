@@ -48,7 +48,7 @@ export function InspectionRequestModal({ isOpen, onClose }: InspectionRequestMod
               </div>
               <div>
                 <h3 className="text-base font-bold text-slate-900">Request Battery Inspection</h3>
-                <p className="text-xs text-slate-500">NABL Certified Partner Workshop Network</p>
+                <p className="text-xs text-slate-500">Certified Partner Workshop Network</p>
               </div>
             </div>
 

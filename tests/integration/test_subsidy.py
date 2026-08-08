@@ -1,19 +1,20 @@
 """Integration tests for subsidy calculation endpoint."""
 from __future__ import annotations
 
-import uuid
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 from httpx import AsyncClient
 
-from app.core.security import create_access_token
 
+# ---------------------------------------------------------------------------
+# Auth helper — uses the dev-token bypass already built into deps.py.
+# When DEBUG=True, the bearer value "dev-token-xyz" resolves to the
+# zero-UUID guest user without hitting Supabase.
+# ---------------------------------------------------------------------------
 
-def _auth_header(user_id: str = None) -> dict:
-    uid = user_id or str(uuid.uuid4())
-    token = create_access_token(uid, {"role": "user"})
-    return {"Authorization": f"Bearer {token}"}
+def _auth_header() -> dict:
+    return {"Authorization": "Bearer dev-token-xyz"}
 
 
 @pytest.mark.asyncio

@@ -1,6 +1,6 @@
 # WhyEV Backend
 
-> FastAPI + PostgreSQL + Celery backend for the WhyEV EV consultation platform.
+> FastAPI + PostgreSQL backend for the WhyEV EV consultation platform.
 
 ## Quick Start (Full-Stack: Backend + Frontend)
 
@@ -26,10 +26,8 @@ docker-compose exec api alembic upgrade head
 ## Architecture
 
 ```
-User → Nginx → FastAPI (api) → PostgreSQL (pgvector) + Redis
-                           ↘ Celery Worker (background jobs)
-                           ↘ Celery Beat (scheduled tasks)
-                           ↘ Anthropic Claude (AI agent)
+User → Nginx → FastAPI (api) → PostgreSQL (pgvector)
+                           ↘ Groq LLM Pool (AI agent)
 ```
 
 ## Module Map
@@ -51,7 +49,7 @@ User → Nginx → FastAPI (api) → PostgreSQL (pgvector) + Redis
 - **Append-only subsidy rules**: `subsidy_rules` rows are never updated. New values = new rows requiring two distinct admin approvals.
 - **No LLM number fabrication**: All subsidy amounts, deadlines, and eligibility reasons are injected into agent prompts from the DB. The LLM cannot free-generate financial facts.
 - **Consent gating**: `dealer_leads.consent_given_at` is null until the user explicitly opts in. The API enforces this.
-- **Empanelled-first**: Vehicle recommendations only show `is_empanelled=true` vehicles. The list is refreshed daily by Celery.
+- **Empanelled-first**: Vehicle recommendations only show `is_empanelled=true` vehicles.
 
 ## Running Tests
 

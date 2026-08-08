@@ -7,8 +7,8 @@ export function LiveMetrics() {
   const metrics = [
     { value: '₹1.42 Cr+', label: 'Subsidies Calculated', desc: 'Under Delhi Policy 2026' },
     { value: '18 Showrooms', label: 'Verified Dealers', desc: 'Pre-qualified lead handoff' },
-    { value: '28 Models', label: 'Empanelled EVs', desc: 'Model Approval Committee' },
-    { value: '100% Verified', label: 'Battery Certificates', desc: 'Standardized NABL reports' },
+    { value: '28 Models', label: 'Verified EVs', desc: 'Approved State EV List' },
+    { value: '100% Verified', label: 'Battery Certificates', desc: 'Standardized health reports' },
   ];
 
   return (

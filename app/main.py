@@ -24,6 +24,7 @@ from app.routers import (
     agent,
     notifications,
     admin,
+    news,
 )
 
 # ---------------------------------------------------------------------------
@@ -129,6 +130,7 @@ app.include_router(certification.router, prefix=API_PREFIX, tags=["Certification
 app.include_router(agent.router, prefix=API_PREFIX, tags=["AI Agent"])
 app.include_router(notifications.router, prefix=API_PREFIX, tags=["Notifications"])
 app.include_router(admin.router, prefix=API_PREFIX, tags=["Admin"])
+app.include_router(news.router, prefix=API_PREFIX, tags=["News"])
 
 
 @app.get("/health", tags=["Health"])

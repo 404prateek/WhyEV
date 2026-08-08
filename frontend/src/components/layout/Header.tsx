@@ -15,9 +15,9 @@ export function Header() {
       <div className="flex items-center gap-3">
         <Link href="/" className="lg:hidden flex items-center gap-2">
           <img
-            src="/whyev-logo.jpg"
+            src="/whyev-logo-icon.png"
             alt="WhyEV Logo"
-            className="h-9 w-auto object-contain rounded-md"
+            className="h-8 w-auto object-contain"
           />
         </Link>
 

@@ -1,8 +1,6 @@
-"""FastAPI dependency injectors: DB session, current user.
-
-Redis removed for MVP — rate limiting and session cache handled in Postgres.
-"""
+"""FastAPI dependency injectors: DB session, current user."""
 from __future__ import annotations
+
 
 import uuid
 from typing import Annotated, AsyncGenerator

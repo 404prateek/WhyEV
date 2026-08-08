@@ -77,6 +77,26 @@ class Settings(BaseSettings):
     # Leave empty to disable.
     SENTRY_DSN: str = ""
 
+    # ----- EV News Feed -----
+    # Primary news source: NewsData.io
+    # Free tier: 200 credits/day (1 credit = 1 article). Commercial use permitted.
+    # Get your key at: https://newsdata.io/register
+    # Set in .env as: NEWSDATA_API_KEY=pub_xxxxxxxxxxxxx
+    NEWSDATA_API_KEY: str = ""
+
+    # Secondary/failover source: Currents API
+    # Free tier: 600 requests/day. Commercial use permitted.
+    # Get your key at: https://currentsapi.services/en/register
+    # Set in .env as: CURRENTS_API_KEY=xxxxxxxxxxxxx
+    CURRENTS_API_KEY: str = ""
+
+    # Minimum Stage 1 keyword relevance score (0-100) for an article to be stored.
+    # Articles scoring below this threshold are discarded before any DB write.
+    NEWS_KW_MIN_SCORE: int = 30
+
+    # Maximum articles to fetch per ingestion run (keeps daily API quota predictable).
+    NEWS_INGEST_LIMIT: int = 50
+
     # ----- pgvector -----
     # Dimension of the embedding vectors stored in ai_conversations.
     # Groq doesn't provide embeddings, so we'll use a lightweight local model

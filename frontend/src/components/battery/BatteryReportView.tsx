@@ -1,117 +1,289 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MOCK_BATTERY_REPORT } from '@/lib/mock-data';
-import { BatteryCharging, ShieldCheck, CheckCircle2, Sparkles } from 'lucide-react';
+import { batteryApi } from '@/lib/api';
+import { BatteryReport } from '@/types';
+import {
+  BatteryCharging,
+  ShieldCheck,
+  CheckCircle2,
+  Sparkles,
+  Zap,
+  Clock,
+  ThermometerSun,
+  TrendingDown,
+  Flame,
+  Award,
+  Loader2,
+} from 'lucide-react';
 import { InspectionRequestModal } from './InspectionRequestModal';
+
+/**
+ * BatteryReportView
+ *
+ * Data sourcing strategy (per project mock retention policy):
+ *
+ * REAL BACKEND DATA (from GET /api/v1/certification/{id} or /certification/verify):
+ *   batteryScore, healthStatus (derived), estimatedRemainingYears,
+ *   inspectionDate, certificateValidUntil, qrCodeUrl, id, vehicleId
+ *
+ * STILL ON MOCK (no real backend source — see TODO comments below):
+ *   makeModel, year, odometerKm, degradationPct, chargingCycleCount, inspectorName
+ *   degradationTimeline (fully static, no backend data source)
+ *
+ * When no certificateId is available (guest/unauthenticated user), the component
+ * shows MOCK_BATTERY_REPORT in its entirety for demonstration purposes.
+ */
 
 export function BatteryReportView() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const report = MOCK_BATTERY_REPORT;
+  const [activeTab, setActiveTab] = useState<'overview' | 'tips' | 'factors' | 'comparison'>('overview');
+  const [report, setReport] = useState<BatteryReport>(MOCK_BATTERY_REPORT);
+  const [loading, setLoading] = useState(false);
+
+  // Attempt to load a real certificate if one is bookmarked in the session.
+  // In production, the certificateId would come from the user's dashboard profile.
+  //
+  // TODO(battery-integration): replace hardcoded DEMO_CERT_ID with real user's
+  // latest certificate ID from their profile/dashboard.
+  // Expected API: GET /api/v1/certification/{report_id} (authenticated)
+  //   or: GET /api/v1/certification/verify?certificate_id=<qr_token> (public)
+  // Expected DB table(s): battery_reports
+  const DEMO_CERT_ID: string | null = null; // set to a real UUID or QR token to activate
+
+  useEffect(() => {
+    if (!DEMO_CERT_ID) {
+      // No certificate available — keep MOCK_BATTERY_REPORT as the display data
+      return;
+    }
+    setLoading(true);
+    batteryApi
+      .verifyCertificate(DEMO_CERT_ID)
+      .then((liveReport) => {
+        // Merge real backend fields into the report, keeping mock values for
+        // fields that have no real backend source (makeModel, year, etc.).
+        setReport((prev) => ({
+          ...prev,                                  // keep mock values for unmapped fields
+          id: liveReport.id || prev.id,
+          vehicleId: liveReport.vehicleId || prev.vehicleId,
+          batteryScore: liveReport.batteryScore,
+          healthStatus: liveReport.healthStatus,
+          estimatedRemainingYears: liveReport.estimatedRemainingYears,
+          inspectionDate: liveReport.inspectionDate || prev.inspectionDate,
+          certificateValidUntil: liveReport.certificateValidUntil || prev.certificateValidUntil,
+          // Only override qrCodeUrl if backend returned a real URL (not empty string)
+          qrCodeUrl: liveReport.qrCodeUrl || prev.qrCodeUrl,
+          // Fields below are intentionally NOT overridden — no real backend source:
+          // makeModel, year, odometerKm, degradationPct, chargingCycleCount, inspectorName
+          // TODO(battery-integration): populate makeModel once vehicles_master join added
+          //   Expected DB field(s): vehicles_master.make + vehicles_master.model
+          // TODO(battery-integration): populate year/odometerKm once stored in battery_reports
+          //   Expected DB field(s): battery_reports.year, battery_reports.odometer_km
+          // TODO(battery-integration): populate degradationPct once computed in backend
+          //   Expected: 100 - battery_score, or real cell-level measurement
+          // TODO(battery-integration): populate chargingCycleCount once backend stores it
+          //   Expected DB field(s): battery_reports.charging_cycle_count
+          // TODO(battery-integration): populate inspectorName once inspector system exists
+          //   Expected DB field(s)/service: battery_reports.inspector_id → inspector name
+        }));
+      })
+      .catch(() => {
+        // API unavailable — MOCK_BATTERY_REPORT already set as default, no action needed
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const degradationTimeline = [
+    { year: 'Year 1', healthPct: 98, km: '12,000 km', note: 'Factory Condition' },
+    { year: 'Year 2', healthPct: 95, km: '24,000 km', note: 'Normal Settlement' },
+    { year: 'Year 3 (Current)', healthPct: 92, km: '28,450 km', note: 'Verified Score' },
+    { year: 'Year 5', healthPct: 87, km: '60,000 km', note: 'Healthy Range' },
+    { year: 'Year 8', healthPct: 81, km: '100,000 km', note: 'Warranty Benchmark' },
+  ];
+  // TODO(battery-integration): degradationTimeline above is fully static mock data.
+  // Expected: computed per-vehicle from battery_score history stored in battery_reports.
+  // Expected DB table(s): battery_reports (historical records per vehicle)
+
+  const careTips = [
+    {
+      id: 'tip-1',
+      title: 'Follow the 20% to 80% Daily Rule',
+      icon: BatteryCharging,
+      category: 'Charging Habit',
+      summary: 'Keep daily state-of-charge between 20% and 80%. Only charge to 100% before long trips.',
+      impact: 'Extends lithium cell cycle life by up to 300%',
+    },
+    {
+      id: 'tip-2',
+      title: 'Limit Consecutive DC Fast Charging',
+      icon: Zap,
+      category: 'Thermal Care',
+      summary: 'Fast DC charging generates internal cell heat. Use AC slow charging overnight for daily commutes.',
+      impact: 'Reduces thermal stress and anode plating',
+    },
+    {
+      id: 'tip-3',
+      title: 'Pre-Conditioning in Hot Summers',
+      icon: ThermometerSun,
+      category: 'Climate Care',
+      summary: 'Park in shaded areas during peak summer days to allow thermal management systems to run efficiently.',
+      impact: 'Prevents accelerated electrolyte degradation',
+    },
+  ];
 
   return (
-    <div className="max-w-7xl mx-auto py-12 sm:py-16 px-4 sm:px-6 lg:px-8 space-y-12">
+    <div className="max-w-7xl mx-auto py-8 sm:py-12 px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12 text-slate-900 font-sans text-left">
       {/* Header */}
-      <div className="text-center space-y-4 max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
-          <ShieldCheck className="w-4 h-4 text-emerald-600" />
-          <span>76% of Buyers Demand Certified Inspection Before Purchase</span>
+      <div className="text-left space-y-3 border-b border-slate-100 pb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-black">
+          <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+          <span>Certified EV Battery Diagnostic Protocol</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          Battery Health & Certification Engine
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
+          EV Battery Health Engine
         </h1>
-        <p className="text-sm sm:text-base text-slate-600 max-w-xl mx-auto font-normal">
-          Standardized 0-100 battery health scoring and QR-verifiable inspection reports for used EV buyers and sellers.
+        <p className="text-sm sm:text-base text-slate-500 font-medium max-w-2xl leading-relaxed">
+          Monitor state of health (SOH), degradation trends, thermal care tips, and certified inspection passes.
         </p>
+
+        {/* Section Sub-Navigation Tabs */}
+        <div className="flex items-center gap-2 pt-2 overflow-x-auto no-scrollbar">
+          {[
+            { id: 'overview', label: 'Health Overview' },
+            { id: 'tips', label: 'Care Tips' },
+            { id: 'factors', label: 'Degradation Factors' },
+            { id: 'comparison', label: 'Matrix' },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`px-4 py-2 rounded-full text-xs font-extrabold transition-all cursor-pointer whitespace-nowrap ${
+                activeTab === tab.id
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Main Certificate Card */}
-      <div className="p-8 sm:p-12 rounded-3xl bg-white border border-slate-200/90 space-y-8 shadow-xl relative overflow-hidden">
-        {/* Certificate Title */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-6">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center font-bold">
-              <BatteryCharging className="w-7 h-7" />
+      {/* Loading indicator */}
+      {loading && (
+        <div className="flex items-center justify-center gap-2 text-xs text-slate-400 font-bold">
+          <Loader2 className="w-4 h-4 animate-spin" />
+          <span>Loading live certificate data…</span>
+        </div>
+      )}
+
+      {/* 1. SECTION: BATTERY HEALTH OVERVIEW */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center font-bold shrink-0">
+              <BatteryCharging className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-2xl font-extrabold text-slate-900">{report.makeModel}</h2>
-              <p className="text-xs text-emerald-700 font-semibold">WhyEV Certified Battery Pass</p>
+              {/*
+                makeModel: STILL MOCKED — no real backend source.
+                TODO(battery-integration): makeModel — missing: vehicles_master join in BatteryReportOut
+                  Expected DB field(s): vehicles_master.make + vehicles_master.model
+              */}
+              <h2 className="text-xl font-black text-slate-900">{report.makeModel}</h2>
+              <p className="text-xs text-emerald-700 font-bold flex items-center gap-1 mt-0.5">
+                <Award className="w-3.5 h-3.5" />
+                <span>WhyEV Certified Battery Pass</span>
+              </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-            <span>QR Certificate Verified</span>
+          <div className="px-3.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-black">
+            QR Certificate Verified
           </div>
         </div>
 
-        {/* Score & Degradation Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Health Score Dial */}
-          <div className="p-8 rounded-2xl bg-slate-50 border border-slate-100 text-center space-y-3 flex flex-col justify-center">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Battery Score</span>
-            <div className="text-6xl font-extrabold text-emerald-600 tracking-tight">{report.batteryScore}</div>
-            <div className="text-xs font-bold text-slate-900">State of Health: {report.healthStatus}</div>
+        {/* Score & Stats Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* batteryScore: REAL backend data */}
+          <div className="p-5 rounded-2xl bg-slate-900 text-white text-center space-y-2 flex flex-col justify-center">
+            <span className="text-[10px] font-black text-emerald-400 uppercase tracking-wider block">State of Health</span>
+            <div className="text-4xl font-black text-emerald-400">{report.batteryScore}%</div>
+            <div className="text-[11px] font-extrabold text-slate-300">Status: {report.healthStatus}</div>
           </div>
 
-          {/* Life & Cycles */}
-          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 space-y-3.5">
-            <div className="flex items-center justify-between text-xs sm:text-sm font-medium">
-              <span className="text-slate-500">Est. Remaining Life:</span>
-              <span className="font-extrabold text-slate-900">{report.estimatedRemainingYears} Years</span>
-            </div>
-            <div className="flex items-center justify-between text-xs sm:text-sm font-medium">
-              <span className="text-slate-500">Degradation:</span>
-              <span className="font-extrabold text-slate-900">{report.degradationPct}%</span>
-            </div>
-            <div className="flex items-center justify-between text-xs sm:text-sm font-medium">
-              <span className="text-slate-500">Full Charge Cycles:</span>
-              <span className="font-extrabold text-slate-900">{report.chargingCycleCount}</span>
-            </div>
-            <div className="flex items-center justify-between text-xs sm:text-sm font-medium">
-              <span className="text-slate-500">Odometer Distance:</span>
-              <span className="font-extrabold text-slate-900">{report.odometerKm.toLocaleString()} km</span>
-            </div>
+          {/*
+            Usable Capacity: STILL MOCKED — backend has no usable_capacity_kwh field.
+            TODO(battery-integration): usable capacity — missing: battery_reports.usable_capacity_kwh
+              or vehicles_master.battery_capacity_kwh × battery_score/100
+          */}
+          <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Usable Capacity</span>
+            <div className="text-2xl font-black text-slate-900">41.4 kWh</div>
+            <div className="text-xs text-slate-500 font-medium">Original: 45.0 kWh Pack</div>
           </div>
 
-          {/* QR Code Box */}
-          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center text-center space-y-3">
-            <div className="p-3 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
-              <img src={report.qrCodeUrl} alt="QR Verification" className="w-24 h-24" />
-            </div>
-            <div className="text-xs font-bold text-slate-900">Public QR Verification Code</div>
-            <div className="text-[11px] text-slate-400">Valid until {report.certificateValidUntil}</div>
+          {/* estimatedRemainingYears: REAL backend data. chargingCycleCount: STILL MOCKED */}
+          <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Longevity</span>
+            <div className="text-2xl font-black text-slate-900">{report.estimatedRemainingYears} Years</div>
+            {/*
+              chargingCycleCount: STILL MOCKED
+              TODO(battery-integration): chargingCycleCount — missing: battery_reports.charging_cycle_count
+            */}
+            <div className="text-xs text-emerald-700 font-bold">{report.chargingCycleCount} Charge Cycles</div>
           </div>
-        </div>
 
-        {/* Inspector Info */}
-        <div className="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200 flex items-center justify-between text-xs sm:text-sm font-medium">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4.5 h-4.5 text-emerald-600" />
-            <span className="text-slate-800">Inspected by: {report.inspectorName}</span>
+          {/* qrCodeUrl: REAL backend data (derived from qr_code token) */}
+          <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-col items-center justify-center text-center space-y-1">
+            <img src={report.qrCodeUrl} alt="QR Code" className="w-14 h-14" />
+            <div className="text-[10px] font-bold text-slate-900">Public Verification Pass</div>
           </div>
-          <span className="text-slate-500">Date: {report.inspectionDate}</span>
         </div>
       </div>
 
-      {/* CTA Card */}
-      <div className="p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div>
-          <h3 className="text-xl font-bold text-slate-900">Selling a Used EV in Delhi-NCR?</h3>
-          <p className="text-xs sm:text-sm text-slate-500 font-normal">Get a certified inspection report to command top resale price.</p>
+      {/* 2. DEGRADATION TIMELINE */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-6">
+        <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
+          <TrendingDown className="w-5 h-5 text-emerald-600" />
+          {/* degradationTimeline: STILL MOCKED — see TODO above */}
+          <span>Projected Degradation Timeline</span>
+        </h3>
+
+        <div className="space-y-3">
+          {degradationTimeline.map((item, idx) => (
+            <div key={idx} className="space-y-1 text-xs font-bold">
+              <div className="flex justify-between">
+                <span className="text-slate-900">{item.year} ({item.km})</span>
+                <span className="text-emerald-700">{item.healthPct}% Health ({item.note})</span>
+              </div>
+              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div className="bg-emerald-600 h-full rounded-full" style={{ width: `${item.healthPct}%` }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* CTA CARD */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
+        <div className="space-y-1">
+          <h3 className="text-lg font-black text-white">Book Doorstep Battery Inspection</h3>
+          <p className="text-xs text-slate-400 font-medium">Get an official 0-100 NABL battery inspection report for pre-owned EV resale.</p>
         </div>
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="h-[48px] px-8 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-md flex items-center gap-2 whitespace-nowrap"
+          className="h-[44px] px-6 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs transition-all shadow-sm shrink-0 cursor-pointer"
         >
-          <Sparkles className="w-4 h-4 fill-white" />
-          <span>Request Inspection (₹999)</span>
+          Book Inspection (₹999)
         </button>
       </div>
 
-      {/* Inspection Modal */}
       <InspectionRequestModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }
+
+export default BatteryReportView;

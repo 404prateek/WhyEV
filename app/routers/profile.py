@@ -69,7 +69,8 @@ async def _get_or_create_profile(db: DBSession, user_id) -> UserProfile:
     if not profile:
         profile = UserProfile(user_id=user_id)
         db.add(profile)
-        await db.flush()
+        await db.commit()
+        await db.refresh(profile)
     return profile
 
 
@@ -88,7 +89,8 @@ async def patch_profile(
     profile = await _get_or_create_profile(db, user.id)
     for field, value in body.model_dump(exclude_unset=True).items():
         setattr(profile, field, value)
-    await db.flush()
+    await db.commit()
+    await db.refresh(profile)
     return ProfileOut.model_validate(profile)
 
 

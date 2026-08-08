@@ -53,7 +53,32 @@ export interface IntakePayload {
   isDelhiResident: boolean;
 }
 
+export interface LeadSummary {
+  id: string;
+  vehicle_id: string | null;
+  status: string;
+  lead_quality_score: number | null;
+}
+
+export interface RecommendationResponse {
+  shortlist: EmpanelledVehicle[];
+  assumptions: string[];
+  recommendation_id: string | null;
+  leads_created: LeadSummary[];
+}
+
 export const recommendationApi = {
+  /**
+   * Submit questionnaire answers and get personalised vehicle recommendations.
+   *
+   * For authenticated users, this also:
+   *   1. Updates their profile with the intake answers
+   *   2. Persists the recommendation session to the database
+   *   3. Creates unassigned leads for the top vehicles in the shortlist
+   *
+   * Returns the full RecommendationResponse. Callers that only need the
+   * shortlist can access result.shortlist directly.
+   */
   async getRecommendations(payload: IntakePayload): Promise<EmpanelledVehicle[]> {
     try {
       const headers = await getAuthHeaders();
@@ -73,10 +98,58 @@ export const recommendationApi = {
         console.warn(`[recommendationApi] Live API endpoint returned HTTP ${res.status}`);
         return [];
       }
-      const data = await res.json();
+      const data: RecommendationResponse = await res.json();
+
+      // Log pipeline result for debugging (non-blocking)
+      if (data.recommendation_id) {
+        console.info(
+          `[recommendationApi] Pipeline complete — recommendation_id=${data.recommendation_id}, leads=${data.leads_created?.length ?? 0}`
+        );
+      }
+
       return data.shortlist || [];
     } catch (err: any) {
       console.warn('[recommendationApi] Live API unreachable:', err?.message || err);
+      return [];
+    }
+  },
+
+  /**
+   * Full pipeline response — use this when you need recommendation_id or leads.
+   */
+  async getRecommendationsFull(payload: IntakePayload): Promise<RecommendationResponse | null> {
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(`${API_BASE}/recommendations`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          budget_max: payload.budgetMax,
+          preferred_categories: [payload.category],
+          daily_km: payload.dailyCommuteKm,
+          city: payload.isDelhiResident ? 'Delhi' : 'Other',
+          housing_type: payload.housingType,
+          trade_in_ice: payload.tradeInIce,
+        }),
+      });
+      if (!res.ok) return null;
+      return await res.json();
+    } catch {
+      return null;
+    }
+  },
+
+  /**
+   * Fetch the authenticated user's leads from the pipeline.
+   */
+  async getMyLeads(statusFilter?: string): Promise<LeadSummary[]> {
+    try {
+      const headers = await getAuthHeaders();
+      const params = statusFilter ? `?status=${statusFilter}` : '';
+      const res = await fetch(`${API_BASE}/leads${params}`, { headers });
+      if (!res.ok) return [];
+      return await res.json();
+    } catch {
       return [];
     }
   },
@@ -86,6 +159,7 @@ export const recommendationApi = {
     return { success: true };
   },
 };
+
 
 // 3. SUBSIDY API
 export const subsidyApi = {
@@ -166,11 +240,13 @@ export const subsidyApi = {
     };
   },
 
+  // TODO: Call GET /api/v1/subsidy/applications once a list endpoint exists to resolve the current user's active application ID.
   async getCurrentApplication(): Promise<SubsidyApplication> {
     await new Promise((res) => setTimeout(res, 500));
     return MOCK_SUBSIDY_APPLICATION;
   },
 
+  // TODO: Call POST /api/v1/subsidy/applications/{id}/documents once a create-application flow sets the application ID in state.
   async uploadClaimDocuments(formData: FormData): Promise<{ success: boolean; documentId: string }> {
     await new Promise((res) => setTimeout(res, 1200));
     return { success: true, documentId: 'doc-rc-verified-99' };
@@ -205,34 +281,211 @@ export const subsidyApi = {
   },
 };
 
-// 4. DEALER API
+// 4. VEHICLE CATALOGUE API
+export const vehicleApi = {
+  // Maps VehicleOut (DB shape) to EmpanelledVehicle (frontend shape) for dropdown use only.
+  // Subsidy fields (subsidyAmount, scrappageBonus) are 0 here — calculated separately by subsidyApi.calculateSubsidy().
+  async listEmpanelled(): Promise<EmpanelledVehicle[]> {
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(`${API_BASE}/vehicles?empanelled=true&limit=100`, { headers });
+      if (!res.ok) return [];
+      const data: Array<{
+        id: string;
+        make: string | null;
+        model: string | null;
+        category: string | null;
+        price: number | null;
+        range_km: number | null;
+        is_empanelled: boolean;
+        specs: Record<string, unknown> | null;
+      }> = await res.json();
+      return data.map((v) => ({
+        id: String(v.id),
+        make: v.make ?? '',
+        model: v.model ?? '',
+        variant: String(v.specs?.variant ?? ''),
+        category: (v.category as VehicleCategory) ?? '4W',
+        exShowroomPrice: v.price ?? 0,
+        effectivePrice: v.price ?? 0,
+        subsidyAmount: 0,
+        scrappageBonus: 0,
+        rangeKm: v.range_km ?? 0,
+        batteryCapacityKwh: Number(v.specs?.battery_kwh ?? 3.0),
+        empanelledStatus: v.is_empanelled ? ('confirmed' as const) : ('unverified' as const),
+        chargingTimeHours: Number(v.specs?.charge_time_h ?? 0),
+        topSpeedKmvh: Number(v.specs?.top_speed_kmh ?? 0),
+        features: [],
+        whyThisFits: '',
+        runningCostPerKm: 0,
+      }));
+    } catch {
+      return [];
+    }
+  },
+};
+
+// 5. DEALER API
+// Falls back to MOCK_DEALERS until the Dealer DB model is extended with
+// locality, rating, reviewCount, distanceKm, empanelledModels, phone, email, isVerified.
 export const dealerApi = {
   async getNearbyDealers(vehicleId?: string): Promise<Dealer[]> {
-    await new Promise((res) => setTimeout(res, 600));
+    try {
+      const headers = await getAuthHeaders();
+      const params = new URLSearchParams({ lat: '28.6139', lng: '77.2090' });
+      if (vehicleId) params.set('model_id', vehicleId);
+      const res = await fetch(`${API_BASE}/dealers/nearby?${params}`, { headers });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) return data;
+      }
+    } catch { /* fall through to mock */ }
     return MOCK_DEALERS;
   },
 
   async submitLead(params: { dealerId: string; vehicleId: string; sourceModule: string }): Promise<{ success: boolean; leadId: string }> {
-    await new Promise((res) => setTimeout(res, 800));
-    return { success: true, leadId: `lead-${Date.now()}` };
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(`${API_BASE}/leads`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          dealer_id: params.dealerId,
+          vehicle_id: params.vehicleId,
+          source_module: params.sourceModule,
+          consent: true,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        return { success: true, leadId: String(data.id ?? `lead-${Date.now()}`) };
+      }
+    } catch { /* fall through */ }
+    return { success: false, leadId: `lead-${Date.now()}` };
   },
 
   async bookTestDrive(params: { dealerId: string; scheduledAt: string; vehicleId: string }): Promise<{ success: boolean; appointmentId: string }> {
-    await new Promise((res) => setTimeout(res, 900));
-    return { success: true, appointmentId: `apt-${Date.now()}` };
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(`${API_BASE}/appointments`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          dealer_id: params.dealerId,
+          type: 'test_drive',
+          scheduled_at: params.scheduledAt,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        return { success: true, appointmentId: String(data.id ?? `apt-${Date.now()}`) };
+      }
+    } catch { /* fall through */ }
+    return { success: false, appointmentId: `apt-${Date.now()}` };
   },
 };
 
-// 5. BATTERY CERTIFICATION API
+// 6. BATTERY CERTIFICATION API
 export const batteryApi = {
+  /**
+   * Request a battery health inspection.
+   *
+   * TODO(battery-integration): mock retained — API shape mismatch.
+   * Expected API: POST /api/v1/certification/request
+   * Expected request body: { model_id: UUID, year: number, odometer: number }
+   *
+   * The modal currently collects { makeModel: string, odometerKm: number, address: string }
+   * which does NOT match the backend. To wire this for real:
+   *   1. Replace the makeModel text input with a vehicle UUID selector
+   *      (vehicle_model_id from vehicles_master).
+   *   2. Add a year input field (int).
+   *   3. Drop the address field — backend has no address storage.
+   * Until the modal is updated, this remains a mock.
+   */
   async requestInspection(params: { makeModel: string; odometerKm: number; address: string }): Promise<{ success: boolean; requestId: string }> {
+    // TODO(battery-integration): mock retained — missing: model_id UUID input in modal
+    // Expected API: POST /api/v1/certification/request
+    // Expected request body: { model_id: UUID, year: int, odometer: int }
+    // Expected DB field(s): battery_reports.battery_score, battery_reports.remaining_life_years
     await new Promise((res) => setTimeout(res, 800));
     return { success: true, requestId: `insp-req-${Date.now()}` };
   },
 
+  /**
+   * Verify a battery certificate by its QR code token.
+   *
+   * Maps REAL backend fields:
+   *   battery_score → batteryScore, healthStatus (derived)
+   *   remaining_life_years → estimatedRemainingYears
+   *   inspection_date → inspectionDate
+   *   certificate_valid_until → certificateValidUntil
+   *   qr_code_url → qrCodeUrl (full verify URL, built server-side)
+   *   id → id
+   *   vehicle_model_id → vehicleId
+   *
+   * Explicitly NOT populated from backend (no real data source):
+   *   makeModel — backend stores vehicle_model_id UUID, does not join make/model name
+   *   year — accepted as input to POST /request but NOT stored in battery_reports table
+   *   odometerKm — same: used in score computation but NOT persisted
+   *   degradationPct — no backend field; score-based % not exposed
+   *   chargingCycleCount — no concept in backend model
+   *   inspectorName — no inspector assignment system
+   */
   async verifyCertificate(certificateId: string): Promise<BatteryReport> {
-    await new Promise((res) => setTimeout(res, 600));
-    return MOCK_BATTERY_REPORT;
+    try {
+      const headers = await getAuthHeaders();
+      // Use GET /certification/verify?certificate_id=<token> (public, no auth needed for QR scan).
+      // Falls back to GET /certification/{uuid} for UUID-based lookup when certificateId is a UUID.
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(certificateId);
+      const url = isUuid
+        ? `${API_BASE}/certification/${certificateId}`
+        : `${API_BASE}/certification/verify?certificate_id=${encodeURIComponent(certificateId)}`;
+
+      const res = await fetch(url, { headers });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const d = await res.json();
+      const score: number = d.battery_score ?? 0;
+      const healthStatus: BatteryReport['healthStatus'] =
+        score >= 85 ? 'Excellent' : score >= 70 ? 'Good' : score >= 55 ? 'Fair' : 'Requires Service';
+      return {
+        // --- REAL backend fields ---
+        id: String(d.id ?? ''),
+        vehicleId: String(d.vehicle_model_id ?? ''),
+        inspectionDate: d.inspection_date ?? '',
+        batteryScore: score,
+        healthStatus,
+        estimatedRemainingYears: d.remaining_life_years ?? 0,
+        certificateValidUntil: d.certificate_valid_until ?? '',
+        // Backend returns qr_code_url (full verify URL) when fetched via /certification/{uuid}.
+        // For /certification/verify?certificate_id=, qr_code_url is not returned; use token directly.
+        qrCodeUrl: d.qr_code_url ?? (d.qr_code ? `https://whyev.in/verify/${d.qr_code}` : ''),
+        // --- Fields with NO real backend data source — retained from MOCK_BATTERY_REPORT ---
+        // TODO(battery-integration): makeModel — missing: vehicles_master join in BatteryReportOut
+        //   Expected DB field(s): vehicles_master.make + vehicles_master.model
+        makeModel: '',
+        // TODO(battery-integration): year — missing: battery_reports has no year column
+        //   Expected DB field(s): battery_reports.year (not currently stored)
+        year: 0,
+        // TODO(battery-integration): odometerKm — missing: battery_reports has no odometer column
+        //   Expected DB field(s): battery_reports.odometer_km (not currently stored)
+        odometerKm: 0,
+        // TODO(battery-integration): degradationPct — missing: not computed or stored in backend
+        //   Expected: derived from battery_score (e.g. 100 - battery_score) or real cell data
+        degradationPct: 0,
+        // TODO(battery-integration): chargingCycleCount — missing: no concept in backend model
+        //   Expected DB field(s): battery_reports.charging_cycle_count (not currently stored)
+        chargingCycleCount: 0,
+        // TODO(battery-integration): inspectorName — missing: no inspector assignment system
+        //   Expected DB field(s)/service: inspector assignment + battery_reports.inspector_id FK
+        inspectorName: '',
+      };
+    } catch {
+      // Network error or 404 — fall back to mock for graceful UI degradation
+      // TODO(battery-integration): mock fallback retained
+      // Expected API: GET /api/v1/certification/verify?certificate_id=<qr_token>
+      // Expected DB table(s): battery_reports
+      return MOCK_BATTERY_REPORT;
+    }
   },
 };
 
@@ -490,14 +743,153 @@ export const userApi = {
               },
             ],
       dealer_leads: [
-        {
-          id: 'lead-001',
-          dealer_name: 'Pragati Tata EV Showroom (Okhla)',
-          vehicle_model: 'Tata Tiago EV',
-          status: 'Callback Requested',
-        },
+        // TODO: Replace with real leads from GET /api/v1/leads once the
+        // dashboard API is confirmed to return populated dealer_leads with
+        // vehicle_model and dealer_name (Phase G dealer enrichment).
+        // Until then, show empty — the real API will populate this when live.
       ],
     };
   },
 };
+// 9. PROFILE API
+// Wraps GET /api/v1/profile and PATCH /api/v1/profile.
+// Only patches fields that ProfilePatchIn accepts (city, budget_min, budget_max,
+// daily_km, preferred_categories, intent, etc.).
+// name and phone live on the users table — no PUT /users/me endpoint exists yet.
+// TODO: Add PATCH for name/phone once PUT /users/me is implemented in profile.py.
+export const profileApi = {
+  async getProfile(): Promise<{
+    city: string | null;
+    budget_min: number | null;
+    budget_max: number | null;
+    daily_km: number | null;
+    preferred_categories: string[] | null;
+    intent: string | null;
+    housing_type: string | null;
+    is_delhi_ncr: boolean | null;
+  } | null> {
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(`${API_BASE}/profile`, { headers });
+      if (!res.ok) return null;
+      return await res.json();
+    } catch {
+      return null;
+    }
+  },
 
+  async updateProfile(fields: {
+    city?: string;
+    budget_min?: number;
+    budget_max?: number;
+    daily_km?: number;
+    preferred_categories?: string[];
+    intent?: string;
+    housing_type?: string;
+    is_delhi_ncr?: boolean;
+    charging_preference?: string;
+    finance_pref?: string;
+    emi_comfort?: number;
+  }): Promise<boolean> {
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(`${API_BASE}/profile`, {
+        method: 'PATCH',
+        headers,
+        body: JSON.stringify(fields),
+      });
+      return res.ok;
+    } catch {
+      return false;
+    }
+  },
+};
+
+// 10. NOTIFICATION API
+export const notificationApi = {
+  async getNotifications(): Promise<Array<{ id: string; title: string; body: string; type: string; read_at: string | null; created_at: string }>> {
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(`${API_BASE}/notifications`, { headers });
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch { /* fall back */ }
+    return [];
+  },
+
+  async markAsRead(id: string): Promise<boolean> {
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(`${API_BASE}/notifications/${id}/read`, {
+        method: 'PATCH',
+        headers,
+      });
+      return res.ok;
+    } catch {
+      return false;
+    }
+  },
+};
+
+// ---------------------------------------------------------------------------
+// 10. NEWS API
+// ---------------------------------------------------------------------------
+
+export interface NewsArticleResponse {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string | null;
+  image_url: string | null;
+  article_url: string | null;
+  author: string | null;
+  source_name: string | null;
+  category: string | null;
+  tags: string[] | null;
+  is_featured: boolean;
+  published_at: string | null;
+  provider: string;
+}
+
+export interface NewsListApiResponse {
+  articles: NewsArticleResponse[];
+  total: number;
+  page: number;
+  page_size: number;
+  has_more: boolean;
+}
+
+export interface NewsListParams {
+  page?: number;
+  page_size?: number;
+  category?: string;
+  featured_only?: boolean;
+}
+
+/**
+ * News API client.
+ * Primary: GET /api/v1/news (live DB-backed, Stage 1+2+3 filtered).
+ * Fallback: MOCK_NEWS_ARTICLES from lib/mock-data (retained per project mock policy).
+ *
+ * TODO(news-integration): Bookmarks and preferences endpoints are NOT implemented yet.
+ *   Expected APIs:
+ *     POST /api/v1/news/bookmarks        — requires news_bookmarks DB table
+ *     GET  /api/v1/news/preferences      — requires news_preferences DB table
+ *     POST /api/v1/news/read             — requires news_read_history DB table
+ */
+export const newsApi = {
+  async getArticles(params?: NewsListParams): Promise<NewsListApiResponse> {
+    const url = new URL(`${API_BASE}/news`);
+    if (params?.page) url.searchParams.set('page', String(params.page));
+    if (params?.page_size) url.searchParams.set('page_size', String(params.page_size));
+    if (params?.category && params.category !== 'All') {
+      url.searchParams.set('category', params.category);
+    }
+    if (params?.featured_only) url.searchParams.set('featured_only', 'true');
+
+    const res = await fetch(url.toString());
+    if (!res.ok) throw new Error(`News API error: ${res.status}`);
+    return res.json();
+  },
+};

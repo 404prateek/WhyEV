@@ -1,0 +1,41 @@
+<svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="whyevFaviconGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#064e3b" />
+      <stop offset="35%" stop-color="#047857" />
+      <stop offset="70%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#84cc16" />
+    </linearGradient>
+    <linearGradient id="carFaviconGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#062920" />
+      <stop offset="100%" stop-color="#031913" />
+    </linearGradient>
+    <linearGradient id="boltFaviconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a3e635" />
+      <stop offset="100%" stop-color="#34d399" />
+    </linearGradient>
+  </defs>
+
+  <line x1="78" y1="20" x2="84" y2="12" stroke="url(#whyevFaviconGrad)" stroke-width="4" stroke-linecap="round" />
+  <line x1="86" y1="29" x2="94" y2="23" stroke="url(#whyevFaviconGrad)" stroke-width="4" stroke-linecap="round" />
+  <line x1="88" y1="41" x2="96" y2="39" stroke="url(#whyevFaviconGrad)" stroke-width="4" stroke-linecap="round" />
+
+  <path
+    d="M 50 8 C 72 8 88 23 88 45 C 88 61 77 75 62 81 C 53 87 46 93 42 95 C 41 95.5 39.5 94 40.5 89.5 C 41.5 85 40 82.5 37.5 81.5 C 20 78.5 10 63 10 45 C 10 23 28 8 50 8 Z"
+    stroke="url(#whyevFaviconGrad)"
+    stroke-width="6"
+    stroke-linejoin="round"
+    fill="none"
+  />
+
+  <path d="M 46 83 C 60 83 73 74 77 61 C 65 63 51 72 46 83 Z" fill="url(#whyevFaviconGrad)" />
+
+  <path
+    d="M 33 38 C 36 29 42 27 50 27 C 58 27 64 29 67 38 L 72 48 C 74.5 48 76.5 50 76.5 53 L 76.5 68 C 76.5 71 74.5 73 71.5 73 L 69 73 C 67 73 66 70 66 68 L 66 66 L 34 66 L 34 68 C 34 70 33 73 31 73 L 28.5 73 C 25.5 73 23.5 71 23.5 68 L 23.5 53 C 23.5 50 25.5 48 28 48 Z"
+    fill="url(#carFaviconGrad)"
+  />
+  <path d="M 36 39.5 C 38.5 32.5 43.5 30.5 50 30.5 C 56.5 30.5 61.5 32.5 64 39.5 Z" fill="#ffffff" opacity="0.95" />
+  <path d="M 27.5 53 Q 33.5 52 35.5 56.5 Q 29.5 57.5 27.5 53 Z" fill="#ffffff" />
+  <path d="M 72.5 53 Q 66.5 52 64.5 56.5 Q 70.5 57.5 72.5 53 Z" fill="#ffffff" />
+  <path d="M 52.5 45.5 L 43.5 56.5 L 49 56.5 L 46.5 67.5 L 57.5 54.5 L 51.5 54.5 Z" fill="url(#boltFaviconGrad)" />
+</svg>

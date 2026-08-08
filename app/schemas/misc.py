@@ -73,5 +73,18 @@ class BatteryReportOut(BaseModel):
     remaining_life_years: float | None
     certificate_valid_until: date | None
     qr_code: str | None
+    # Derived field: full public verification URL built from the raw qr_code token.
+    # Frontend displays this as a scannable QR image.
+    qr_code_url: str | None = None
 
     model_config = {"from_attributes": True}
+
+    @classmethod
+    def model_validate(cls, obj, **kwargs):  # type: ignore[override]
+        instance = super().model_validate(obj, **kwargs)
+        if instance.qr_code:
+            # TODO(battery-integration): replace hardcoded domain with settings.APP_BASE_URL
+            # once that config field is added. Currently uses production domain.
+            # Expected env var: APP_BASE_URL (e.g. https://whyev.in)
+            instance.qr_code_url = f"https://whyev.in/verify/{instance.qr_code}"
+        return instance

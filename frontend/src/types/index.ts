@@ -1,31 +1,84 @@
-export type VehicleCategory = '2W' | '3W' | '4W' | 'N1_goods';
-
-export type EmpanelledStatus = 'unverified' | 'confirmed' | 'not_empanelled';
+export type VehicleCategory = '2W' | '3W' | '4W';
+export type EmpanelledStatus = 'unverified' | 'confirmed' | 'verified' | 'not_empanelled';
 export type VehicleAvailability = 'available' | 'being_phased_out' | 'upcoming' | 'available_may_be_discontinued';
+
+export interface VehicleVariant {
+  id: string;
+  name: string;
+  exShowroomPrice: number;
+  batteryCapacityKwh: number;
+  claimedRangeKm: number;
+  features: string[];
+}
+
+export interface VehicleColorOption {
+  name: string;
+  hexCode: string;
+  imageUrl?: string;
+}
+
+export interface VehicleFaq {
+  question: string;
+  answer: string;
+}
+
+export interface VehicleReview {
+  id: string;
+  userName: string;
+  userCity: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
 
 export interface EmpanelledVehicle {
   id: string;
-  make: string;
+  slug?: string;
+  make: string; // Brand (e.g. "Tata Motors", "MG Motor")
+  brand?: string;
   model: string;
   variant: string;
   category: VehicleCategory;
-  bodyType?: string;
-  exShowroomPrice: number;
-  priceMinLakh?: number;
-  priceMaxLakh?: number;
-  effectivePrice: number;
-  // --- Subsidy breakdown (Delhi EV Policy 2026) ---
-  subsidyAmount: number;       // direct purchase incentive (₹/kWh capped)
-  directSubsidy?: number;      // same as subsidyAmount
-  scrappageBonus: number;      // scrappage/trade-in bonus (0 if no trade-in)
-  roadTaxWaiver?: number;      // road tax amount waived (4% of ex-showroom for 4W)
-  freeInsurance?: number;      // 1st-year free insurance value
-  freeRcRegistration?: number; // free RC registration fee waived
-  totalBenefit?: number;       // grand total of all above
-  rangeKm: number;
-  rangeKmClaimedOptions?: number[];
+  vehicleType?: string; // e.g. "Electric SUV"
+  bodyType?: string; // e.g. "SUV", "Hatchback", "Sedan"
+  launchYear?: number;
+  
+  // Images
+  imageUrl?: string;
+  thumbnail?: string;
+  galleryImages?: string[];
+  
+  // Specifications
   batteryCapacityKwh: number;
   batteryKwhOptions?: number[];
+  rangeKm: number; // Claimed Range
+  claimedRangeKm?: number;
+  rangeKmClaimedOptions?: number[];
+  realWorldRangeKm?: number;
+  motorPowerKw?: number;
+  torqueNm?: number;
+  chargingTimeHours: number; // AC charging
+  chargingTimeAcHours?: number;
+  chargingTimeDcMinutes?: number;
+  fastChargingSupport?: boolean;
+  topSpeedKmvh: number;
+  bootSpaceLiters?: number;
+  groundClearanceMm?: number;
+  seatingCapacity?: number;
+  warranty?: string;
+  safetyRating?: number; // 0 - 5 stars
+  
+  // Financial & Subsidies
+  exShowroomPrice: number; // in INR
+  priceMinLakh?: number;
+  priceMaxLakh?: number;
+  estimatedSubsidy?: number;
+  subsidyAmount: number;
+  scrappageBonus: number;
+  effectivePrice: number;
+  runningCostPerKm: number; // in INR
+  
+  // BaaS & Options
   empanelledStatus: EmpanelledStatus | boolean;
   boundaryModel?: boolean;
   boundaryNote?: string;
@@ -34,17 +87,66 @@ export interface EmpanelledVehicle {
   baasRentalPerKm?: any;
   availability?: VehicleAvailability;
   launchNote?: string;
-  chargingTimeHours: number;
-  topSpeedKmvh: number;
-  features: string[];
-  imageUrl?: string;
   whyThisFits: string;
-  runningCostPerKm: number; // in INR
   dataSourceDate?: string;
+  
+  // Dynamic Options
+  availableColours?: VehicleColorOption[];
+  availableVariants?: VehicleVariant[];
+  dealerAvailabilityCount?: number;
+  chargingConnector?: string;
+  governmentSchemeEligibility?: string[];
+  badges?: string[];
+  availabilityStatus?: string;
+  
+  // Features, Pros, Cons, FAQs, Reviews
+  specifications?: Record<string, string | number>;
+  features: string[];
+  pros?: string[];
+  cons?: string[];
+  faqs?: VehicleFaq[];
+  reviews?: VehicleReview[];
+  averageRating?: number;
+  numberRatings?: number;
+}
+
+export interface NewsArticle {
+  id: string;
+  slug: string;
+  title: string;
+  image: string;
+  summary: string;
+  content: string;
+  author: string;
+  source: string;
+  readTime: string;
+  publishedDate: string;
+  category: string;
+  tags?: string[];
+  isFeatured?: boolean;
+  relatedArticleIds?: string[];
+}
+
+export interface ChargingStation {
+  id: string;
+  name: string;
+  latitude: number;
+  longitude: number;
+  address: string;
+  city: string;
+  connectorTypes: string[];
+  chargingSpeedKw: number;
+  availabilityStatus: 'available' | 'busy' | 'offline' | 'under_maintenance';
+  workingStatus: string;
+  pricingPerKwh: number; // INR
+  operatingHours: string;
+  amenities: string[];
+  images?: string[];
+  lastUpdated: string;
 }
 
 export interface SubsidyRule {
-  policyVersion: string; // e.g. "Delhi EV Policy 2026"
+  policyVersion: string;
   category: VehicleCategory;
   yearTier: 1 | 2 | 3;
   incentivePerKwh: number;
@@ -65,7 +167,7 @@ export interface SubsidyApplication {
   vehicleId: string;
   vehicleModelName: string;
   rcIssueDate?: string;
-  filingDeadline: string; // Day 30 post RC
+  filingDeadline: string;
   status: ApplicationStatus;
   calculatedSubsidy: number;
   scrappageBonus: number;
@@ -96,11 +198,11 @@ export interface Review {
   userName: string;
   userCity: string;
   userAvatar?: string;
-  rating: number; // 1 - 5
+  rating: number;
   text: string;
   photos?: string[];
   createdAt: string;
-  verifiedInteractionId: string; // FK to appointment or charging status report (required)
+  verifiedInteractionId: string;
   status: 'pending' | 'published' | 'flagged';
 }
 
@@ -120,6 +222,9 @@ export interface Dealer {
   isVerified: boolean;
   hasInventoryLive: boolean;
   exclusiveOffer?: string;
+  imageUrl?: string;
+  workingHours?: string;
+  inventory?: { model: string; inStock: boolean }[];
 }
 
 export interface BatteryReport {
@@ -129,7 +234,7 @@ export interface BatteryReport {
   year: number;
   odometerKm: number;
   inspectionDate: string;
-  batteryScore: number; // 0 - 100
+  batteryScore: number;
   healthStatus: 'Excellent' | 'Good' | 'Fair' | 'Requires Service';
   estimatedRemainingYears: number;
   degradationPct: number;
@@ -137,33 +242,11 @@ export interface BatteryReport {
   certificateValidUntil: string;
   qrCodeUrl: string;
   inspectorName: string;
-}
-
-export interface DealerLead {
-  id: string;
-  userId: string;
-  userName: string;
-  userPhone: string;
-  dealerId: string;
-  dealerName: string;
-  vehicleId: string;
-  vehicleName: string;
-  status: 'new' | 'contacted' | 'test_drive_scheduled' | 'converted';
-  sourceModule: 'recommendation_flow' | 'subsidy_flow';
-  createdAt: string;
-}
-
-export interface Appointment {
-  id: string;
-  userId: string;
-  dealerId: string;
-  dealerName: string;
-  vehicleId?: string;
-  vehicleName?: string;
-  type: 'test_drive' | 'battery_inspection';
-  scheduledAt: string;
-  status: 'confirmed' | 'completed' | 'cancelled';
-  notes?: string;
+  batteryCapacityKwh?: number;
+  acDcRatio?: string;
+  cellDelta?: string;
+  resaleImpact?: string;
+  warrantyStatus?: string;
 }
 
 export interface UserProfile {
@@ -187,6 +270,60 @@ export interface UserProfile {
   tradeInIceVehicle: boolean;
   profileCompletionPct: number;
   savedReports?: SavedSubsidyReport[];
+  savedVehicleIds?: string[];
+}
+
+export interface HeroSlide {
+  id: string;
+  title: string;
+  subtitle: string;
+  badge: string;
+  ctaText: string;
+  ctaUrl: string;
+  bgImage: string;
+}
+
+export interface BrandInfo {
+  id: string;
+  name: string;
+  logoUrl?: string;
+  vehicleCount: number;
+}
+
+export interface HomeData {
+  heroSlides: HeroSlide[];
+  featuredVehicles: EmpanelledVehicle[];
+  exploreBrands: BrandInfo[];
+  popularSearches: string[];
+  testimonials: {
+    id: string;
+    name: string;
+    city: string;
+    avatarUrl?: string;
+    text: string;
+    vehicleOwned: string;
+  }[];
+}
+
+export interface QuestionnaireStepOption {
+  value: string;
+  label: string;
+  description?: string;
+  iconName?: string;
+}
+
+export interface QuestionnaireStepConfig {
+  id: string;
+  title: string;
+  questionText: string;
+  subtitle?: string;
+  options?: QuestionnaireStepOption[];
+  sliderLimits?: {
+    min: number;
+    max: number;
+    step: number;
+    unit: string;
+  };
 }
 
 export interface AiChatMessage {
@@ -196,4 +333,8 @@ export interface AiChatMessage {
   text: string;
   timestamp: string;
   quickActions?: { label: string; actionKey: string }[];
+}
+
+export interface QuestionnaireConfig {
+  steps: QuestionnaireStepConfig[];
 }

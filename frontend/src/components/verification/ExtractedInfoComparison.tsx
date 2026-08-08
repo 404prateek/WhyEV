@@ -11,9 +11,9 @@ export function ExtractedInfoComparison() {
           <ShieldCheck className="w-4 h-4 text-emerald-600" />
           <span>Data Extraction Transparency Guarantee</span>
         </div>
-        <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">Information We Extract from Your RC</h3>
+        <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">Information We Extract</h3>
         <p className="text-xs text-slate-500 font-normal">
-          We use AI Vision OCR to extract only the minimum fields required for Delhi EV Policy 2026 subsidy eligibility verification. All extracted data is shown to you for review before submission.
+          We use automated AI OCR to extract only the minimum data required for Delhi EV Policy subsidy filing.
         </p>
       </div>
 
@@ -22,32 +22,32 @@ export function ExtractedInfoComparison() {
         <div className="p-6 rounded-3xl bg-emerald-50/60 border border-emerald-200/80 space-y-4">
           <div className="flex items-center gap-2 text-sm font-extrabold text-emerald-800 border-b border-emerald-200/80 pb-3">
             <CheckCircle2 className="w-5 h-5 text-emerald-600 fill-emerald-100" />
-            <span>WHAT WE EXTRACT (RC / INVOICE)</span>
+            <span>WHAT WE EXTRACT (ONLY NECESSARY DATA)</span>
           </div>
 
           <ul className="space-y-3 text-xs text-slate-800 font-medium">
             <li className="flex items-start gap-2">
               <span className="text-emerald-600 font-bold">✓</span>
               <div>
-                <strong className="text-slate-900">RC Number:</strong> Unique registration certificate identifier — required to file the subsidy claim on the GNCTD portal.
+                <strong className="text-slate-900">Applicant Full Name:</strong> Verifies genuine application submission.
               </div>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-emerald-600 font-bold">✓</span>
               <div>
-                <strong className="text-slate-900">Registration Date:</strong> Used to compute the mandatory 30-day deadline for subsidy filing.
+                <strong className="text-slate-900">Delhi Address:</strong> Confirms Delhi jurisdiction eligibility for state subsidy.
               </div>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-emerald-600 font-bold">✓</span>
               <div>
-                <strong className="text-slate-900">Vehicle Category (2W / 4W):</strong> Determines the applicable subsidy tier and scrappage bonus under Delhi EV Policy 2026.
+                <strong className="text-slate-900">Electricity CA Number & Discom:</strong> Connects EV charger to tariff meter.
               </div>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-emerald-600 font-bold">✓</span>
               <div>
-                <strong className="text-slate-900">Chassis Number:</strong> Cross-referenced with the empanelled vehicle database to verify eligibility.
+                <strong className="text-slate-900">Sanctioned Electrical Load (kW):</strong> Assesses 3.3kW / 7.2kW charger feasibility.
               </div>
             </li>
           </ul>
@@ -64,25 +64,25 @@ export function ExtractedInfoComparison() {
             <li className="flex items-start gap-2">
               <span className="text-rose-600 font-bold">✗</span>
               <div>
-                <strong className="text-slate-900">Aadhaar Number for display:</strong> Number is masked immediately upon verification — never stored in plain text.
+                <strong className="text-slate-900">Aadhaar Number for display:</strong> Number is masked immediately upon verification.
               </div>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-rose-600 font-bold">✗</span>
               <div>
-                <strong className="text-slate-900">Biometric Information:</strong> No fingerprints or iris scans are ever accessed or stored.
+                <strong className="text-slate-900">Biometric Information:</strong> No fingerprints or iris scans are ever accessed.
               </div>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-rose-600 font-bold">✗</span>
               <div>
-                <strong className="text-slate-900">Bank Account Details:</strong> Only the GNCTD subsidy DISCOM credit destination is used — not stored by WhyEV.
+                <strong className="text-slate-900">Bank Account Details:</strong> Only subsidy DISCOM account credit destination is used.
               </div>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-rose-600 font-bold">✗</span>
               <div>
-                <strong className="text-slate-900">Financial / Tax History:</strong> No income, ITR, or property valuation data is accessed or collected.
+                <strong className="text-slate-900">Unrelated Property History:</strong> No financial valuations or tax amounts collected.
               </div>
             </li>
           </ul>

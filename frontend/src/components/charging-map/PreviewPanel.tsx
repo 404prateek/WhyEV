@@ -56,7 +56,7 @@ export function PreviewPanel({
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 60 }}
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-        className="fixed bottom-0 left-0 right-0 sm:top-24 sm:right-6 sm:bottom-6 sm:left-auto z-40 w-full sm:w-96 bg-white/95 backdrop-blur-2xl border-t sm:border border-slate-200/90 rounded-t-3xl sm:rounded-3xl shadow-2xl text-slate-900 flex flex-col justify-between max-h-[85vh] sm:max-h-none overflow-hidden"
+        className="fixed bottom-16 left-0 right-0 sm:bottom-6 sm:top-24 sm:right-6 sm:left-auto z-50 w-full sm:w-96 bg-white/95 backdrop-blur-2xl border-t sm:border border-slate-200/90 rounded-t-3xl sm:rounded-3xl shadow-2xl text-slate-900 flex flex-col justify-between max-h-[75vh] sm:max-h-[calc(100vh-8rem)] overflow-hidden"
       >
         {/* Mobile Drag Handle */}
         <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-3 sm:hidden" />

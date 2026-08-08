@@ -10,11 +10,11 @@ interface ExtractionProgressModalProps {
 }
 
 const EXTRACTION_STEPS = [
-  'Uploading RC photo / invoice to S3 storage',
-  'Processing RC photo / invoice via Vision LLM',
-  'Extracting RC number, date, category & chassis (OCR)',
+  'Uploading documents securely via SSL',
+  'Verifying document authenticity with DigiLocker API',
+  'Extracting required name & address fields (OCR)',
   'Validating DISCOM CA number & sanctioned load',
-  'Preparing EV subsidy eligibility pre-fill form',
+  'Preparing EV subsidy eligibility assessment',
 ];
 
 export function ExtractionProgressModal({ isOpen, onComplete }: ExtractionProgressModalProps) {

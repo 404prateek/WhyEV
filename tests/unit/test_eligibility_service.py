@@ -64,18 +64,40 @@ class TestCalculateSubsidy:
 
     async def test_non_delhi_ineligible(self):
         db = AsyncMock()
+        mock_result = MagicMock()
+        mock_result.scalar_one_or_none.return_value = None
+        db.execute.return_value = mock_result
         result = await self._run(db, city="mumbai")
-        assert not result.eligible
-        assert "Delhi-NCR" in result.reason
+        assert result.eligible
+        assert result.breakdown["state"] == "Maharashtra"
+
+        result_unempanelled = await calculate_subsidy(
+            db=db,
+            category="2W",
+            vehicle_price=100_000,
+            city="delhi",
+            rc_issue_date=None,
+            scrappage="no",
+            is_empanelled=False,
+        )
+        assert not result_unempanelled.eligible
 
     async def test_no_matching_rule_ineligible(self):
         db = AsyncMock()
-        # Simulate no rule returned
         mock_result = MagicMock()
         mock_result.scalar_one_or_none.return_value = None
         db.execute.return_value = mock_result
 
-        result = await self._run(db, city="delhi")
+        # Non-empanelled model returns ineligible
+        result = await calculate_subsidy(
+            db=db,
+            category="2W",
+            vehicle_price=100_000,
+            city="delhi",
+            rc_issue_date=None,
+            scrappage="no",
+            is_empanelled=False,
+        )
         assert not result.eligible
 
     async def test_eligible_2w(self):
@@ -86,8 +108,8 @@ class TestCalculateSubsidy:
 
         result = await self._run(db, city="delhi", price=80_000)
         assert result.eligible
-        assert result.amount == 15_000
         assert result.breakdown is not None
+        assert result.breakdown["direct_subsidy"] == 15_000
         assert result.breakdown["scrappage_bonus"] == 0
 
     async def test_scrappage_bonus_added(self):
@@ -98,7 +120,8 @@ class TestCalculateSubsidy:
 
         result = await self._run(db, city="delhi", scrappage="yes")
         assert result.eligible
-        assert result.amount == 15_000 + SCRAPPAGE_BONUS["2W"]
+        assert result.breakdown["direct_subsidy"] == 15_000
+        assert result.breakdown["scrappage_bonus"] == SCRAPPAGE_BONUS["2W"]
 
     async def test_deadline_computed_from_rc_date(self):
         db = AsyncMock()

@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException, UploadFile, File, status
 from fastapi.responses import FileResponse
 from sqlalchemy import select
 
-from app.core.deps import CurrentUser, DBSession
+from app.core.deps import CurrentUser, CurrentUserOptional, DBSession
 from app.models.subsidy import SubsidyApplication, SubsidyRule
 from app.schemas.subsidy import (
     SubsidyApplicationCreateIn,

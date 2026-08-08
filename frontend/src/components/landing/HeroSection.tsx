@@ -1,177 +1,259 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, ShieldCheck, BatteryCharging, Zap, CheckCircle2, TrendingUp, Store, Search } from 'lucide-react';
-import { Button } from '@/components/buttons/Button';
-import { ROUTES } from '@/routes/routes';
+import { ArrowRight, ChevronLeft, ChevronRight, Sparkles, Landmark, Zap } from 'lucide-react';
 
 export function HeroSection() {
+  const router = useRouter();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const heroSlides = [
+    {
+      id: 1,
+      image: '/hero-ev-car.png',
+      headline: 'Find Your EV',
+      subheading: 'Discover, compare, and choose the right electric car for your lifestyle.',
+      ctaLabel: 'Explore EVs',
+      ctaLink: '/recommend',
+      icon: Sparkles,
+      desktopAlign: 'left',
+      mobileBgPos: '86% 62%',
+      mobileOverlay: 'h-[68%] bg-gradient-to-b from-slate-950/85 via-slate-950/65 to-transparent',
+    },
+    {
+      id: 2,
+      image: '/hero-slide-2.png',
+      headline: 'Know Your Savings',
+      subheading: 'See every government incentive, tax benefit, waiver, and eligible offer before you buy your EV.',
+      ctaLabel: 'View Savings',
+      ctaLink: '/recommend',
+      icon: Landmark,
+      desktopAlign: 'right',
+      mobileBgPos: 'center center',
+      mobileOverlay: 'h-[68%] bg-gradient-to-b from-slate-950/85 via-slate-950/65 to-transparent',
+    },
+    {
+      id: 3,
+      image: '/hero-slide-3.jpg',
+      headline: 'Charge with Confidence',
+      subheading: 'Locate charging stations across India and plan every journey with confidence.',
+      ctaLabel: 'Explore Charging Map',
+      ctaLink: '/map',
+      icon: Zap,
+      desktopAlign: 'center',
+      mobileBgPos: '35% center',
+      mobileOverlay: 'h-[75%] bg-gradient-to-b from-slate-950/95 via-slate-950/80 to-transparent',
+    },
+  ];
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  }, [heroSlides.length]);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  }, [heroSlides.length]);
+
+  // 6.0-Second Auto-Rotation Timer
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      nextSlide();
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [isPaused, nextSlide]);
+
+  const getContainerAlignClass = (align: string) => {
+    if (align === 'right') return 'md:items-end md:text-right md:ml-auto';
+    if (align === 'center') return 'md:items-center md:text-center md:mx-auto';
+    return 'md:items-start md:text-left md:mr-auto';
+  };
+
+  const getHeadingAlignClass = (align: string) => {
+    if (align === 'right') return 'text-center md:text-right';
+    if (align === 'center') return 'text-center md:text-center';
+    return 'text-center md:text-left';
+  };
+
+  const getButtonJustifyClass = (align: string) => {
+    if (align === 'right') return 'justify-center md:justify-end';
+    if (align === 'center') return 'justify-center md:justify-center';
+    return 'justify-center md:justify-start';
+  };
+
+  const handleStartJourney = () => {
+    router.push('/recommend?flow=recommend');
+  };
+
   return (
-    <section id="home" className="relative w-full pt-12 pb-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
-      {/* Ambient background glows */}
-      <div className="absolute top-12 right-1/4 w-full max-w-[600px] h-[350px] sm:h-[500px] bg-emerald-50/60 rounded-full blur-[100px] sm:blur-[140px] pointer-events-none" />
-      <div className="absolute top-44 left-10 w-full max-w-[450px] h-[300px] sm:h-[450px] bg-teal-50/40 rounded-full blur-[90px] sm:blur-[120px] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center relative z-10">
-        {/* Left Column */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="lg:col-span-7 space-y-6 text-left"
-        >
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200/90 text-emerald-800 text-xs sm:text-sm font-semibold shadow-xs">
-            <span className="text-emerald-600 font-bold text-sm">⚡</span>
-            <span>India's AI-Powered EV Buying Platform</span>
-          </div>
-
-          {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.06]">
-            Buy the Right EV. <br />
-            Claim Every Subsidy. <br />
-            <span className="text-emerald-600">All in One Place.</span>
-          </h1>
-
-          {/* Description */}
-          <p className="w-full max-w-xl text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-            WhyEV helps you discover the right electric vehicle, understand government subsidies under Delhi EV Policy 2026, compare ownership costs, and connect with verified dealers.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-            <Link href={ROUTES.RECOMMEND}>
-              <Button size="lg" variant="emerald" rightIcon={<ArrowRight className="w-5 h-5" />}>
-                Start Your EV Journey
-              </Button>
-            </Link>
-
-            <Link href={ROUTES.SUBSIDY}>
-              <Button size="lg" variant="secondary">
-                Explore Benefits
-              </Button>
-            </Link>
-          </div>
-
-          {/* Footnote Trust Markers */}
-          <div className="pt-6 flex flex-wrap items-center gap-6 sm:gap-8 border-t border-slate-100 text-xs sm:text-sm font-medium text-slate-500">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4.5 h-4.5 text-emerald-600 shrink-0" />
-              <span>Delhi EV Policy 2026 Live</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4.5 h-4.5 text-emerald-600 shrink-0" />
-              <span>100% Empanelled Models</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4.5 h-4.5 text-emerald-600 shrink-0" />
-              <span>Zero Dealer Cold Calls</span>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Right Column */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="lg:col-span-5 relative flex justify-center lg:justify-end"
-        >
-          {/* Dashboard Container */}
-          <div className="relative w-full max-w-lg lg:max-w-xl">
-            {/* Window Screenshot Mockup */}
-            <div className="bg-white/95 backdrop-blur-2xl border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-2xl shadow-slate-900/15 space-y-5">
-              {/* App Navigation Bar */}
-              <div className="flex items-center justify-between border-b border-slate-100 pb-3.5 text-xs">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex gap-1.5">
-                    <span className="w-3 h-3 rounded-full bg-slate-300" />
-                    <span className="w-3 h-3 rounded-full bg-slate-300" />
-                    <span className="w-3 h-3 rounded-full bg-slate-300" />
-                  </div>
-                  <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-500 font-mono text-[11px]">
-                    <Search className="w-3 h-3" />
-                    <span>app.whyev.in/matcher</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full bg-emerald-100/90 text-emerald-800 text-[11px] font-bold">
-                    Delhi Policy 2026 Live
-                  </span>
-                </div>
-              </div>
-
-              {/* Header */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center font-bold shrink-0">
-                    <Zap className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Empanelled Winner</div>
-                    <div className="text-base sm:text-lg font-extrabold text-slate-900">Tata Nexon.ev (Long Range)</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Specs Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                  <div className="text-xs text-slate-500 font-medium">Real World Range</div>
-                  <div className="text-xl font-extrabold text-slate-900">465 km</div>
-                  <div className="text-[11px] text-emerald-600 font-semibold">AC & Traffic Buffer Included</div>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                  <div className="text-xs text-slate-500 font-medium">Effective Post-Subsidy Cost</div>
-                  <div className="text-xl font-extrabold text-emerald-700">₹15,49,000</div>
-                  <div className="text-[11px] text-slate-500 line-through">Sticker: ₹16,99,000</div>
-                </div>
-              </div>
-
-              {/* Handoff Banner */}
-              <div className="p-3.5 rounded-2xl bg-slate-950 text-white flex flex-col sm:flex-row sm:items-center justify-between text-xs font-semibold gap-2">
-                <div className="flex items-center gap-2">
-                  <Store className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>AutoVikas Delhi · Verified Showroom</span>
-                </div>
-                <span className="text-emerald-400 font-bold">Pre-Qualified Lead</span>
-              </div>
-            </div>
-
-            {/* Floating Glass Badges */}
+    <section id="home" className="w-full bg-white space-y-6 sm:space-y-8">
+      {/* 1. Responsive Multi-Slide Hero Carousel Banner */}
+      <div
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
+        className="relative w-full h-[60vh] md:h-[78vh] min-h-[400px] md:min-h-[500px] max-h-[720px] overflow-hidden bg-slate-950 select-none"
+      >
+        {/* SLIDE BACKGROUND LAYERS */}
+        {heroSlides.map((slide, idx) => {
+          const isActive = idx === currentSlide;
+          return (
             <motion.div
-              animate={{ y: [0, -6, 0] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute -top-4 -left-3 sm:-left-5 bg-white/95 backdrop-blur-2xl border border-slate-200/90 p-3 rounded-2xl shadow-xl hidden sm:flex items-center gap-2.5"
+              key={slide.id}
+              initial={false}
+              animate={{ opacity: isActive ? 1 : 0 }}
+              transition={{ duration: 0.7, ease: 'easeInOut' }}
+              className="absolute inset-0 w-full h-full pointer-events-none"
             >
-              <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0">
-                <BatteryCharging className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">Battery Certificate</div>
-                <div className="text-xs font-extrabold text-slate-900">Score 94/100 · NABL Verified</div>
-              </div>
-            </motion.div>
+              <img
+                src={slide.image}
+                alt={slide.headline}
+                className="hidden md:block w-full h-full object-cover object-center"
+              />
 
-            <motion.div
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-              className="absolute -bottom-4 -right-3 sm:-right-5 bg-white/95 backdrop-blur-2xl border border-slate-200/90 p-3 rounded-2xl shadow-xl hidden sm:flex items-center gap-2.5"
-            >
-              <div className="w-9 h-9 rounded-xl bg-slate-900 text-emerald-400 flex items-center justify-center shrink-0">
-                <TrendingUp className="w-4 h-4 text-emerald-500" />
-              </div>
-              <div>
-                <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">Delhi EV Subsidy</div>
-                <div className="text-xs font-extrabold text-slate-900">₹3,00,000 Total Approved</div>
-              </div>
+              <div
+                className="md:hidden absolute inset-0 bg-no-repeat"
+                style={{
+                  backgroundImage: `url('${slide.image}')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: slide.mobileBgPos,
+                }}
+              />
+
+              {slide.desktopAlign === 'left' && (
+                <div className="hidden md:block absolute inset-y-0 left-0 w-3/5 bg-gradient-to-r from-slate-950/95 via-slate-950/65 to-transparent" />
+              )}
+              {slide.desktopAlign === 'right' && (
+                <div className="hidden md:block absolute inset-y-0 right-0 w-3/5 bg-gradient-to-l from-slate-950/95 via-slate-950/65 to-transparent" />
+              )}
+              {slide.desktopAlign === 'center' && (
+                <div className="hidden md:block absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/45 to-slate-950/80" />
+              )}
+
+              <div className={`md:hidden absolute top-0 inset-x-0 ${slide.mobileOverlay}`} />
             </motion.div>
+          );
+        })}
+
+        {/* Hero Slide Content Layer */}
+        <div className="absolute inset-0 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 flex flex-col items-center justify-start md:justify-center pt-36 sm:pt-40 md:pt-0 z-10 pointer-events-none">
+          {heroSlides.map((slide, idx) => {
+            const isActive = idx === currentSlide;
+            if (!isActive) return null;
+
+            const IconComponent = slide.icon;
+            const targetLink =
+              slide.id === 1
+                ? '/recommend'
+                : slide.id === 2
+                ? '/subsidy'
+                : '/map';
+
+            return (
+              <motion.div
+                key={slide.id}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -14 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                className={`max-w-xl space-y-3 md:space-y-4 flex flex-col items-center pointer-events-auto ${getContainerAlignClass(slide.desktopAlign)}`}
+              >
+                <h1 className={`text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] drop-shadow-md ${getHeadingAlignClass(slide.desktopAlign)}`}>
+                  {slide.headline}
+                </h1>
+
+                <p className={`text-xs sm:text-base lg:text-lg text-slate-200 font-medium leading-relaxed max-w-xs sm:max-w-lg drop-shadow-xs ${getHeadingAlignClass(slide.desktopAlign)}`}>
+                  {slide.subheading}
+                </p>
+
+                <div className={`pt-1.5 sm:pt-4 flex w-full ${getButtonJustifyClass(slide.desktopAlign)}`}>
+                  <Link
+                    href={targetLink}
+                    className="h-[44px] sm:h-[52px] px-6 sm:px-8 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm transition-all shadow-xl shadow-emerald-900/30 hover:shadow-2xl flex items-center justify-center gap-2 sm:gap-2.5 w-fit cursor-pointer whitespace-nowrap"
+                  >
+                    <span>{slide.ctaLabel}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Desktop Controls */}
+        <div className="hidden md:flex absolute inset-y-0 right-6 items-center gap-2 z-20 pointer-events-none">
+          <button
+            onClick={prevSlide}
+            className="p-2.5 rounded-full bg-slate-950/40 hover:bg-slate-950/70 border border-white/20 text-white backdrop-blur-md transition-all cursor-pointer pointer-events-auto hover:scale-110"
+            title="Previous Slide"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="p-2.5 rounded-full bg-slate-950/40 hover:bg-slate-950/70 border border-white/20 text-white backdrop-blur-md transition-all cursor-pointer pointer-events-auto hover:scale-110"
+            title="Next Slide"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Circular Indicators */}
+        <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
+          {heroSlides.map((slide, idx) => {
+            const isActive = idx === currentSlide;
+            return (
+              <button
+                key={slide.id}
+                onClick={() => setCurrentSlide(idx)}
+                className="p-1 cursor-pointer focus:outline-none"
+                title={`Go to slide ${idx + 1}`}
+              >
+                {isActive ? (
+                  <motion.div
+                    layoutId="activeHeroDot"
+                    className="w-7 h-2.5 rounded-full bg-emerald-500 shadow-md shadow-emerald-500/40"
+                    transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                  />
+                ) : (
+                  <div className="w-2.5 h-2.5 rounded-full bg-white/40 hover:bg-white/80 transition-colors" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 2. RESPONSIVE HERO CTA (Single-line mobile phone text) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 text-center md:text-left border-b border-slate-100 pb-8 sm:pb-12">
+          {/* Heading & Subtitle */}
+          <div className="space-y-2 max-w-2xl">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+              Find the EV That's Right for You
+            </h2>
+            <p className="text-sm sm:text-base lg:text-lg text-slate-600 font-medium leading-relaxed">
+              Answer 4 quick questions and discover the best EVs, estimated savings, and incentives tailored to you.
+            </p>
           </div>
-        </motion.div>
+
+          {/* Button (Single-line text formatting on mobile phone view) */}
+          <div className="shrink-0 flex justify-center md:justify-end">
+            <button
+              type="button"
+              onClick={handleStartJourney}
+              className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-base whitespace-nowrap transition-all shadow-md hover:shadow-lg cursor-pointer"
+            >
+              <span>Start Your EV Journey</span>
+              <ArrowRight className="w-4 h-4 text-white shrink-0" />
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );

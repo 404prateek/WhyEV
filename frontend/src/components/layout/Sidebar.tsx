@@ -45,9 +45,9 @@ export function Sidebar() {
       <div className="flex items-center justify-between px-2 py-3 border-b border-emerald-900/30 mb-4">
         <Link href="/" className="flex items-center gap-2 group">
           <img
-            src="/whyev-logo.jpg"
+            src="/whyev-logo-icon.png"
             alt="WhyEV Logo"
-            className="h-10 w-auto object-contain rounded-lg transition-transform group-hover:scale-105"
+            className="h-9 w-auto object-contain transition-transform group-hover:scale-105"
           />
         </Link>
       </div>

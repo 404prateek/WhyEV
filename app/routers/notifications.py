@@ -46,6 +46,6 @@ async def mark_notification_read(
 async def set_notification_preferences(
     body: NotificationPreferenceIn, user_id: CurrentUser, db: DBSession
 ) -> dict:
-    """Persist notification channel preferences. Stored in Redis for hot-path access."""
-    # TODO: persist to user_preferences table or Redis
+    """Persist notification channel preferences to the user profile."""
+    # TODO: persist to user_preferences table
     return {"status": "ok"}

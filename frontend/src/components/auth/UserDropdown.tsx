@@ -73,17 +73,18 @@ export function UserDropdown() {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Trigger: Circular Profile Picture + First Name Only */}
+      {/* Trigger: Circular Profile Picture (Initials-only on mobile, Name on Desktop) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         onMouseEnter={() => setIsOpen(true)}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100/90 hover:bg-slate-200/80 border border-slate-200/90 text-slate-800 text-xs font-semibold transition-all cursor-pointer focus:outline-none hover:scale-[1.02] active:scale-98"
+        className="flex items-center gap-2 p-1 sm:px-3 sm:py-1.5 rounded-full bg-slate-100/90 hover:bg-slate-200/80 border border-slate-200/90 text-slate-800 text-xs font-semibold transition-all cursor-pointer focus:outline-none hover:scale-[1.02] active:scale-98"
+        aria-label={`User profile for ${user.name}`}
       >
-        <div className="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0 shadow-xs">
+        <div className="w-7 h-7 sm:w-6 sm:h-6 rounded-full bg-emerald-600 text-white font-black text-xs sm:text-[10px] flex items-center justify-center shrink-0 shadow-xs">
           {getInitials(user.name)}
         </div>
-        <span className="font-bold text-slate-900">{firstName}</span>
-        <ChevronDown className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+        <span className="hidden sm:inline font-bold text-slate-900">{firstName}</span>
+        <ChevronDown className={`hidden sm:inline w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {/* Animated Dropdown Menu */}
