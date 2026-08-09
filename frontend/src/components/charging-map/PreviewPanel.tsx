@@ -20,7 +20,8 @@ export interface StationData {
   lastVerifiedMinutesAgo: number;
   isFast: boolean;
   maxPowerKw: number;
-  pricing: { type: string; rate: number };
+  pricing: { type: string; rate: number | string };
+
   operatingHours: string;
   connectors: Array<{ type: string; total: number; available: number; busy: number; broken: number }>;
   amenities: string[];
