@@ -100,6 +100,9 @@ export function VehicleDetailsView({ vehicleId }: VehicleDetailsViewProps) {
   const activeBatteryKwh = activeVariant?.batteryCapacityKwh || vehicle?.batteryCapacityKwh || 0;
   const activeRangeKm = activeVariant?.claimedRangeKm || vehicle?.rangeKm || 0;
 
+  // Scrappage Trade-In State (Default false for 100% policy accuracy)
+  const [hasScrappage, setHasScrappage] = useState<boolean>(false);
+
   // Recalculate Live Subsidy via POST /api/v1/subsidy/calculate whenever vehicle or selected variant changes
   useEffect(() => {
     if (!vehicle) return;
@@ -111,7 +114,7 @@ export function VehicleDetailsView({ vehicleId }: VehicleDetailsViewProps) {
       .calculateSubsidy({
         category: vehicle.category,
         batteryCapacityKwh: activeBatteryKwh,
-        hasTradeInIce: true,
+        hasTradeInIce: hasScrappage,
         isDelhiResident: true,
         price: activeExShowroomPrice,
         city: 'Delhi',
@@ -130,7 +133,8 @@ export function VehicleDetailsView({ vehicleId }: VehicleDetailsViewProps) {
       .catch(() => {
         setSubsidyBreakdown((prev) => ({ ...prev, loading: false }));
       });
-  }, [vehicle, selectedVariantIdx, activeExShowroomPrice, activeBatteryKwh]);
+  }, [vehicle, selectedVariantIdx, activeExShowroomPrice, activeBatteryKwh, hasScrappage]);
+
 
   if (loading) {
     return (
@@ -296,24 +300,52 @@ export function VehicleDetailsView({ vehicleId }: VehicleDetailsViewProps) {
               </div>
 
               {/* Live Subsidy Breakdown details */}
-              <div className="pt-3 border-t border-emerald-200/70 space-y-1.5 text-xs text-slate-700 font-medium">
-                <div className="flex justify-between">
-                  <span>State & Central Direct Incentives:</span>
-                  <span className="font-bold text-emerald-800">
-                    -₹{(subsidyBreakdown.purchaseIncentive + subsidyBreakdown.scrappageBonus).toLocaleString('en-IN')}
+              <div className="pt-3 border-t border-emerald-200/70 space-y-2 text-xs text-slate-700 font-medium">
+                <div className="flex justify-between items-center">
+                  <span>Direct State/Central Purchase Incentive:</span>
+                  <span className="font-bold text-slate-800">
+                    {subsidyBreakdown.purchaseIncentive > 0
+                      ? `-₹${subsidyBreakdown.purchaseIncentive.toLocaleString('en-IN')}`
+                      : '₹0 (4W Private Excluded)'}
                   </span>
                 </div>
-                <div className="flex justify-between">
+
+                <div className="flex justify-between items-center">
                   <span>100% Delhi Road Tax & Reg Waiver:</span>
                   <span className="font-bold text-emerald-800">
                     -₹{subsidyBreakdown.roadTaxWaiverEstimated.toLocaleString('en-IN')}
                   </span>
                 </div>
-                <div className="flex justify-between pt-1 border-t border-emerald-200/40 text-emerald-900 font-black">
+
+                {/* Scrappage Bonus Trade-In Option */}
+                <div className="flex justify-between items-center pt-1 border-t border-slate-100">
+                  <div className="flex items-center gap-1.5">
+                    <span>Scrappage Bonus (Old ICE Vehicle):</span>
+                    <button
+                      type="button"
+                      onClick={() => setHasScrappage(!hasScrappage)}
+                      className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold transition-all cursor-pointer ${
+                        hasScrappage
+                          ? 'bg-emerald-600 text-white shadow-xs'
+                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200'
+                      }`}
+                    >
+                      {hasScrappage ? 'Included (₹1 Lakh)' : '+ Add Old ICE Car'}
+                    </button>
+                  </div>
+                  <span className={`font-bold ${hasScrappage ? 'text-emerald-800' : 'text-slate-400'}`}>
+                    {hasScrappage
+                      ? `-₹${subsidyBreakdown.scrappageBonus.toLocaleString('en-IN')}`
+                      : '₹0'}
+                  </span>
+                </div>
+
+                <div className="flex justify-between items-center pt-2 border-t border-emerald-200/60 text-emerald-900 font-black text-sm">
                   <span>Total Government Savings:</span>
                   <span>₹{subsidyBreakdown.totalBenefit.toLocaleString('en-IN')}</span>
                 </div>
               </div>
+
             </div>
 
             {/* CTA Buttons */}
