@@ -170,11 +170,15 @@ export function VehicleDetailsView({ vehicleId }: VehicleDetailsViewProps) {
     );
   }
 
-  // Live Calculated Effective Price
+  // Direct Cash Discounts (Purchase Incentive + Scrappage) that reduce upfront purchase price
+  const directCashDiscount = subsidyBreakdown.purchaseIncentive + subsidyBreakdown.scrappageBonus;
+
+  // Live Calculated Effective Purchase Price (Post Direct Cash Subsidy)
   const effectivePrice = Math.max(
     0,
-    activeExShowroomPrice - (subsidyBreakdown.totalBenefit || vehicle.subsidyAmount || 0)
+    activeExShowroomPrice - directCashDiscount
   );
+
 
   const handleProtectedAction = (action: () => void, title?: string, subtitle?: string) => {
     // Sign-in is optional — execute action directly for all users
@@ -302,18 +306,18 @@ export function VehicleDetailsView({ vehicleId }: VehicleDetailsViewProps) {
               {/* Live Subsidy Breakdown details */}
               <div className="pt-3 border-t border-emerald-200/70 space-y-2 text-xs text-slate-700 font-medium">
                 <div className="flex justify-between items-center">
-                  <span>Direct State/Central Purchase Incentive:</span>
-                  <span className="font-bold text-slate-800">
+                  <span>Direct State & Central Incentives:</span>
+                  <span className="font-bold text-emerald-800">
                     {subsidyBreakdown.purchaseIncentive > 0
                       ? `-₹${subsidyBreakdown.purchaseIncentive.toLocaleString('en-IN')}`
-                      : '₹0 (4W Private Excluded)'}
+                      : '₹0 (Private 4W Excluded)'}
                   </span>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <span>100% Delhi Road Tax & Reg Waiver:</span>
-                  <span className="font-bold text-emerald-800">
-                    -₹{subsidyBreakdown.roadTaxWaiverEstimated.toLocaleString('en-IN')}
+                  <span>100% Delhi Road Tax & Reg Fee:</span>
+                  <span className="font-bold text-emerald-700">
+                    Waived (Saved ₹{subsidyBreakdown.roadTaxWaiverEstimated.toLocaleString('en-IN')} at RTO)
                   </span>
                 </div>
 
@@ -330,7 +334,7 @@ export function VehicleDetailsView({ vehicleId }: VehicleDetailsViewProps) {
                           : 'bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200'
                       }`}
                     >
-                      {hasScrappage ? 'Included (₹1 Lakh)' : '+ Add Old ICE Car'}
+                      {hasScrappage ? 'Included' : '+ Add Trade-in'}
                     </button>
                   </div>
                   <span className={`font-bold ${hasScrappage ? 'text-emerald-800' : 'text-slate-400'}`}>
@@ -339,6 +343,7 @@ export function VehicleDetailsView({ vehicleId }: VehicleDetailsViewProps) {
                       : '₹0'}
                   </span>
                 </div>
+
 
                 <div className="flex justify-between items-center pt-2 border-t border-emerald-200/60 text-emerald-900 font-black text-sm">
                   <span>Total Government Savings:</span>

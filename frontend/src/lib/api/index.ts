@@ -229,7 +229,9 @@ export const subsidyApi = {
     let purchaseIncentive = 0;
     if (isNcr) {
       if (params.category === '2W' && params.price <= 225000) {
-        purchaseIncentive = Math.min((params.batteryCapacityKwh || 3.0) * 10000, 30000);
+        const delhiState = Math.min((params.batteryCapacityKwh || 3.0) * 10000, 30000);
+        const pmEdrive = Math.min((params.batteryCapacityKwh || 3.0) * 2500, 5000);
+        purchaseIncentive = delhiState + pmEdrive;
       } else if (params.category === '3W') {
         purchaseIncentive = 50000;
       } else if (params.category === '4W') {
