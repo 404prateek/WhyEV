@@ -143,15 +143,25 @@ export function InteractiveChargingMapModule() {
     setIsPermissionModalOpen(false);
   };
 
-  // Passive Geofence Check
+  // Passive Geofence Check — selects closest station if location available, else nearest real station
   useEffect(() => {
     const timer = setTimeout(() => {
       if (stations.length > 0) {
-        setGeofenceStation(stations[0]);
+        if (userLocation) {
+          const sorted = [...stations].sort((a, b) => {
+            const distA = Math.hypot(a.lat - userLocation[0], a.lng - userLocation[1]);
+            const distB = Math.hypot(b.lat - userLocation[0], b.lng - userLocation[1]);
+            return distA - distB;
+          });
+          setGeofenceStation(sorted[0]);
+        } else {
+          setGeofenceStation(stations[0]);
+        }
       }
-    }, 4000);
+    }, 3000);
     return () => clearTimeout(timer);
-  }, [stations]);
+  }, [stations, userLocation]);
+
 
   // Handle Search Locality -> Opens StationDetailPanel directly
   const handleSearchSelect = (locality: string) => {

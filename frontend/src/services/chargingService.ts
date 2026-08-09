@@ -3,7 +3,8 @@ import { MOCK_CHARGING_STATIONS } from '@/lib/mock-data';
 import { StationData } from '@/components/charging-map/PreviewPanel';
 import stationsData from '@/data/charging/chargingStations.json';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://whyev-backend.onrender.com/api/v1';
+
 
 export interface StationFilterParams {
   lat?: number;

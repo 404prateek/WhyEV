@@ -26,7 +26,8 @@ import { SEEDED_VEHICLES_MASTER } from '@/lib/seed/vehiclesMaster';
 
 
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://whyev-backend.onrender.com/api/v1';
+
 
 // Returns auth header — uses Supabase session token if available, falls back to dev token
 async function getAuthHeaders(): Promise<Record<string, string>> {
