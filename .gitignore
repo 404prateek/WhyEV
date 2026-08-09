@@ -43,6 +43,11 @@ node_modules/
 .next/
 out/
 
+# Dev & Scratch directories
+.agents/
+scratch/
+Battery-Health-Report*/
+
 # Logs
 *.log
 logs/
