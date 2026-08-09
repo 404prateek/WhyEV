@@ -17,8 +17,8 @@ def _is_host_reachable(url_str: str) -> bool:
         port = parsed.port or 5432
         if not host:
             return False
-        # Quick socket connection test with 1 second timeout
-        with socket.create_connection((host, port), timeout=1.0):
+        # Socket connection test with 3.0 second timeout
+        with socket.create_connection((host, port), timeout=3.0):
             return True
     except Exception:
         return False
@@ -29,7 +29,7 @@ def get_engine():
     if "sqlite" in db_url:
         return create_async_engine(db_url)
 
-    # Check if host is reachable
+    # Try PostgreSQL first if host is reachable
     if _is_host_reachable(db_url):
         try:
             return create_async_engine(
@@ -42,8 +42,18 @@ def get_engine():
         except Exception as e:
             logger.warning(f"Failed to create PostgreSQL engine: {e}. Falling back to SQLite.")
 
-    logger.info("Primary PostgreSQL database host is unreachable. Using local SQLite database (whyev.db).")
-    return create_async_engine("sqlite+aiosqlite:///./whyev.db")
+    # Try creating PostgreSQL engine anyway if configured
+    try:
+        return create_async_engine(
+            db_url,
+            echo=settings.DEBUG,
+            pool_pre_ping=True,
+            pool_size=10,
+            max_overflow=20,
+        )
+    except Exception as exc:
+        logger.info(f"Primary PostgreSQL database host is unreachable ({exc}). Using local SQLite database (whyev.db).")
+        return create_async_engine("sqlite+aiosqlite:///./whyev.db")
 
 
 engine = get_engine()
