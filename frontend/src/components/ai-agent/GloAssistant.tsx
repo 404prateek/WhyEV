@@ -69,8 +69,8 @@ export function GloAssistant() {
           )}
 
           {/* Toggle Icon: Close X when open, Clean Vector AI Spark when closed */}
-          <div className="relative flex items-center justify-center text-white font-black drop-shadow-md">
-            {isOpen ? <X size={24} /> : <CleanAiAgentIcon size={26} />}
+          <div className="relative flex items-center justify-center text-white font-black drop-shadow-md overflow-hidden rounded-full w-full h-full p-1">
+            {isOpen ? <X size={24} /> : <CleanAiAgentIcon size={36} className="w-full h-full object-cover rounded-full" />}
           </div>
 
           {/* Glo Name Tag Pill on Hover */}
@@ -104,9 +104,10 @@ export function GloAssistant() {
               {/* Header */}
               <div className="p-3.5 sm:p-4 border-b border-slate-100 bg-gradient-to-r from-emerald-50/90 via-teal-50/60 to-white flex items-center justify-between shrink-0 sticky top-0 z-20">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-emerald-600 border border-emerald-400 text-white flex items-center justify-center shadow-md shadow-emerald-600/20 shrink-0">
-                    <CleanAiAgentIcon size={22} />
+                  <div className="w-10 h-10 rounded-2xl bg-emerald-600 border border-emerald-400 text-white flex items-center justify-center shadow-md shadow-emerald-600/20 shrink-0 overflow-hidden p-0.5">
+                    <CleanAiAgentIcon size={36} className="w-full h-full object-cover rounded-xl" />
                   </div>
+
                   <div>
                     <h3 className="text-sm font-black text-slate-900 flex items-center gap-1.5">
                       Glo AI Assistant
