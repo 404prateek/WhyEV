@@ -26,27 +26,43 @@ function RecenterMap({ center }: { center: [number, number] }) {
 }
 
 const createStationIcon = (status: StationStatusType, isSelected: boolean) => {
-  const statusConfig = {
-    working: 'bg-emerald-600 border-emerald-400 text-white ring-4 ring-emerald-500/30',
-    busy: 'bg-amber-500 border-amber-300 text-slate-950 ring-4 ring-amber-500/30',
-    broken: 'bg-rose-600 border-rose-400 text-white ring-4 ring-rose-500/30',
-    unverified: 'bg-slate-500 border-slate-300 text-slate-950 ring-2 ring-slate-500/20',
-  }[status];
+  const isWorking = status === 'working';
+  const isBroken = status === 'broken';
 
-  const scaleClass = isSelected ? 'scale-125 z-50 ring-8 ring-emerald-500/40' : 'hover:scale-115';
+  // Yellow / Amber for unverified, unknown, or busy
+  let colorClasses = 'bg-amber-400 border-yellow-200 text-slate-950 shadow-[0_0_16px_rgba(245,158,11,0.85)] ring-4 ring-amber-400/40';
+  let pulseClass = 'bg-amber-400/40';
+
+  if (isWorking) {
+    // Green glow for verified working
+    colorClasses = 'bg-emerald-600 border-emerald-300 text-white shadow-[0_0_16px_rgba(16,185,129,0.85)] ring-4 ring-emerald-500/40';
+    pulseClass = 'bg-emerald-400/40';
+  } else if (isBroken) {
+    // Red glow for reported broken
+    colorClasses = 'bg-rose-600 border-rose-300 text-white shadow-[0_0_16px_rgba(244,63,94,0.9)] ring-4 ring-rose-500/50';
+    pulseClass = 'bg-rose-500/50';
+  }
+
+  const scaleClass = isSelected ? 'scale-135 z-50 ring-8 ring-emerald-400' : 'hover:scale-120';
 
   return L.divIcon({
     className: 'custom-leaflet-station-marker',
-    html: `<div class="w-8 h-8 rounded-full ${statusConfig} border-2 flex items-center justify-center shadow-xl transition-transform ${scaleClass}">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-      </svg>
-    </div>`,
-    iconSize: [32, 32],
-    iconAnchor: [16, 16],
-    popupAnchor: [0, -16],
+    html: `
+      <div class="relative flex items-center justify-center">
+        <div class="absolute inset-0 rounded-full ${pulseClass} animate-ping opacity-75"></div>
+        <div class="relative w-8 h-8 rounded-full ${colorClasses} border-2 flex items-center justify-center shadow-2xl transition-transform ${scaleClass}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+      </div>
+    `,
+    iconSize: [36, 36],
+    iconAnchor: [18, 18],
+    popupAnchor: [0, -18],
   });
 };
+
 
 const createUserIcon = () => {
   return L.divIcon({
