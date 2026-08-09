@@ -25,7 +25,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -71,7 +73,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -117,7 +121,9 @@
         "maxKw": 22,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -163,7 +169,9 @@
         "maxKw": 15,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -209,7 +217,9 @@
         "maxKw": 15,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -255,7 +265,9 @@
         "maxKw": 15,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -301,7 +313,9 @@
         "maxKw": 15,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -347,7 +361,9 @@
         "maxKw": 15,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -393,7 +409,9 @@
         "maxKw": 15,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -439,7 +457,9 @@
         "maxKw": 15,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -485,7 +505,9 @@
         "maxKw": 15,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -531,7 +553,9 @@
         "maxKw": 7,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -577,7 +601,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -623,7 +649,9 @@
         "maxKw": 3,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       },
       {
         "id": "conn-13-2",
@@ -631,7 +659,9 @@
         "maxKw": 3,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -677,7 +707,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -723,7 +755,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -769,7 +803,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -815,7 +851,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -861,7 +899,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -907,7 +947,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -953,7 +995,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -999,7 +1043,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1045,7 +1091,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1091,7 +1139,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1137,7 +1187,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1183,7 +1235,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1229,7 +1283,9 @@
         "maxKw": 22,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1275,7 +1331,9 @@
         "maxKw": 120,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1321,7 +1379,9 @@
         "maxKw": 25,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1367,7 +1427,9 @@
         "maxKw": 7,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1413,7 +1475,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1459,7 +1523,9 @@
         "maxKw": 22,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1505,7 +1571,9 @@
         "maxKw": 90,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1551,7 +1619,9 @@
         "maxKw": 120,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1597,7 +1667,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1643,7 +1715,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1689,7 +1763,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1735,7 +1811,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1781,7 +1859,9 @@
         "maxKw": 22,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1827,7 +1907,9 @@
         "maxKw": 25,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1873,7 +1955,9 @@
         "maxKw": 120,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1919,7 +2003,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -1965,7 +2051,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2011,7 +2099,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2057,7 +2147,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2103,7 +2195,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2149,7 +2243,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2195,7 +2291,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2241,7 +2339,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2287,7 +2387,9 @@
         "maxKw": 120,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2333,7 +2435,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2379,7 +2483,9 @@
         "maxKw": 120,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2425,7 +2531,9 @@
         "maxKw": 7,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2471,7 +2579,9 @@
         "maxKw": 120,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       },
       {
         "id": "conn-53-2",
@@ -2479,7 +2589,9 @@
         "maxKw": 120,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2525,7 +2637,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2571,7 +2685,9 @@
         "maxKw": 9,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       },
       {
         "id": "conn-55-2",
@@ -2579,7 +2695,9 @@
         "maxKw": 9,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2625,7 +2743,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2671,7 +2791,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2717,7 +2839,9 @@
         "maxKw": 2.5,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2763,7 +2887,9 @@
         "maxKw": 7,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2809,7 +2935,9 @@
         "maxKw": 120,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2855,7 +2983,9 @@
         "maxKw": 30,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2901,7 +3031,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2947,7 +3079,9 @@
         "maxKw": 50,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -2993,7 +3127,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3039,7 +3175,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3085,7 +3223,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3131,7 +3271,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3177,7 +3319,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3223,7 +3367,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3269,7 +3415,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3315,7 +3463,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3361,7 +3511,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3407,7 +3559,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3453,7 +3607,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3499,7 +3655,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3545,7 +3703,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3591,7 +3751,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3637,7 +3799,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3683,7 +3847,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3729,7 +3895,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3775,7 +3943,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3821,7 +3991,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3867,7 +4039,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3913,7 +4087,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -3959,7 +4135,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4005,7 +4183,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4051,7 +4231,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4097,7 +4279,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4143,7 +4327,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4189,7 +4375,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4235,7 +4423,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4281,7 +4471,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4327,7 +4519,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4373,7 +4567,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4419,7 +4615,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4465,7 +4663,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4511,7 +4711,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4557,7 +4759,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4603,7 +4807,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4649,7 +4855,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4695,7 +4903,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4741,7 +4951,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4787,7 +4999,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4833,7 +5047,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4879,7 +5095,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4925,7 +5143,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -4971,7 +5191,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5017,7 +5239,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5063,7 +5287,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5109,7 +5335,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5155,7 +5383,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5201,7 +5431,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5247,7 +5479,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5293,7 +5527,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5339,7 +5575,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5385,7 +5623,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5431,7 +5671,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5477,7 +5719,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5523,7 +5767,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5569,7 +5815,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5615,7 +5863,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5661,7 +5911,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5707,7 +5959,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5753,7 +6007,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5799,7 +6055,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5845,7 +6103,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5891,7 +6151,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5937,7 +6199,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -5983,7 +6247,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6029,7 +6295,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6075,7 +6343,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6121,7 +6391,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6167,7 +6439,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6213,7 +6487,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6259,7 +6535,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6305,7 +6583,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6351,7 +6631,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6397,7 +6679,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6443,7 +6727,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6489,7 +6775,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6535,7 +6823,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6581,7 +6871,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6627,7 +6919,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6673,7 +6967,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6719,7 +7015,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6765,7 +7063,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6811,7 +7111,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6857,7 +7159,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6903,7 +7207,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6949,7 +7255,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -6995,7 +7303,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7041,7 +7351,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7087,7 +7399,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7133,7 +7447,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7179,7 +7495,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7225,7 +7543,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7271,7 +7591,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7317,7 +7639,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7363,7 +7687,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7409,7 +7735,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7455,7 +7783,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7501,7 +7831,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7547,7 +7879,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7593,7 +7927,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7639,7 +7975,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7685,7 +8023,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7731,7 +8071,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7777,7 +8119,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7823,7 +8167,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7869,7 +8215,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7915,7 +8263,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -7961,7 +8311,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8007,7 +8359,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8053,7 +8407,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8099,7 +8455,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8145,7 +8503,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8191,7 +8551,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8237,7 +8599,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8283,7 +8647,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8329,7 +8695,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8375,7 +8743,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8421,7 +8791,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8467,7 +8839,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8513,7 +8887,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8559,7 +8935,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8605,7 +8983,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8651,7 +9031,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8697,7 +9079,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8743,7 +9127,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8789,7 +9175,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8835,7 +9223,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8881,7 +9271,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8927,7 +9319,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -8973,7 +9367,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9019,7 +9415,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9065,7 +9463,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9111,7 +9511,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9157,7 +9559,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9203,7 +9607,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9249,7 +9655,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9295,7 +9703,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9341,7 +9751,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9387,7 +9799,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9433,7 +9847,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9479,7 +9895,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9525,7 +9943,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9571,7 +9991,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9617,7 +10039,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9663,7 +10087,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9709,7 +10135,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9755,7 +10183,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9801,7 +10231,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9847,7 +10279,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9893,7 +10327,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9939,7 +10375,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -9985,7 +10423,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10031,7 +10471,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10077,7 +10519,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10123,7 +10567,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10169,7 +10615,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10215,7 +10663,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10261,7 +10711,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10307,7 +10759,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10353,7 +10807,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10399,7 +10855,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10445,7 +10903,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10491,7 +10951,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10537,7 +10999,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10583,7 +11047,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10629,7 +11095,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10675,7 +11143,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10721,7 +11191,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10767,7 +11239,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10813,7 +11287,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10859,7 +11335,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10905,7 +11383,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10951,7 +11431,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -10997,7 +11479,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11043,7 +11527,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11089,7 +11575,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11135,7 +11623,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11181,7 +11671,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11227,7 +11719,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11273,7 +11767,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11319,7 +11815,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11365,7 +11863,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11411,7 +11911,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11457,7 +11959,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11503,7 +12007,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11549,7 +12055,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11595,7 +12103,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11641,7 +12151,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11687,7 +12199,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11733,7 +12247,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11779,7 +12295,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11825,7 +12343,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11871,7 +12391,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11917,7 +12439,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -11963,7 +12487,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12009,7 +12535,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12055,7 +12583,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12101,7 +12631,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12147,7 +12679,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12193,7 +12727,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12239,7 +12775,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12285,7 +12823,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12331,7 +12871,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12377,7 +12919,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12423,7 +12967,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12469,7 +13015,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12515,7 +13063,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12561,7 +13111,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12607,7 +13159,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12653,7 +13207,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12699,7 +13255,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12745,7 +13303,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12791,7 +13351,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12837,7 +13399,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12883,7 +13447,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12929,7 +13495,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -12975,7 +13543,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13021,7 +13591,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13067,7 +13639,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13113,7 +13687,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13159,7 +13735,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13205,7 +13783,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13251,7 +13831,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13297,7 +13879,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13343,7 +13927,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13389,7 +13975,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13435,7 +14023,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13481,7 +14071,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13527,7 +14119,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13573,7 +14167,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13619,7 +14215,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13665,7 +14263,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13711,7 +14311,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13757,7 +14359,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13803,7 +14407,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13849,7 +14455,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13895,7 +14503,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13941,7 +14551,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -13987,7 +14599,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14033,7 +14647,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14079,7 +14695,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14125,7 +14743,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14171,7 +14791,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14217,7 +14839,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14263,7 +14887,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14309,7 +14935,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14355,7 +14983,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14401,7 +15031,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14447,7 +15079,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14493,7 +15127,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14539,7 +15175,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14585,7 +15223,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14631,7 +15271,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14677,7 +15319,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14723,7 +15367,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14769,7 +15415,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14815,7 +15463,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14861,7 +15511,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14907,7 +15559,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14953,7 +15607,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -14999,7 +15655,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15045,7 +15703,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15091,7 +15751,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15137,7 +15799,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15183,7 +15847,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15229,7 +15895,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15275,7 +15943,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15321,7 +15991,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15367,7 +16039,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15413,7 +16087,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15459,7 +16135,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15505,7 +16183,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15551,7 +16231,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15597,7 +16279,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15643,7 +16327,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15689,7 +16375,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15735,7 +16423,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15781,7 +16471,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15827,7 +16519,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15873,7 +16567,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15919,7 +16615,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -15965,7 +16663,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16011,7 +16711,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16057,7 +16759,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16103,7 +16807,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16149,7 +16855,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16195,7 +16903,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16241,7 +16951,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16287,7 +16999,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16333,7 +17047,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16379,7 +17095,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16425,7 +17143,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16471,7 +17191,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16517,7 +17239,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16563,7 +17287,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16609,7 +17335,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16655,7 +17383,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16701,7 +17431,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16747,7 +17479,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16793,7 +17527,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16839,7 +17575,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16885,7 +17623,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16931,7 +17671,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -16977,7 +17719,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17023,7 +17767,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17069,7 +17815,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17115,7 +17863,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17161,7 +17911,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17207,7 +17959,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17253,7 +18007,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17299,7 +18055,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17345,7 +18103,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17391,7 +18151,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17437,7 +18199,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17483,7 +18247,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17529,7 +18295,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17575,7 +18343,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17621,7 +18391,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17667,7 +18439,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17713,7 +18487,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17759,7 +18535,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17805,7 +18583,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17851,7 +18631,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17897,7 +18679,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17943,7 +18727,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -17989,7 +18775,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18035,7 +18823,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18081,7 +18871,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18127,7 +18919,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18173,7 +18967,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18219,7 +19015,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18265,7 +19063,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18311,7 +19111,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18357,7 +19159,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18403,7 +19207,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18449,7 +19255,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18495,7 +19303,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18541,7 +19351,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18587,7 +19399,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18633,7 +19447,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18679,7 +19495,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18725,7 +19543,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18771,7 +19591,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18817,7 +19639,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18863,7 +19687,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18909,7 +19735,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -18955,7 +19783,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19001,7 +19831,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19047,7 +19879,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19093,7 +19927,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19139,7 +19975,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19185,7 +20023,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19231,7 +20071,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19277,7 +20119,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19323,7 +20167,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19369,7 +20215,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19415,7 +20263,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19461,7 +20311,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19507,7 +20359,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19553,7 +20407,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19599,7 +20455,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19645,7 +20503,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19691,7 +20551,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19737,7 +20599,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19783,7 +20647,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19829,7 +20695,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19875,7 +20743,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19921,7 +20791,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -19967,7 +20839,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20013,7 +20887,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20059,7 +20935,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20105,7 +20983,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20151,7 +21031,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20197,7 +21079,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20243,7 +21127,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20289,7 +21175,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20335,7 +21223,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20381,7 +21271,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20427,7 +21319,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20473,7 +21367,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20519,7 +21415,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20565,7 +21463,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20611,7 +21511,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20657,7 +21559,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20703,7 +21607,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20749,7 +21655,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20795,7 +21703,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20841,7 +21751,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20887,7 +21799,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20933,7 +21847,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -20979,7 +21895,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21025,7 +21943,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21071,7 +21991,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21117,7 +22039,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21163,7 +22087,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21209,7 +22135,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21255,7 +22183,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21301,7 +22231,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21347,7 +22279,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21393,7 +22327,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21439,7 +22375,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21485,7 +22423,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21531,7 +22471,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21577,7 +22519,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21623,7 +22567,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21669,7 +22615,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21715,7 +22663,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21761,7 +22711,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21807,7 +22759,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21853,7 +22807,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21899,7 +22855,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21945,7 +22903,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -21991,7 +22951,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22037,7 +22999,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22083,7 +23047,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22129,7 +23095,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22175,7 +23143,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22221,7 +23191,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22267,7 +23239,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22313,7 +23287,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22359,7 +23335,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22405,7 +23383,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22451,7 +23431,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22497,7 +23479,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22543,7 +23527,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22589,7 +23575,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22635,7 +23623,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22681,7 +23671,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22727,7 +23719,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22773,7 +23767,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22819,7 +23815,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22865,7 +23863,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22911,7 +23911,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -22957,7 +23959,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23003,7 +24007,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23049,7 +24055,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23095,7 +24103,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23141,7 +24151,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23187,7 +24199,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23233,7 +24247,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23279,7 +24295,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23325,7 +24343,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23371,7 +24391,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23417,7 +24439,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23463,7 +24487,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23509,7 +24535,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23555,7 +24583,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23601,7 +24631,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23647,7 +24679,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23693,7 +24727,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23739,7 +24775,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23785,7 +24823,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23831,7 +24871,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23877,7 +24919,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23923,7 +24967,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -23969,7 +25015,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24015,7 +25063,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24061,7 +25111,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24107,7 +25159,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24153,7 +25207,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24199,7 +25255,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24245,7 +25303,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24291,7 +25351,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24337,7 +25399,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24383,7 +25447,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24429,7 +25495,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24475,7 +25543,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24521,7 +25591,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24567,7 +25639,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24613,7 +25687,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24659,7 +25735,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24705,7 +25783,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24751,7 +25831,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24797,7 +25879,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24843,7 +25927,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24889,7 +25975,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24935,7 +26023,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -24981,7 +26071,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25027,7 +26119,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25073,7 +26167,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25119,7 +26215,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25165,7 +26263,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25211,7 +26311,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25257,7 +26359,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25303,7 +26407,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25349,7 +26455,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25395,7 +26503,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25441,7 +26551,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25487,7 +26599,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25533,7 +26647,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25579,7 +26695,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25625,7 +26743,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25671,7 +26791,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25717,7 +26839,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25763,7 +26887,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25809,7 +26935,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25855,7 +26983,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25901,7 +27031,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25947,7 +27079,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -25993,7 +27127,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26039,7 +27175,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26085,7 +27223,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26131,7 +27271,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26177,7 +27319,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26223,7 +27367,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26269,7 +27415,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26315,7 +27463,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26361,7 +27511,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26407,7 +27559,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26453,7 +27607,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26499,7 +27655,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26545,7 +27703,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26591,7 +27751,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26637,7 +27799,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26683,7 +27847,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26729,7 +27895,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26775,7 +27943,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26821,7 +27991,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26867,7 +28039,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26913,7 +28087,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -26959,7 +28135,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27005,7 +28183,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27051,7 +28231,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27097,7 +28279,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27143,7 +28327,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27189,7 +28375,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27235,7 +28423,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27281,7 +28471,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27327,7 +28519,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27373,7 +28567,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27419,7 +28615,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27465,7 +28663,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27511,7 +28711,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27557,7 +28759,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27603,7 +28807,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27649,7 +28855,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27695,7 +28903,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27741,7 +28951,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27787,7 +28999,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27833,7 +29047,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27879,7 +29095,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27925,7 +29143,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -27971,7 +29191,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28017,7 +29239,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28063,7 +29287,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28109,7 +29335,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28155,7 +29383,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28201,7 +29431,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28247,7 +29479,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28293,7 +29527,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28339,7 +29575,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28385,7 +29623,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28431,7 +29671,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28477,7 +29719,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28523,7 +29767,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28569,7 +29815,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28615,7 +29863,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28661,7 +29911,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28707,7 +29959,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28753,7 +30007,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28799,7 +30055,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28845,7 +30103,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28891,7 +30151,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28937,7 +30199,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -28983,7 +30247,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29029,7 +30295,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29075,7 +30343,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29121,7 +30391,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29167,7 +30439,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29213,7 +30487,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29259,7 +30535,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29305,7 +30583,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29351,7 +30631,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29397,7 +30679,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29443,7 +30727,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29489,7 +30775,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29535,7 +30823,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29581,7 +30871,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29627,7 +30919,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29673,7 +30967,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29719,7 +31015,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29765,7 +31063,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29811,7 +31111,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29857,7 +31159,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29903,7 +31207,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29949,7 +31255,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -29995,7 +31303,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30041,7 +31351,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30087,7 +31399,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30133,7 +31447,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30179,7 +31495,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30225,7 +31543,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30271,7 +31591,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30317,7 +31639,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30363,7 +31687,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30409,7 +31735,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30455,7 +31783,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30501,7 +31831,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30547,7 +31879,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30593,7 +31927,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30639,7 +31975,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30685,7 +32023,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30731,7 +32071,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30777,7 +32119,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
@@ -30823,7 +32167,9 @@
         "maxKw": 60,
         "status": "available",
         "available": 1,
-        "total": 2
+        "total": 2,
+        "busy": 0,
+        "broken": 0
       }
     ],
     "amenities": [
