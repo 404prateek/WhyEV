@@ -160,13 +160,13 @@ export function QuestionnaireStep({ onComplete, onCancel, onSkip }: Questionnair
                 <div className="space-y-1">
                   <label className="text-[11px] md:text-xs font-extrabold text-slate-600 uppercase">Min Price (₹)</label>
                   <input
-                    type="number"
-                    min={0}
-                    max={maxBudget}
-                    step={10000}
-                    value={minBudget}
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="0"
+                    value={minBudget === 0 ? '' : minBudget}
                     onChange={(e) => {
-                      const val = Math.max(0, Math.min(Number(e.target.value), maxBudget));
+                      const raw = e.target.value.replace(/[^0-9]/g, '');
+                      const val = raw === '' ? 0 : parseInt(raw, 10);
                       setMinBudget(val);
                     }}
                     className="w-full h-10 md:h-12 px-3 md:px-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-bold text-xs md:text-sm focus:outline-none focus:border-emerald-500"
@@ -176,17 +176,18 @@ export function QuestionnaireStep({ onComplete, onCancel, onSkip }: Questionnair
                 <div className="space-y-1">
                   <label className="text-[11px] md:text-xs font-extrabold text-slate-600 uppercase">Max Price (₹)</label>
                   <input
-                    type="number"
-                    min={minBudget}
-                    max={5000000}
-                    step={10000}
-                    value={maxBudget}
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="0"
+                    value={maxBudget === 0 ? '' : maxBudget}
                     onChange={(e) => {
-                      const val = Math.min(5000000, Math.max(Number(e.target.value), minBudget));
+                      const raw = e.target.value.replace(/[^0-9]/g, '');
+                      const val = raw === '' ? 0 : parseInt(raw, 10);
                       setMaxBudget(val);
                     }}
                     className="w-full h-10 md:h-12 px-3 md:px-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-bold text-xs md:text-sm focus:outline-none focus:border-emerald-500"
                   />
+
                 </div>
               </div>
 
@@ -245,13 +246,17 @@ export function QuestionnaireStep({ onComplete, onCancel, onSkip }: Questionnair
                 <div className="space-y-1">
                   <label className="text-[11px] md:text-xs font-extrabold text-slate-600 uppercase">Distance in Kilometres</label>
                   <input
-                    type="number"
-                    min={5}
-                    max={300}
-                    value={dailyCommute}
-                    onChange={(e) => setDailyCommute(Math.max(5, Math.min(300, Number(e.target.value))))}
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="0"
+                    value={dailyCommute === 0 ? '' : dailyCommute}
+                    onChange={(e) => {
+                      const raw = e.target.value.replace(/[^0-9]/g, '');
+                      setDailyCommute(raw === '' ? 0 : parseInt(raw, 10));
+                    }}
                     className="w-full h-10 md:h-12 px-3 md:px-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-bold text-xs md:text-sm focus:outline-none focus:border-emerald-500"
                   />
+
                 </div>
 
                 <div className="space-y-1">
