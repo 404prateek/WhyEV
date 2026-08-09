@@ -232,7 +232,7 @@ export const subsidyApi = {
         purchaseIncentive = Math.min((params.batteryCapacityKwh || 3.0) * 10000, 30000);
       } else if (params.category === '3W') {
         purchaseIncentive = 50000;
-      } else if (params.category === '4W' || params.category === '4W Car') {
+      } else if (params.category === '4W') {
         // Direct purchase incentive for private 4W EV cars is ₹0 under Delhi EV Policy 2026 & PM E-DRIVE
         purchaseIncentive = 0;
       }
