@@ -23,7 +23,8 @@ export interface StationData {
   pricing: { type: string; rate: number | string };
 
   operatingHours: string;
-  connectors: Array<{ type: string; total: number; available: number; busy?: number; broken?: number }>;
+  connectors: Array<{ type: string; total: number; available: number; busy: number; broken: number }>;
+
 
   amenities: string[];
   photos: string[];
