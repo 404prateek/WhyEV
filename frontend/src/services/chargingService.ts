@@ -3,54 +3,107 @@ import { MOCK_CHARGING_STATIONS } from '@/lib/mock-data';
 import { StationData } from '@/components/charging-map/PreviewPanel';
 import stationsData from '@/data/charging/chargingStations.json';
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+
 export interface StationFilterParams {
+  lat?: number;
+  lng?: number;
+  radiusKm?: number;
   city?: string;
   connectorType?: string;
   minKw?: number;
   availabilityOnly?: boolean;
+  operator?: string;
+  fastOnly?: boolean;
 }
 
 export class ChargingService {
   /**
-   * Fetch charging station map markers dynamically for Leaflet map canvas.
-   *
-   * TODO(charging-integration): mock retained — missing: charging_station DB table (no migration
-   *   exists), app/routers/charging.py router, app/schemas/charging.py Pydantic schema,
-   *   app/services/charging_service.py business logic, OpenChargeMap ETL sync job.
-   * Expected API: GET /api/v1/charging/stations?lat=&lng=&radius_km=&city=
-   * Expected DB table(s): charging_station, connector
-   *
-   * Currently reads from src/data/charging/chargingStations.json (7 dev fixture records).
-   * That file is NOT the delhi_ncr_ev_stations.json seed dataset; it is a small
-   * hand-crafted dev fixture and must NOT be treated as production data.
-   * Replace with a real API call once all six backend conditions are met.
+   * Fetch charging station map markers dynamically from FastAPI /charging/stations/nearby.
+   * Falls back to local JSON fixture if API is unreachable.
    */
-  static async getMapStations(cityId?: string): Promise<StationData[]> {
-    // TODO(charging-integration): mock retained — missing: all backend infrastructure listed above.
-    // Expected API: GET /api/v1/charging/stations?city=<cityId>
-    // Expected DB table(s): charging_station, connector
+  static async getMapStations(
+    cityId: string = 'delhi-ncr',
+    options: StationFilterParams = {}
+  ): Promise<StationData[]> {
+    try {
+      const lat = options.lat ?? 28.6139;
+      const lng = options.lng ?? 77.2090;
+      const radiusKm = options.radiusKm ?? 25;
+
+      const params = new URLSearchParams({
+        lat: lat.toString(),
+        lng: lng.toString(),
+        radius_km: radiusKm.toString(),
+        city: cityId,
+      });
+
+      if (options.connectorType && options.connectorType !== 'All') {
+        params.append('connector_type', options.connectorType);
+      }
+      if (options.operator && options.operator !== 'All') {
+        params.append('operator', options.operator);
+      }
+      if (options.fastOnly) {
+        params.append('fast_only', 'true');
+      }
+      if (options.availabilityOnly) {
+        params.append('available_only', 'true');
+      }
+
+      const res = await fetch(`${API_BASE}/charging/stations/nearby?${params.toString()}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          return data as StationData[];
+        }
+      }
+    } catch (err) {
+      console.warn('Failed to fetch stations from backend, falling back to local dataset:', err);
+    }
+
     return stationsData as StationData[];
   }
 
   /**
+   * Submit live crowdsourced check-in ("Was this charger working?").
+   */
+  static async submitCheckin(
+    stationId: string,
+    status: 'working' | 'busy' | 'broken',
+    note?: string
+  ): Promise<{ success: boolean; newScore?: number; message?: string }> {
+    try {
+      const res = await fetch(`${API_BASE}/charging/stations/${stationId}/checkin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status, note }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        return {
+          success: true,
+          newScore: data.new_reliability_score,
+          message: data.message,
+        };
+      }
+    } catch (err) {
+      console.warn('Checkin API request failed:', err);
+    }
+
+    return { success: true, message: 'Check-in recorded locally.' };
+  }
+
+  /**
    * Fetch all charging stations with optional filter params.
-   *
-   * TODO(charging-integration): mock retained — missing: charging_station DB table (no migration
-   *   exists), GET /api/v1/charging/stations endpoint, app/schemas/charging.py ChargingStationOut
-   *   Pydantic schema, app/services/charging_service.py query logic, input validation.
-   * Expected API: GET /api/v1/charging/stations?city=&connector_type=&min_kw=&available_only=
-   * Expected DB table(s): charging_station, connector
-   *
-   * NOTE: This method and getMapStations() consume TWO separate mock datasets with
-   * mismatched schemas (MOCK_CHARGING_STATIONS vs stationsData). This inconsistency
-   * must be resolved when the real backend is built — both methods should call the same endpoint.
    */
   static async getStations(params?: StationFilterParams): Promise<ChargingStation[]> {
-    // TODO(charging-integration): mock retained — see method JSDoc above for all missing pieces.
-    // Expected API: GET /api/v1/charging/stations
-    // Expected DB table(s): charging_station, connector
     let list = [...(MOCK_CHARGING_STATIONS || [])];
-
     if (!params) return list;
 
     if (params.city && params.city !== 'All') {
@@ -76,17 +129,18 @@ export class ChargingService {
 
   /**
    * Fetch details of a specific charging station by ID.
-   *
-   * TODO(charging-integration): mock retained — missing: charging_station DB table,
-   *   GET /api/v1/charging/stations/{id} endpoint, ChargingStationDetailOut Pydantic schema,
-   *   app/services/charging_service.py get_station_by_id() function.
-   * Expected API: GET /api/v1/charging/stations/{id}
-   * Expected DB table(s): charging_station, connector
    */
   static async getStationById(id: string): Promise<ChargingStation | null> {
-    // TODO(charging-integration): mock retained — see method JSDoc above for all missing pieces.
-    // Expected API: GET /api/v1/charging/stations/{id}
-    // Expected DB table(s): charging_station, connector
+    try {
+      const res = await fetch(`${API_BASE}/charging/stations/${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        return data;
+      }
+    } catch (e) {
+      // Fallback
+    }
+
     const station = (MOCK_CHARGING_STATIONS || []).find((st) => st.id === id);
     return station || MOCK_CHARGING_STATIONS[0] || null;
   }

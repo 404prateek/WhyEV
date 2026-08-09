@@ -93,13 +93,8 @@ export function SubsidyCalculator() {
 
 
   const handleUnlockFullReport = () => {
-    if (!isAuthenticated) {
-      openAuthModal(
-        undefined,
-        'Unlock Your Personalized EV Report',
-        'Sign in with Google to view your complete Delhi Policy 2026 tax breakdown, 30-day post-RC claim tracker, and empanelled EV shortlist.'
-      );
-    }
+    // Sign-in is optional — allow all users to view full PDF report
+    setPdfModalOpen(true);
   };
 
   return (

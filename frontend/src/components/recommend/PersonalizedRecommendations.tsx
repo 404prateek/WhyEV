@@ -24,9 +24,21 @@ export function PersonalizedRecommendations({
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const recommendedVehicles = vehicles && vehicles.length > 0
-    ? vehicles.slice(0, 5)
-    : MOCK_EMPANELLED_VEHICLES.slice(0, 5);
+  const targetCategory = answers?.vehicleType || '4W';
+
+  // Strict category matching — guarantee 4W users see 4W cars and 2W users see 2W scooters/bikes
+  const candidateVehicles = (vehicles && vehicles.length > 0 ? vehicles : MOCK_EMPANELLED_VEHICLES);
+  let categoryFiltered = candidateVehicles.filter(
+    (v) => (v.category || '4W').toUpperCase() === targetCategory.toUpperCase()
+  );
+
+  if (categoryFiltered.length === 0) {
+    categoryFiltered = MOCK_EMPANELLED_VEHICLES.filter(
+      (v) => (v.category || '4W').toUpperCase() === targetCategory.toUpperCase()
+    );
+  }
+
+  const recommendedVehicles = categoryFiltered.slice(0, 5);
 
   const scrollToCard = useCallback((index: number) => {
     setActiveIndex(index);

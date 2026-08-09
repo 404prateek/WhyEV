@@ -4,11 +4,11 @@ from __future__ import annotations
 from datetime import datetime, timezone
 import uuid
 
-from sqlalchemy import Boolean, DateTime, Integer, String, Text
-from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy import Boolean, DateTime, Integer, JSON, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base_class import Base
+
 
 
 class NewsArticle(Base):
@@ -37,7 +37,8 @@ class NewsArticle(Base):
     # Stage 3 LLM classification result: 'ev_relevant' | 'ambiguous' | 'rejected'
     llm_label: Mapped[str | None] = mapped_column(String(20), nullable=True)
 
-    tags: Mapped[list[str] | None] = mapped_column(ARRAY(Text), nullable=True)
+    tags: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
+
     is_featured: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
 
     # Timestamps

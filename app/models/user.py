@@ -5,15 +5,16 @@ import uuid
 from datetime import datetime, timezone
 
 from sqlalchemy import (
-    ARRAY,
     Boolean,
     DateTime,
     ForeignKey,
     Integer,
+    JSON,
     String,
     Text,
     func,
 )
+
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -54,7 +55,8 @@ class UserProfile(Base):
     housing_type: Mapped[str | None] = mapped_column(String(20), nullable=True)
     parking_socket_access: Mapped[str | None] = mapped_column(String(10), nullable=True)
     family_size: Mapped[str | None] = mapped_column(String(20), nullable=True)
-    preferred_categories: Mapped[list[str] | None] = mapped_column(ARRAY(Text), nullable=True)
+    preferred_categories: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
+
     charging_preference: Mapped[str | None] = mapped_column(String(10), nullable=True)
     finance_pref: Mapped[str | None] = mapped_column(String(10), nullable=True)
     emi_comfort: Mapped[int | None] = mapped_column(Integer, nullable=True)

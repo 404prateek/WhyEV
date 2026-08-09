@@ -172,11 +172,8 @@ export function VehicleDetailsView({ vehicleId }: VehicleDetailsViewProps) {
     activeExShowroomPrice - (subsidyBreakdown.totalBenefit || vehicle.subsidyAmount || 0)
   );
 
-  const handleProtectedAction = (action: () => void, title: string, subtitle: string) => {
-    if (!isAuthenticated) {
-      openAuthModal(`/vehicle/${vehicle.id}`, title, subtitle);
-      return;
-    }
+  const handleProtectedAction = (action: () => void, title?: string, subtitle?: string) => {
+    // Sign-in is optional — execute action directly for all users
     action();
   };
 

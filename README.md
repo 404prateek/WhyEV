@@ -1,75 +1,100 @@
-# WhyEV Backend
+# WhyEV — EV Consultation, Subsidy Eligibility & Reliable Charging Platform
 
-> FastAPI + PostgreSQL backend for the WhyEV EV consultation platform.
+> Full-stack EV discovery, policy eligibility calculator, empanelled dealer lead matching, and crowdsourced reliable EV charging station map engine built with FastAPI and Next.js.
 
-## Quick Start (Full-Stack: Backend + Frontend)
+---
 
-### Option A: Docker Compose (Recommended)
-```bash
-# 1. Start all services together (PostgreSQL + FastAPI Backend + Next.js Frontend + Nginx)
-docker-compose up -d
+## 🚀 Quick Start (Full-Stack Startup)
 
-# 2. Run database migrations
-docker-compose exec api alembic upgrade head
-
-# 3. Access Full Application
-# Frontend: http://localhost:3000
-# Backend API Docs: http://localhost:8000/docs
-```
-
-### Option B: Local PowerShell Concurrent Script
+### 1. Concurrent Dev Startup (Windows PowerShell)
 ```powershell
-# Run from root directory — starts FastAPI (8000) and Next.js (3000) concurrently
+# Starts FastAPI Backend (Port 8000) and Next.js Frontend (Port 3000)
 .\start-dev.ps1
 ```
 
-## Architecture
+### 2. Linux / macOS Dev Startup
+```bash
+chmod +x start-dev.sh
+./start-dev.sh
+```
+
+### 3. Docker Compose (Production Environment)
+```bash
+# Start PostgreSQL, FastAPI Backend, Next.js Frontend, and Nginx reverse proxy
+docker-compose up -d --build
+
+# Run database migrations
+docker-compose exec api alembic upgrade head
+```
+
+---
+
+## ⚡ Tech Stack
+
+- **Backend**: Python 3.11, FastAPI, SQLAlchemy 2.0 (AsyncIO), PostgreSQL / SQLite automatic fallback (`whyev.db`), Pydantic v2, Structlog.
+- **Frontend**: Next.js 16 (App Router), React 19, TypeScript, TailwindCSS, Framer Motion, Leaflet Map.
+- **AI Engine**: Groq Llama 3.3 70B & Llama 3.1 8B pool for review classification & natural language consultation.
+- **Data Layer**: 670+ real geocoded Delhi NCR EV Charging Stations pre-loaded with OpenChargeMap & OpenStreetMap live fallbacks.
+
+---
+
+## 📁 Repository Structure
 
 ```
-User → Nginx → FastAPI (api) → PostgreSQL (pgvector)
-                           ↘ Groq LLM Pool (AI agent)
+.
+├── app/
+│   ├── core/           # Configs, security, logger & Groq LLM pool
+│   ├── db/             # Base models, async session & SQLite fallback engine
+│   ├── models/         # SQLAlchemy models (charging, user, vehicle, dealer, etc.)
+│   ├── routers/        # FastAPI API routes (/charging, /subsidy, /recommendations)
+│   ├── schemas/        # Pydantic schemas for request & response validation
+│   ├── scripts/        # Database seed scripts (seed_stations.py)
+│   ├── services/       # Core business logic (reliability engine, eligibility service)
+│   └── main.py         # Application entry point & lifespan handler
+├── frontend/
+│   ├── src/
+│   │   ├── app/        # Next.js App Router pages (/map, /subsidy, /recommend)
+│   │   ├── components/ # Reusable UI components (charging-map, ai-agent, etc.)
+│   │   ├── lib/        # State stores & API client
+│   │   └── services/   # Frontend service layer (chargingService.ts)
+│   ├── package.json
+│   └── next.config.ts
+├── tests/              # Unit and integration test suite
+├── delhi ncr ev stations.json # Delhi NCR EV stations dataset (670 POIs)
+├── requirements.txt    # Production Python dependencies
+└── README.md
 ```
 
-## Module Map
+---
 
-| Router | Prefix | Description |
-|--------|--------|-------------|
-| auth | `/api/v1/auth` | OTP + Google OAuth + JWT refresh |
-| profile | `/api/v1/profile` | User profile CRUD |
-| recommendations | `/api/v1/recommendations` | Vehicle matching engine |
-| subsidy | `/api/v1/subsidy` | Eligibility calc + application lifecycle |
-| dealers | `/api/v1/dealers` | Nearby dealers + consent-gated leads |
-| certification | `/api/v1/certification` | Battery health reports + QR verify |
-| agent | `/api/v1/agent` | SSE streaming AI agent |
-| notifications | `/api/v1/notifications` | Multi-channel notification history |
-| admin | `/api/v1/admin` | Two-person subsidy approval + analytics |
-
-## Key Design Decisions
-
-- **Append-only subsidy rules**: `subsidy_rules` rows are never updated. New values = new rows requiring two distinct admin approvals.
-- **No LLM number fabrication**: All subsidy amounts, deadlines, and eligibility reasons are injected into agent prompts from the DB. The LLM cannot free-generate financial facts.
-- **Consent gating**: `dealer_leads.consent_given_at` is null until the user explicitly opts in. The API enforces this.
-- **Empanelled-first**: Vehicle recommendations only show `is_empanelled=true` vehicles.
-
-## Running Tests
+## 🧪 Running Tests & Verification
 
 ```bash
-# Install dev deps
-pip install -e ".[dev]"
-
-# Run all tests
-pytest tests/ -v --cov=app
-
-# Unit tests only (no DB needed)
+# Run backend test suite
 pytest tests/unit/ -v
+
+# Seed 670 charging stations into local database
+python app/scripts/seed_stations.py
 ```
 
-## Build Order (spec recommendation)
+---
 
-1. `auth` → `user_profiles` CRUD
-2. `vehicles_master` + `recommendation_service` (pure filter logic)
-3. `subsidy_rules` + `eligibility_service` (**USP — get this right**)
-4. `agent_orchestrator` wrapping both
-5. `dealers` / `leads`
-6. `certification`
-7. Admin / observability
+## 🔐 Environment Setup
+
+Copy `.env.example` to `.env` in the backend directory:
+
+```env
+ENVIRONMENT=development
+DEBUG=True
+SECRET_KEY=changeme-in-production-use-32-char-minimum
+DATABASE_URL=postgresql+asyncpg://postgres:password@localhost:5432/whyev
+
+# Groq LLM API Pool (Optional)
+GROQ_API_KEY_1=gsk_...
+```
+
+---
+
+## 📜 License
+
+Distributed under the MIT License.

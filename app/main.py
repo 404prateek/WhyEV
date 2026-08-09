@@ -25,11 +25,13 @@ from app.routers import (
     notifications,
     admin,
     news,
+    charging,
 )
 
 # ---------------------------------------------------------------------------
 # Structured logging
 # ---------------------------------------------------------------------------
+
 
 structlog.configure(
     processors=[
@@ -67,13 +69,23 @@ if settings.SENTRY_DSN:
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     log.info("whyev.startup", environment=settings.ENVIRONMENT)
-    # Tables are managed by Alembic in production; auto-create only in dev.
     if settings.DEBUG:
-        async with engine.begin() as conn:
-            await conn.run_sync(Base.metadata.create_all)
+        try:
+            async with engine.begin() as conn:
+                await conn.run_sync(Base.metadata.create_all)
+        except Exception as exc:
+            log.warning("primary_db_unreachable_switching_to_sqlite", error=str(exc))
+            from sqlalchemy.ext.asyncio import create_async_engine
+            from app.db import session as db_session_module
+            fallback_engine = create_async_engine("sqlite+aiosqlite:///./whyev.db")
+            db_session_module.engine = fallback_engine
+            db_session_module.AsyncSessionLocal.configure(bind=fallback_engine)
+            async with fallback_engine.begin() as conn:
+                await conn.run_sync(Base.metadata.create_all)
     yield
     log.info("whyev.shutdown")
     await engine.dispose()
+
 
 
 # ---------------------------------------------------------------------------
@@ -131,6 +143,8 @@ app.include_router(agent.router, prefix=API_PREFIX, tags=["AI Agent"])
 app.include_router(notifications.router, prefix=API_PREFIX, tags=["Notifications"])
 app.include_router(admin.router, prefix=API_PREFIX, tags=["Admin"])
 app.include_router(news.router, prefix=API_PREFIX, tags=["News"])
+app.include_router(charging.router, prefix=API_PREFIX, tags=["Charging Stations"])
+
 
 
 @app.get("/health", tags=["Health"])

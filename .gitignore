@@ -14,8 +14,16 @@ dist/
 venv/
 env/
 
-# Environment files
+# Databases & Local SQLite
+*.db
+*.sqlite
+*.sqlite3
+whyev.db
+
+# Environment files & Secrets
 .env
+.env.*
+!.env.example
 *.env.local
 
 # IDE
@@ -30,15 +38,10 @@ env/
 htmlcov/
 coverage.xml
 
-# Alembic
-app/migrations/versions/*.py
-
-# Docker
-.docker/
-
-# Celery
-celerybeat-schedule
-celerybeat.pid
+# Node & Frontend
+node_modules/
+.next/
+out/
 
 # Logs
 *.log

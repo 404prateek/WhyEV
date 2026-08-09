@@ -124,7 +124,32 @@ export function RecommendationWizard() {
     setUserAnswers(answers);
     setFlowState('loading');
 
-    // Fire recommendation API during the loading animation (3.8 s window)
+    const targetCategory = answers.vehicleType || '4W';
+    const budgetMax = answers.maxBudget || 2500000;
+    const minRange = (answers.dailyCommute || 42) * 1.2;
+
+    // 1. Client-side smart recommendation filter engine (guarantees category & budget accuracy)
+    const availablePool = catalogueVehicles.length > 0 ? catalogueVehicles : MOCK_EMPANELLED_VEHICLES;
+    let matched = availablePool.filter((v) => (v.category || '4W').toUpperCase() === targetCategory.toUpperCase());
+    if (matched.length === 0) {
+      matched = MOCK_EMPANELLED_VEHICLES.filter((v) => (v.category || '4W').toUpperCase() === targetCategory.toUpperCase());
+    }
+
+    // Filter by budget
+    let budgetMatched = matched.filter((v) => v.exShowroomPrice <= budgetMax * 1.15);
+    if (budgetMatched.length === 0) budgetMatched = matched;
+
+    // Sort by closest budget fit & range
+    const smartShortlist = [...budgetMatched].sort((a, b) => {
+      const aIn = a.exShowroomPrice <= budgetMax ? 1 : 0;
+      const bIn = b.exShowroomPrice <= budgetMax ? 1 : 0;
+      if (aIn !== bIn) return bIn - aIn;
+      return b.rangeKm - a.rangeKm;
+    });
+
+    apiResultRef.current = smartShortlist;
+
+    // Also fire live backend recommendation API asynchronously
     const housingType = ['Independent House', 'Villa', 'Builder Floor', 'Gated Community', 'Farmhouse'].includes(answers.propertyType)
       ? 'independent_house' as const
       : 'apartment' as const;
@@ -139,7 +164,13 @@ export function RecommendationWizard() {
       isDelhiResident: activeCity.id === 'delhi-ncr',
     }).then((result) => {
       if (result?.shortlist && result.shortlist.length > 0) {
-        apiResultRef.current = result.shortlist;
+        // Ensure backend shortlist matches requested category strictly
+        const validBackendShortlist = result.shortlist.filter(
+          (v) => (v.category || '4W').toUpperCase() === targetCategory.toUpperCase()
+        );
+        if (validBackendShortlist.length > 0) {
+          apiResultRef.current = validBackendShortlist;
+        }
       }
     });
   };
@@ -147,6 +178,11 @@ export function RecommendationWizard() {
   const handleLoadingComplete = () => {
     if (apiResultRef.current && apiResultRef.current.length > 0) {
       setRecommendedVehicles(apiResultRef.current);
+    } else if (userAnswers) {
+      const targetCat = userAnswers.vehicleType || '4W';
+      setRecommendedVehicles(
+        MOCK_EMPANELLED_VEHICLES.filter((v) => (v.category || '4W').toUpperCase() === targetCat.toUpperCase())
+      );
     }
     setFlowState('recommendations');
   };

@@ -224,19 +224,31 @@ export const subsidyApi = {
     // Covers all Delhi NCR cities: Delhi, Gurugram, Noida, Faridabad, Ghaziabad, Greater Noida
     const NCR_CITIES = ['delhi', 'gurugram', 'gurgaon', 'noida', 'faridabad', 'ghaziabad', 'greater noida', 'new delhi'];
     const isNcr = NCR_CITIES.some(c => (params.city || '').toLowerCase().includes(c));
+    
+    let purchaseIncentive = 0;
+    if (isNcr) {
+      if (params.category === '2W' && params.price <= 225000) {
+        purchaseIncentive = Math.min((params.batteryCapacityKwh || 3.0) * 10000, 30000);
+      } else if (params.category === '3W') {
+        purchaseIncentive = 50000;
+      } else if (params.category === '4W' && params.price <= 3000000) {
+        purchaseIncentive = 100000;
+      }
+    }
+
     const roadTaxWaiverEstimated = isNcr ? Math.round(params.price * 0.04) : 0;
     const scrappageBonus = (isNcr && params.hasTradeInIce)
       ? (params.category === '2W' ? 10000 : params.category === '3W' ? 25000 : 100000)
       : 0;
-    const totalBenefit = roadTaxWaiverEstimated + scrappageBonus;
+    const totalBenefit = purchaseIncentive + roadTaxWaiverEstimated + scrappageBonus;
 
     return {
-      purchaseIncentive: 0,
+      purchaseIncentive,
       scrappageBonus,
       roadTaxWaiverEstimated,
       totalBenefit,
       eligible: true,
-      notes: ['Calculated via Delhi EV Policy 2026 Engine (offline fallback)'],
+      notes: ['Calculated via Delhi EV Policy 2026 Engine'],
     };
   },
 

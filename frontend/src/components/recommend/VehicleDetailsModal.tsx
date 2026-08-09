@@ -74,11 +74,8 @@ export function VehicleDetailsModal({
 
   if (!isOpen || !vehicle) return null;
 
-  const handleProtectedAction = (action: () => void, title: string, subtitle: string) => {
-    if (!isAuthenticated) {
-      openAuthModal('/recommend', title, subtitle);
-      return;
-    }
+  const handleProtectedAction = (action: () => void, title?: string, subtitle?: string) => {
+    // Sign-in is optional — execute action directly for all users
     action();
   };
 

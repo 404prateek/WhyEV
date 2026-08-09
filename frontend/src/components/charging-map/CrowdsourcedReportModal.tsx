@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle2, Clock, AlertOctagon, Sparkles, Heart } from 'lucide-react';
 import { StationStatusType } from './StatusBadge';
+import { ChargingService } from '@/services/chargingService';
+
 
 interface CrowdsourcedReportModalProps {
   isOpen: boolean;
@@ -26,18 +28,11 @@ export function CrowdsourcedReportModal({
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO(charging-integration): Local-only optimistic update retained — missing:
-    //   station_checkin DB table (no migration exists),
-    //   POST /api/v1/charging/checkins endpoint,
-    //   app/schemas/charging.py CheckinCreateIn / CheckinOut Pydantic schemas,
-    //   app/services/charging_service.py create_checkin() business logic,
-    //   Bayesian occupancy aggregation service, integration tests.
-    // Expected API: POST /api/v1/charging/checkins
-    // Expected DB table(s): station_checkin, station_health
-    // Until all six conditions are met: report is applied as a local optimistic state update only
-    // and is NOT persisted to any database.
+    const mappedStatus = selectedStatus === 'broken' ? 'broken' : selectedStatus === 'busy' ? 'busy' : 'working';
+
+    await ChargingService.submitCheckin(stationId, mappedStatus, note);
     onReportSubmitted(selectedStatus, note);
     setIsSubmitted(true);
     setTimeout(() => {
@@ -46,6 +41,7 @@ export function CrowdsourcedReportModal({
       onClose();
     }, 2000);
   };
+
 
   return (
     <AnimatePresence>

@@ -187,10 +187,18 @@ export function AuthModal() {
                 </Button>
               </form>
             )}
+            {/* Skip / Guest Mode Option */}
+            <button
+              type="button"
+              onClick={closeAuthModal}
+              className="w-full h-11 px-6 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Skip for Now · Continue as Guest</span>
+            </button>
           </div>
 
           {/* Toggle Mode */}
-          <div className="text-center pt-2 text-xs text-slate-500 font-medium">
+          <div className="text-center pt-1 text-xs text-slate-500 font-medium">
             {isSignInMode ? (
               <span>
                 Don't have an account?{' '}

@@ -4,19 +4,22 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, Numeric, SmallInteger, String, Text, func
-from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import DateTime, ForeignKey, JSON, Numeric, SmallInteger, String, Text, func
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+
 from app.db.base_class import Base
+
 
 
 class Dealer(Base):
     __tablename__ = "dealers"
 
     id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+        primary_key=True, default=uuid.uuid4
     )
+
     name: Mapped[str | None] = mapped_column(String(120), nullable=True)
     city: Mapped[str | None] = mapped_column(String(80), nullable=True, index=True)
     lat: Mapped[float | None] = mapped_column(Numeric, nullable=True)
@@ -35,8 +38,9 @@ class DealerLead(Base):
     __tablename__ = "dealer_leads"
 
     id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+        primary_key=True, default=uuid.uuid4
     )
+
     user_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("users.id"), nullable=False, index=True
     )
@@ -57,7 +61,8 @@ class DealerLead(Base):
         String(30), default="unassigned", nullable=False, index=True
     )
     # Snapshot of intake answers that generated this lead (for dealer context)
-    questionnaire_snapshot: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    questionnaire_snapshot: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+
     # Heuristic score 0-100: higher = higher purchase intent
     lead_quality_score: Mapped[int | None] = mapped_column(SmallInteger, nullable=True, default=0)
     consent_given_at: Mapped[datetime | None] = mapped_column(
@@ -77,8 +82,9 @@ class Appointment(Base):
     __tablename__ = "appointments"
 
     id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+        primary_key=True, default=uuid.uuid4
     )
+
     user_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("users.id"), nullable=False, index=True
     )

@@ -25,8 +25,10 @@ export function GloAssistant() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isThinking]);
+    if (isOpen) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, isThinking, isOpen]);
 
   const quickActionItems = [
     { label: 'Search Subsidies', prompt: 'Show me available EV subsidies in my state', icon: Search },
@@ -45,47 +47,62 @@ export function GloAssistant() {
 
   return (
     <>
-      {/* 1. CIRCULAR FLOATING TRIGGER BUTTON (Bottom-Right with Clean AI Spark Icon) */}
-      {!isOpen && (
-        <div className="fixed bottom-20 lg:bottom-6 right-4 sm:right-6 z-40">
-          <motion.button
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            whileHover={{ scale: 1.06 }}
-            whileTap={{ scale: 0.94 }}
-            onClick={() => setOpen(true)}
-            aria-label="Open Glo AI Assistant"
-            className="group relative w-14 h-14 rounded-full bg-emerald-600 hover:bg-emerald-700 border-2 border-emerald-300 shadow-xl shadow-emerald-600/35 flex items-center justify-center text-white cursor-pointer transition-all overflow-visible"
-          >
-            {/* Subtle Breathing Glow Pulse Ring */}
+      {/* 1. CIRCULAR FLOATING TRIGGER / TOGGLE BUTTON (Bottom-Right) */}
+      <div className="fixed bottom-20 lg:bottom-6 right-4 sm:right-6 z-50">
+        <motion.button
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          whileHover={{ scale: 1.06 }}
+          whileTap={{ scale: 0.94 }}
+          onClick={() => setOpen(!isOpen)}
+          aria-label={isOpen ? "Close Glo AI Assistant" : "Open Glo AI Assistant"}
+          className={cn(
+            "group relative w-14 h-14 rounded-full shadow-xl flex items-center justify-center text-white cursor-pointer transition-all border-2 overflow-visible",
+            isOpen
+              ? "bg-slate-900 hover:bg-slate-950 border-slate-700 shadow-slate-900/40"
+              : "bg-emerald-600 hover:bg-emerald-700 border-emerald-300 shadow-emerald-600/35"
+          )}
+        >
+          {/* Subtle Breathing Glow Pulse Ring when closed */}
+          {!isOpen && (
             <span className="absolute inset-0 rounded-full bg-emerald-400/30 animate-ping opacity-40 pointer-events-none" />
+          )}
 
-            {/* Clean Vector AI Spark Icon */}
-            <div className="relative flex items-center justify-center text-white font-black drop-shadow-md">
-              <CleanAiAgentIcon size={26} />
-            </div>
+          {/* Toggle Icon: Close X when open, Clean Vector AI Spark when closed */}
+          <div className="relative flex items-center justify-center text-white font-black drop-shadow-md">
+            {isOpen ? <X size={24} /> : <CleanAiAgentIcon size={26} />}
+          </div>
 
-            {/* Glo Name Tag Pill on Hover */}
-            <span className="absolute right-16 px-3.5 py-1.5 rounded-full bg-slate-900 text-emerald-400 text-xs font-black shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-slate-800">
-              Glo AI Assistant
-            </span>
-          </motion.button>
-        </div>
-      )}
+          {/* Glo Name Tag Pill on Hover */}
+          <span className="absolute right-16 px-3.5 py-1.5 rounded-full bg-slate-900 text-emerald-400 text-xs font-black shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-slate-800">
+            {isOpen ? "Close Assistant" : "Glo AI Assistant"}
+          </span>
+        </motion.button>
+      </div>
 
-      {/* 2. ROUNDED BOTTOM SHEET CHAT WINDOW */}
+      {/* 2. RESPONSIVE CHAT WINDOW WITH CLICK-OUTSIDE BACKDROP */}
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-50 pointer-events-none flex items-end justify-center sm:justify-end p-2 sm:p-6">
+          <div className="fixed inset-0 z-40 flex items-end sm:items-end justify-center sm:justify-end p-2 sm:p-6 pb-24 lg:pb-24 pointer-events-none">
+            {/* Click-outside backdrop */}
             <motion.div
-              initial={{ y: '100%', opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setOpen(false)}
+              className="absolute inset-0 bg-slate-950/20 backdrop-blur-[2px] pointer-events-auto cursor-pointer"
+            />
+
+            {/* Chat Card Window */}
+            <motion.div
+              initial={{ y: 40, opacity: 0, scale: 0.95 }}
               animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: '100%', opacity: 0, scale: 0.95 }}
-              transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-              className="pointer-events-auto w-full sm:w-[420px] max-h-[85vh] sm:max-h-[640px] h-[580px] bg-white rounded-3xl border border-slate-200/90 shadow-2xl flex flex-col overflow-hidden text-slate-900 relative"
+              exit={{ y: 40, opacity: 0, scale: 0.95 }}
+              transition={{ type: 'spring', damping: 26, stiffness: 320 }}
+              className="pointer-events-auto w-full sm:w-[410px] h-[calc(100vh-7rem)] max-h-[540px] sm:max-h-[580px] bg-white rounded-3xl border border-slate-200/90 shadow-2xl flex flex-col overflow-hidden text-slate-900 relative z-10"
             >
-              {/* Sheet Header in WhyEV Brand Theme */}
-              <div className="p-4 border-b border-slate-100 bg-gradient-to-r from-emerald-50/90 via-teal-50/60 to-white flex items-center justify-between shrink-0">
+              {/* Header */}
+              <div className="p-3.5 sm:p-4 border-b border-slate-100 bg-gradient-to-r from-emerald-50/90 via-teal-50/60 to-white flex items-center justify-between shrink-0 sticky top-0 z-20">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-2xl bg-emerald-600 border border-emerald-400 text-white flex items-center justify-center shadow-md shadow-emerald-600/20 shrink-0">
                     <CleanAiAgentIcon size={22} />
@@ -101,11 +118,14 @@ export function GloAssistant() {
                   </div>
                 </div>
 
+                {/* Prominent Close Button */}
                 <button
                   onClick={() => setOpen(false)}
-                  className="p-2 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                  aria-label="Close Assistant"
+                  className="px-3 py-1.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-900 text-xs font-bold transition-all cursor-pointer flex items-center gap-1 shadow-xs"
                 >
-                  <X className="w-5 h-5" />
+                  <span>Close</span>
+                  <X className="w-4 h-4 text-slate-700" />
                 </button>
               </div>
 

@@ -58,25 +58,44 @@ export function InteractiveChargingMapModule() {
   // Fetch Map Station Pins Dynamically from Service Layer
   useEffect(() => {
     let isMounted = true;
-    ChargingService.getMapStations(activeCity.id).then((data) => {
+    const filterOptions = {
+      lat: userLocation ? userLocation[0] : 28.6139,
+      lng: userLocation ? userLocation[1] : 77.2090,
+      radiusKm: 30,
+      connectorType: filters.connectorType,
+      operator: filters.operator,
+      fastOnly: filters.fastOnly,
+      availabilityOnly: filters.availableOnly,
+    };
+
+    ChargingService.getMapStations(activeCity.id, filterOptions).then((data) => {
       if (isMounted) setStations(data);
     });
     return () => {
       isMounted = false;
     };
-  }, [activeCity.id]);
+  }, [activeCity.id, filters, userLocation]);
 
-  // Check initial location permission preference on mount
+
+  // Check initial location permission preference on mount & request GPS
   useEffect(() => {
     try {
       const locationPermissionHandled = localStorage.getItem('whyev_map_location_asked');
       if (!locationPermissionHandled) {
         setIsPermissionModalOpen(true);
+      } else if (locationPermissionHandled === 'granted' && navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            setUserLocation([pos.coords.latitude, pos.coords.longitude]);
+          },
+          () => {}
+        );
       }
     } catch (e) {
       console.error(e);
     }
   }, []);
+
 
   // Request Location & Detect City
   const handleRequestLocation = async () => {

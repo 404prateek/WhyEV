@@ -118,9 +118,10 @@ export function SubsidyCalculatorView() {
       : 100000
     : 0;
 
-  const roadTaxWaiver = isEligiblePrice ? Math.round(calculatedExShowroom * 0.12) : 0;
+  const roadTaxWaiver = isEligiblePrice ? Math.round(calculatedExShowroom * 0.04) : 0;
   const scrappageBonus = hasScrappage ? (activeCategory === '2W' ? 10000 : activeCategory === '3W' ? 25000 : 100000) : 0;
-  const totalSavingsCalculated = directStateSubsidy + roadTaxWaiver + scrappageBonus;
+  const centralIncentive = activeCategory === '4W' && isEligiblePrice ? 50000 : 0;
+  const totalSavingsCalculated = directStateSubsidy + roadTaxWaiver + scrappageBonus + centralIncentive;
   const effectivePriceCalculated = Math.max(0, calculatedExShowroom - totalSavingsCalculated);
 
   return (
