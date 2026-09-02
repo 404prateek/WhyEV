@@ -12,9 +12,7 @@
  */
 
 import { getSupabaseToken } from '@/lib/supabaseClient';
-
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL || 'https://whyev-backend.onrender.com/api/v1';
+import { getApiBaseUrl } from '@/lib/config';
 
 /**
  * Returns auth headers for the API request.
@@ -66,7 +64,7 @@ export async function saveUserLocation(
       body.accuracy_meters = accuracyMeters;
     }
 
-    const res = await fetch(`${API_BASE}/locations`, {
+    const res = await fetch(`${getApiBaseUrl()}/locations`, {
       method: 'POST',
       headers,
       body: JSON.stringify(body),

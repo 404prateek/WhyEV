@@ -2,8 +2,7 @@ import { ChargingStation } from '@/types';
 import { MOCK_CHARGING_STATIONS } from '@/lib/mock-data';
 import { StationData } from '@/components/charging-map/PreviewPanel';
 import stationsData from '@/data/charging/chargingStations.json';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://whyev-backend.onrender.com/api/v1';
+import { getApiBaseUrl } from '@/lib/config';
 
 
 export interface StationFilterParams {
@@ -52,7 +51,7 @@ export class ChargingService {
         params.append('available_only', 'true');
       }
 
-      const res = await fetch(`${API_BASE}/charging/stations/nearby?${params.toString()}`, {
+      const res = await fetch(`${getApiBaseUrl()}/charging/stations/nearby?${params.toString()}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -79,7 +78,7 @@ export class ChargingService {
     note?: string
   ): Promise<{ success: boolean; newScore?: number; message?: string }> {
     try {
-      const res = await fetch(`${API_BASE}/charging/stations/${stationId}/checkin`, {
+      const res = await fetch(`${getApiBaseUrl()}/charging/stations/${stationId}/checkin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status, note }),
@@ -133,7 +132,7 @@ export class ChargingService {
    */
   static async getStationById(id: string): Promise<ChargingStation | null> {
     try {
-      const res = await fetch(`${API_BASE}/charging/stations/${id}`);
+      const res = await fetch(`${getApiBaseUrl()}/charging/stations/${id}`);
       if (res.ok) {
         const data = await res.json();
         return data;

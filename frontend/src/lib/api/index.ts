@@ -1,3 +1,4 @@
+import { getApiBaseUrl } from '@/lib/config';
 import {
   MOCK_EMPANELLED_VEHICLES,
   MOCK_DEALERS,
@@ -26,7 +27,8 @@ import { SEEDED_VEHICLES_MASTER } from '@/lib/seed/vehiclesMaster';
 
 
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://whyev-backend.onrender.com/api/v1';
+// Evaluated dynamically via getApiBaseUrl() to guarantee production uses Render
+const API_BASE = getApiBaseUrl();
 
 
 // Returns auth header — uses Supabase session token if available, falls back to dev token
@@ -83,7 +85,7 @@ export const recommendationApi = {
   async getRecommendations(payload: IntakePayload): Promise<EmpanelledVehicle[]> {
     try {
       const headers = await getAuthHeaders();
-      const res = await fetch(`${API_BASE}/recommendations`, {
+      const res = await fetch(`${getApiBaseUrl()}/recommendations`, {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -121,7 +123,7 @@ export const recommendationApi = {
   async getRecommendationsFull(payload: IntakePayload): Promise<RecommendationResponse | null> {
     try {
       const headers = await getAuthHeaders();
-      const res = await fetch(`${API_BASE}/recommendations`, {
+      const res = await fetch(`${getApiBaseUrl()}/recommendations`, {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -147,7 +149,7 @@ export const recommendationApi = {
     try {
       const headers = await getAuthHeaders();
       const params = statusFilter ? `?status=${statusFilter}` : '';
-      const res = await fetch(`${API_BASE}/leads${params}`, { headers });
+      const res = await fetch(`${getApiBaseUrl()}/leads${params}`, { headers });
       if (!res.ok) return [];
       return await res.json();
     } catch {
@@ -185,7 +187,7 @@ export const subsidyApi = {
   }> {
     try {
       const headers = await getAuthHeaders();
-      const res = await fetch(`${API_BASE}/subsidy/calculate`, {
+      const res = await fetch(`${getApiBaseUrl()}/subsidy/calculate`, {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -285,7 +287,7 @@ export const subsidyApi = {
       Authorization: authHeaders.Authorization,
     };
 
-    const res = await fetch(`${API_BASE}/subsidy/ocr-extract`, {
+    const res = await fetch(`${getApiBaseUrl()}/subsidy/ocr-extract`, {
       method: 'POST',
       headers,
       body: formData,
@@ -304,7 +306,7 @@ export const vehicleApi = {
   async listEmpanelled(): Promise<EmpanelledVehicle[]> {
     try {
       const headers = await getAuthHeaders();
-      const res = await fetch(`${API_BASE}/vehicles?empanelled=true&limit=100`, { headers });
+      const res = await fetch(`${getApiBaseUrl()}/vehicles?empanelled=true&limit=100`, { headers });
       if (!res.ok) return [];
       const data: Array<{
         id: string;
@@ -350,7 +352,7 @@ export const dealerApi = {
       const headers = await getAuthHeaders();
       const params = new URLSearchParams({ lat: '28.6139', lng: '77.2090' });
       if (vehicleId) params.set('model_id', vehicleId);
-      const res = await fetch(`${API_BASE}/dealers/nearby?${params}`, { headers });
+      const res = await fetch(`${getApiBaseUrl()}/dealers/nearby?${params}`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) return data;
@@ -362,7 +364,7 @@ export const dealerApi = {
   async submitLead(params: { dealerId: string; vehicleId: string; sourceModule: string }): Promise<{ success: boolean; leadId: string }> {
     try {
       const headers = await getAuthHeaders();
-      const res = await fetch(`${API_BASE}/leads`, {
+      const res = await fetch(`${getApiBaseUrl()}/leads`, {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -383,7 +385,7 @@ export const dealerApi = {
   async bookTestDrive(params: { dealerId: string; scheduledAt: string; vehicleId: string }): Promise<{ success: boolean; appointmentId: string }> {
     try {
       const headers = await getAuthHeaders();
-      const res = await fetch(`${API_BASE}/appointments`, {
+      const res = await fetch(`${getApiBaseUrl()}/appointments`, {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -454,8 +456,8 @@ export const batteryApi = {
       // Falls back to GET /certification/{uuid} for UUID-based lookup when certificateId is a UUID.
       const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(certificateId);
       const url = isUuid
-        ? `${API_BASE}/certification/${certificateId}`
-        : `${API_BASE}/certification/verify?certificate_id=${encodeURIComponent(certificateId)}`;
+        ? `${getApiBaseUrl()}/certification/${certificateId}`
+        : `${getApiBaseUrl()}/certification/verify?certificate_id=${encodeURIComponent(certificateId)}`;
 
       const res = await fetch(url, { headers });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -515,7 +517,7 @@ export const aiAgentApi = {
     let fullText = '';
     try {
       const headers = await getAuthHeaders();
-      const res = await fetch(`${API_BASE}/agent/message`, {
+      const res = await fetch(`${getApiBaseUrl()}/agent/message`, {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -702,7 +704,7 @@ export const userApi = {
   async getDashboardData(): Promise<DashboardData> {
     try {
       const headers = await getAuthHeaders();
-      const res = await fetch(`${API_BASE}/users/me/dashboard`, {
+      const res = await fetch(`${getApiBaseUrl()}/users/me/dashboard`, {
         method: 'GET',
         headers,
       });
@@ -786,7 +788,7 @@ export const profileApi = {
   } | null> {
     try {
       const headers = await getAuthHeaders();
-      const res = await fetch(`${API_BASE}/profile`, { headers });
+      const res = await fetch(`${getApiBaseUrl()}/profile`, { headers });
       if (!res.ok) return null;
       return await res.json();
     } catch {
@@ -809,7 +811,7 @@ export const profileApi = {
   }): Promise<boolean> {
     try {
       const headers = await getAuthHeaders();
-      const res = await fetch(`${API_BASE}/profile`, {
+      const res = await fetch(`${getApiBaseUrl()}/profile`, {
         method: 'PATCH',
         headers,
         body: JSON.stringify(fields),
@@ -826,7 +828,7 @@ export const notificationApi = {
   async getNotifications(): Promise<Array<{ id: string; title: string; body: string; type: string; read_at: string | null; created_at: string }>> {
     try {
       const headers = await getAuthHeaders();
-      const res = await fetch(`${API_BASE}/notifications`, { headers });
+      const res = await fetch(`${getApiBaseUrl()}/notifications`, { headers });
       if (res.ok) {
         return await res.json();
       }
@@ -837,7 +839,7 @@ export const notificationApi = {
   async markAsRead(id: string): Promise<boolean> {
     try {
       const headers = await getAuthHeaders();
-      const res = await fetch(`${API_BASE}/notifications/${id}/read`, {
+      const res = await fetch(`${getApiBaseUrl()}/notifications/${id}/read`, {
         method: 'PATCH',
         headers,
       });
@@ -885,7 +887,7 @@ export interface NewsListParams {
 
 export const newsApi = {
   async getArticles(params?: NewsListParams): Promise<NewsListApiResponse> {
-    const url = new URL(`${API_BASE}/news`);
+    const url = new URL(`${getApiBaseUrl()}/news`);
     if (params?.page) url.searchParams.set('page', String(params.page));
     if (params?.page_size) url.searchParams.set('page_size', String(params.page_size));
     if (params?.category && params.category !== 'All') {
@@ -930,7 +932,7 @@ export const locationApi = {
         limit: String(limit),
         offset: String(offset),
       });
-      const res = await fetch(`${API_BASE}/admin/user-locations?${params}`, {
+      const res = await fetch(`${getApiBaseUrl()}/admin/user-locations?${params}`, {
         headers,
       });
       if (!res.ok) {
