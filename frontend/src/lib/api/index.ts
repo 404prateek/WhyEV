@@ -883,17 +883,6 @@ export interface NewsListParams {
   featured_only?: boolean;
 }
 
-/**
- * News API client.
- * Primary: GET /api/v1/news (live DB-backed, Stage 1+2+3 filtered).
- * Fallback: MOCK_NEWS_ARTICLES from lib/mock-data (retained per project mock policy).
- *
- * TODO(news-integration): Bookmarks and preferences endpoints are NOT implemented yet.
- *   Expected APIs:
- *     POST /api/v1/news/bookmarks        — requires news_bookmarks DB table
- *     GET  /api/v1/news/preferences      — requires news_preferences DB table
- *     POST /api/v1/news/read             — requires news_read_history DB table
- */
 export const newsApi = {
   async getArticles(params?: NewsListParams): Promise<NewsListApiResponse> {
     const url = new URL(`${API_BASE}/news`);
@@ -907,5 +896,51 @@ export const newsApi = {
     const res = await fetch(url.toString());
     if (!res.ok) throw new Error(`News API error: ${res.status}`);
     return res.json();
+  },
+};
+
+// ---------------------------------------------------------------------------
+// 11. LOCATION API (Admin)
+// ---------------------------------------------------------------------------
+
+export interface LocationRecord {
+  id: string;
+  user_id: string | null;
+  latitude: number;
+  longitude: number;
+  accuracy_meters: number | null;
+  created_at: string;
+}
+
+/**
+ * Admin-only location API.
+ * Requires the caller to be an authenticated admin user (role='admin').
+ * Location records are NOT publicly readable — this endpoint returns
+ * records only when a valid admin JWT is presented.
+ *
+ * TODO: Wire this into the admin dashboard once the admin dashboard page
+ * has a dedicated "User Locations" section. The data is available at
+ * GET /api/v1/admin/user-locations (FastAPI admin router).
+ */
+export const locationApi = {
+  async getAdminLocations(limit = 50, offset = 0): Promise<LocationRecord[]> {
+    try {
+      const headers = await getAuthHeaders();
+      const params = new URLSearchParams({
+        limit: String(limit),
+        offset: String(offset),
+      });
+      const res = await fetch(`${API_BASE}/admin/user-locations?${params}`, {
+        headers,
+      });
+      if (!res.ok) {
+        console.warn(`[locationApi] Admin locations API returned HTTP ${res.status}`);
+        return [];
+      }
+      return await res.json();
+    } catch (err) {
+      console.warn('[locationApi] Admin locations API unreachable:', err);
+      return [];
+    }
   },
 };

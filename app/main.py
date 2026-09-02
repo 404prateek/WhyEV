@@ -26,6 +26,7 @@ from app.routers import (
     admin,
     news,
     charging,
+    location,
 )
 
 # ---------------------------------------------------------------------------
@@ -144,6 +145,7 @@ app.include_router(notifications.router, prefix=API_PREFIX, tags=["Notifications
 app.include_router(admin.router, prefix=API_PREFIX, tags=["Admin"])
 app.include_router(news.router, prefix=API_PREFIX, tags=["News"])
 app.include_router(charging.router, prefix=API_PREFIX, tags=["Charging Stations"])
+app.include_router(location.router, prefix=API_PREFIX, tags=["Location"])
 
 
 

@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Compass, Loader2 } from 'lucide-react';
 import stationsData from '@/data/charging/chargingStations.json';
 import { StationData } from '@/components/charging-map/PreviewPanel';
+import { saveUserLocation } from '@/services/locationService';
 
 // SSR-Safe Dynamic Import for Leaflet Map Canvas
 const MapCanvasContainer = dynamic(
@@ -33,9 +34,23 @@ export function ChargingShowcaseSection() {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           setUserLocation([pos.coords.latitude, pos.coords.longitude]);
+
+          // Persist after explicit Locate Me action (fire-and-forget).
+          // A persistence failure must never block the map preview.
+          void saveUserLocation(
+            pos.coords.latitude,
+            pos.coords.longitude,
+            pos.coords.accuracy,
+          );
         },
-        () => {
-          setUserLocation([28.6139, 77.2090]); // Default Delhi NCR
+        (err) => {
+          // Do NOT set fake coordinates on permission denial.
+          // The map preview remains centred on Delhi NCR by default.
+          if (err.code === err.PERMISSION_DENIED) {
+            console.info('[WhyEV] Location permission denied — map preview uses Delhi NCR default.');
+          } else {
+            console.warn('[WhyEV] Location unavailable:', err.message);
+          }
         }
       );
     }

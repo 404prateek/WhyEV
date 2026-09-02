@@ -9,6 +9,7 @@ from app.models.certification import BatteryReport  # noqa: F401
 from app.models.notification import Notification  # noqa: F401
 from app.models.conversation import AiConversation  # noqa: F401
 from app.models.news import NewsArticle  # noqa: F401
+from app.models.location import UserLocation  # noqa: F401
 from app.models.charging import (  # noqa: F401
     ChargingStation,
     Connector,

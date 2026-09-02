@@ -14,6 +14,7 @@ import { StationStatusType } from './StatusBadge';
 import { useCityStore } from '@/lib/store';
 import { useAuth } from '@/hooks/useAuth';
 import { ChargingService } from '@/services/chargingService';
+import { saveUserLocation } from '@/services/locationService';
 
 // SSR-Safe Dynamic Import for Leaflet Map Canvas
 const MapCanvasContainer = dynamic(
@@ -87,6 +88,12 @@ export function InteractiveChargingMapModule() {
         navigator.geolocation.getCurrentPosition(
           (pos) => {
             setUserLocation([pos.coords.latitude, pos.coords.longitude]);
+            // Save location on map entry if user previously granted permission
+            void saveUserLocation(
+              pos.coords.latitude,
+              pos.coords.longitude,
+              pos.coords.accuracy,
+            );
           },
           () => {}
         );
@@ -124,11 +131,31 @@ export function InteractiveChargingMapModule() {
               localStorage.setItem('whyev_user_synced_city', detectedCityId);
             } catch (e) {}
           }
+
+          // Persist the location after the explicit Locate Me action.
+          // Fire-and-forget: a failure here must never block the map or stations.
+          void saveUserLocation(
+            pos.coords.latitude,
+            pos.coords.longitude,
+            pos.coords.accuracy,
+          );
         },
-        () => {
+        (err) => {
           try {
             localStorage.setItem('whyev_map_location_asked', 'denied');
           } catch (e) {}
+
+          // Handle all browser geolocation error codes gracefully.
+          // Do NOT attempt to obtain location through any other method.
+          // Do NOT send fake coordinates.
+          if (err.code === err.PERMISSION_DENIED) {
+            console.info('[WhyEV] Location permission denied by user.');
+            // UI already shows the map — no action needed other than logging.
+          } else if (err.code === err.POSITION_UNAVAILABLE) {
+            console.warn('[WhyEV] Location unavailable (GPS signal lost or device issue).');
+          } else if (err.code === err.TIMEOUT) {
+            console.warn('[WhyEV] Location request timed out.');
+          }
         }
       );
     } else {
