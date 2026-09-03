@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: whyev-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    branch: main
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: false
+      - key: DATABASE_URL
+        sync: false   # Set manually in Render dashboard — use Supabase Transaction Pooler URL (port 6543)
+      - key: SUPABASE_URL
+        sync: false   # Set manually in Render dashboard
+      - key: SUPABASE_JWT_SECRET
+        sync: false   # Set manually in Render dashboard
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false   # Set manually in Render dashboard — server-side only, NEVER in frontend
+      - key: SECRET_KEY
+        generateValue: true
