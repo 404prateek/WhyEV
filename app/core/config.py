@@ -51,6 +51,12 @@ class Settings(BaseSettings):
     SUPABASE_JWT_SECRET: str = "changeme-supabase-jwt-secret"
     JWT_ALGORITHM: str = "HS256"
 
+    # SUPABASE_SERVICE_ROLE_KEY: Server-side only. Used for backend-to-Supabase
+    # REST API calls (e.g., inserting location records when SQLAlchemy DB
+    # connection is unavailable on Render). NEVER expose to the frontend.
+    # Get from: Supabase Dashboard -> Project Settings -> API -> service_role key
+    SUPABASE_SERVICE_ROLE_KEY: str = ""
+
     # ----- Open-Source LLM via Groq -----
     # Single key fallback — used if no numbered keys are set
     GROQ_API_KEY: str = ""

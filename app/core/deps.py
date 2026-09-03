@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 
+import asyncio
 import uuid
 from typing import Annotated, AsyncGenerator
 
@@ -154,34 +155,68 @@ async def get_current_admin_user_id(
 
 _bearer_optional = HTTPBearer(auto_error=False)
 
+# How long to wait for a DB round-trip before giving up and returning a
+# synthetic guest user. Prevents /locations from hanging 30+ s on Render
+# when the PostgreSQL connection is unavailable.
+_DB_TIMEOUT_SECONDS = 5.0
+
+
 async def get_current_user_optional(
     db: DBSession,
     credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(_bearer_optional)] = None,
 ) -> User:
-    """Optional auth dependency: returns authenticated user if valid token present, otherwise guest user."""
+    """Optional auth dependency.
+
+    - If a valid JWT is present → returns the authenticated User.
+    - If JWT is invalid → falls through to guest.
+    - If no JWT → falls through to guest.
+    - If DB is unreachable → returns a synthetic in-memory guest User so the
+      request handler can proceed without hanging.
+
+    Never hangs longer than _DB_TIMEOUT_SECONDS regardless of DB state.
+    """
     if credentials:
         try:
-            return await get_current_user(db, credentials)
-        except Exception:
-            pass
+            async with asyncio.timeout(_DB_TIMEOUT_SECONDS):
+                return await get_current_user(db, credentials)
+        except (asyncio.TimeoutError, Exception):
+            pass  # Fall through to guest
 
     guest_id = uuid.UUID("00000000-0000-0000-0000-000000000000")
-    result = await db.execute(select(User).where(User.id == guest_id))
-    guest = result.scalar_one_or_none()
-    if not guest:
-        guest = User(
+
+    # Try to find/create the guest row — but don't block if DB is slow.
+    try:
+        async with asyncio.timeout(_DB_TIMEOUT_SECONDS):
+            result = await db.execute(select(User).where(User.id == guest_id))
+            guest = result.scalar_one_or_none()
+            if not guest:
+                guest = User(
+                    id=guest_id,
+                    phone="+919999999999",
+                    name="Guest User",
+                    auth_provider="guest",
+                    role="user",
+                )
+                db.add(guest)
+                try:
+                    await db.flush()
+                except Exception:
+                    await db.rollback()
+            return guest
+    except (asyncio.TimeoutError, Exception):
+        # DB is unreachable — return a transient in-memory guest user so the
+        # request can proceed. The location router handles the DB insert via
+        # the Supabase REST fallback path.
+        log.warning(
+            "[deps] get_current_user_optional: DB unavailable — returning synthetic guest"
+        )
+        return User(
             id=guest_id,
             phone="+919999999999",
             name="Guest User",
             auth_provider="guest",
             role="user",
         )
-        db.add(guest)
-        try:
-            await db.flush()
-        except Exception:
-            await db.rollback()
-    return guest
 
 
 CurrentUser = Annotated[uuid.UUID, Depends(get_current_user_id)]

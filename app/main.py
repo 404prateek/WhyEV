@@ -102,7 +102,17 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS — allow the production domain, any *.vercel.app preview, and localhost dev
+# ---------------------------------------------------------------------------
+# CORS
+# ---------------------------------------------------------------------------
+# IMPORTANT: allow_origin_regex must match the exact Origin header the browser sends.
+# Test with: curl -sv -X OPTIONS https://whyev-backend.onrender.com/api/v1/locations
+#            -H 'Origin: https://whyev.in'
+#            -H 'Access-Control-Request-Method: POST'
+#            -H 'Access-Control-Request-Headers: authorization,content-type'
+# Expect: Access-Control-Allow-Origin: https://whyev.in in response headers.
+#
+# allow_credentials=True requires explicit origin (not "*") which is why we use regex.
 app.add_middleware(
     CORSMiddleware,
     allow_origin_regex=(
@@ -111,8 +121,10 @@ app.add_middleware(
         r"|http://(localhost|127\.0\.0\.1)(:\d+)?"  # local dev
     ),
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=["Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With"],
+    expose_headers=["Content-Length"],
+    max_age=600,  # Cache preflight for 10 minutes
 )
 
 # Prometheus metrics
@@ -124,11 +136,25 @@ Instrumentator().instrument(app).expose(app, endpoint="/metrics")
 # ---------------------------------------------------------------------------
 
 @app.exception_handler(Exception)
-async def unhandled_exception_handler(request, exc):
-    log.error("unhandled_exception", path=request.url.path, exc_str=str(exc))
+async def unhandled_exception_handler(request: Request, exc: Exception):
+    """Global catch-all. Returns 500 with a safe, non-sensitive message.
+
+    IMPORTANT: This handler does NOT set CORS headers itself — CORSMiddleware
+    is added as a middleware layer ABOVE this handler and automatically adds
+    the correct Access-Control-Allow-Origin header to all responses (including
+    error responses) as long as the Origin matches the allow_origin_regex.
+    """
+    log.error(
+        "unhandled_exception",
+        path=request.url.path,
+        method=request.method,
+        # Log only the exception type and a safe prefix — never headers/tokens
+        exc_type=type(exc).__name__,
+        exc_str=str(exc)[:300],
+    )
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        content={"detail": f"Internal Server Error: {str(exc)}"},
+        content={"detail": "Internal server error. Please try again later."},
     )
 
 
